@@ -6,6 +6,7 @@ import type { AnalyzeInputArticle } from "@aihot/backend/editorial/input";
 import { prefilterUser } from "@aihot/backend/editorial/writing";
 import { completeReceipt, failedReceiptId, failureKind } from "@aihot/backend/providers/receipts";
 import { publishArticleTx } from "@aihot/backend/publication/publish";
+import { serverModules } from "@aihot/backend/modules";
 
 export interface ScreeningResult {
   articleId: string;
@@ -51,7 +52,7 @@ export async function screenFrozenArticle(input: AnalyzeInputArticle, runId: str
       await tx`INSERT INTO settings(key,value,updated_by) VALUES (${judgementKey},${tx.json(result as never)},'insurance.screen-trial')
         ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=now(),updated_by=excluded.updated_by`;
       await completeReceipt(tx, judgement.receiptId);
-      await publishArticleTx(tx, input.id);
+      if (serverModules().some(module => module.screenedPublication)) await publishArticleTx(tx, input.id);
     });
     return result;
   } catch (error) {
