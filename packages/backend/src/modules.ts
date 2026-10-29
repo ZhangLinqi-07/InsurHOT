@@ -182,6 +182,8 @@ export interface RequestNotices {
 export interface ServerModule {
   /** Its folder under modules/. */
   name: string;
+  /** Admit current relevance-only results as original-title/excerpt cards, without scoring or selection (publication/publish.ts). */
+  screenedPublication?: { screeningPrefix: string; from: string };
   /** Sources whose selected articles keep independent cards/seats without changing admission or event identity (publication/rules.ts, scope.ts). */
   independentSelectedSources?: readonly string[];
   /** Its HTTP routes, and hooks on the app such as what to flush when it closes, registered before the engine's v1 fallbacks (apps/api/src/app.ts). */

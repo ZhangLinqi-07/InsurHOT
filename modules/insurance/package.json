@@ -1,0 +1,14 @@
+{
+  "name": "@aihot/insurance",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./module.ts",
+    "./server": "./server.ts",
+    "./backend/*": "./backend/*.ts"
+  },
+  "dependencies": {
+    "@aihot/backend": "*",
+    "@aihot/contracts": "*"
+  }
+}

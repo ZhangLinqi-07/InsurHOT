@@ -1,155 +1,764 @@
-// 这个行业的分类体系：类别、标签词表、公司（主体）名录，以及防止张冠李戴的身份词典。
-// 模型按这里的词表打标签，主题页（topics.json）按标签归类，筛选栏按类别分组。
-// 换行业时：类别的 key 会出现在网址里（/all?category=…），上线后就不要再改；标签和名录可以随时增减。
-
-/**
- * 网页上的类别（筛选栏、卡片角标、RSS 分类订阅）。key 是网址和接口里的身份，上线后不要改。
- * section 是日报里的分节标题（几个类别可以共用一节，按这里的顺序排）；guide 告诉结构抽取模型这一类收什么、
- * 和相邻类别的边界在哪（总的归类原则写在 prompts/structure.md 里）。
- * commentary 标出评论类（教程、观点）：日报写过的事又有评论类的后续报道，只占一行快讯（报道它的信源够多时除外）。
- * 没归上类的资料在日报里放进第一个 key 为 industry 的类别所在的节（没有就放最后一节）。
- * tagColor 是飞书推送卡片里跟在标题后面的这一类小标签的颜色（飞书 text_tag 的颜色名）。
- * feedLabel 是分类 RSS 标题里的名字（不写就用 label）。公开接口、RSS 和 MCP 里要把一类并进另一类发布，写在站点设置里（site/site.ts 的 PUBLIC_CATEGORIES）。
- */
+// 保险行业的初始分类与词表。category key 和主题 slug 发布后保持稳定。
+// 集团、保险法人及资产管理机构的主体身份须按原文分别核对。
 export const CATEGORIES = [
-  { key: "ai-models", tagColor: "indigo", label: "模型", feedLabel: "AI 模型", section: "模型发布/更新", guide: "模型本身的发布、版本、权重开放、能力或价格变化，以及既有榜单上的模型成绩。公布一次跑分不是发布新基准，也不是教程。" },
-  { key: "ai-products", tagColor: "turquoise", label: "产品", feedLabel: "AI 产品", section: "产品发布/更新", guide: "可使用的 AI 产品、功能、应用、工具、API、平台和工程组件的发布更新。模型厂商发布的推理框架、算子库、硬件适配组件仍是产品，不能因为厂商名归成模型。" },
-  { key: "industry", tagColor: "orange", label: "行业", feedLabel: "行业动态", section: "行业动态", guide: "已发生的公司经营、融资并购、人事、合作、诉讼、政策、真实安全事故及调查进展。新闻由当事人发帖、带有态度，也不因此变成观点。" },
-  { key: "paper", tagColor: "violet", label: "论文", feedLabel: "论文", section: "论文研究", guide: "以新研究方法、实验设计与发现为核心的论文、技术报告、新基准或研究数据集。系统性红队实验属于研究；既有榜单成绩归模型，真实事故的新闻调查归行业。" },
-  { key: "tip", tagColor: "green", label: "教程", section: "技巧与观点", guide: "读者可以照着使用的方法、提示词、工具用法、工程实践复盘与技术讲解。重点是可复用的做法；单纯发布工具归产品，只有态度和预测而无做法归观点。", commentary: true },
-  { key: "opinion", tagColor: "purple", label: "观点", section: "技巧与观点", guide: "重点是作者的解释、判断、主张、预测、评论或访谈观点。讨论市场不自动归行业，作者是名人不自动归观点。", commentary: true },
+  {
+    "key": "regulation",
+    "tagColor": "indigo",
+    "label": "监管",
+    "feedLabel": "保险监管",
+    "section": "监管与规则",
+    "guide": "保险相关法律法规、监管政策、征求意见、执法处罚、许可及消费者保护。明确国家或地区、发布主体、法律效力与生效状态。协会研究和险企经营数据分别归研究、行业。"
+  },
+  {
+    "key": "industry",
+    "tagColor": "orange",
+    "label": "行业",
+    "feedLabel": "保险行业",
+    "section": "行业与经营",
+    "guide": "险企经营、保费与理赔统计、财报、偿付能力披露、资本变动、并购、人事、资产管理和行业协会公告。区分集团与保险法人、统计期与发布日期、原始数据与评论。"
+  },
+  {
+    "key": "products",
+    "tagColor": "turquoise",
+    "label": "产品",
+    "feedLabel": "保险产品与市场",
+    "section": "产品与市场",
+    "guide": "保险产品、保障责任、费率定价、承保理赔、销售渠道和惠民保等市场安排的具体变化。政策文件调整产品规则归监管，业务技术系统更新归科技。"
+  },
+  {
+    "key": "reinsurance",
+    "tagColor": "violet",
+    "label": "再保与风险",
+    "feedLabel": "再保险与巨灾风险",
+    "section": "再保险与风险",
+    "guide": "再保险续约、费率与容量、分保安排、巨灾损失、ILS 和巨灾债券、气候风险及自保保险。普通灾害新闻须有明确保险损失、保障或再保险关联。"
+  },
+  {
+    "key": "insurtech",
+    "tagColor": "green",
+    "label": "科技",
+    "feedLabel": "保险科技",
+    "section": "保险科技",
+    "guide": "AI 与数字技术在保险定价、承保、理赔、反欺诈、销售及服务中的具体应用、系统发布、治理与数据安全。通用 AI 发布只有存在明确保险业务关系时才纳入。"
+  },
+  {
+    "key": "paper",
+    "tagColor": "blue",
+    "label": "研究",
+    "feedLabel": "保险研究",
+    "section": "研究与数据",
+    "guide": "保险、精算、风险和社会保障衔接相关论文、研究报告、模型与数据集。行业统计发布归行业，法定监管规则归监管。研究组织或协会的建议不等于现行法律。"
+  },
+  {
+    "key": "opinion",
+    "tagColor": "purple",
+    "label": "解读",
+    "feedLabel": "保险观点与实践",
+    "section": "解读与实践",
+    "guide": "以解释、判断、预测、访谈观点、业务方法或可复用实践为核心。围绕新政策或公司动作提供评论时按正文重心判断，不能把作者推测写成已发生的事件。",
+    "commentary": true
+  }
 ] as const satisfies ReadonlyArray<{ key: string; tagColor: string; label: string; feedLabel?: string; section: string; guide: string; commentary?: true }>;
 
-/**
- * 这个行业最受关注的一类发布（AI 行业是新模型）：日报报头的“N 个新模型”、改分类后修订已出的报告都按它数。
- * category 是类别，tag 是标签，两者都对上才算；unit 接在数字后面。
- * 没有这样一类的行业设成 null，报头就不显示这个数。
- */
-export const RELEASE: { category: string; tag: string; unit: string } | null = { category: "ai-models", tag: "模型发布", unit: "个新模型" };
+// 保险资讯没有可统一计数且已确认的新发布类别。
+export const RELEASE: { category: string; tag: string; unit: string } | null = null;
+export const PLAIN_TERMS: readonly string[] = ["保险", "再保险", "精算", "偿付能力", "保费", "理赔", "ai", "api", "ils", "ifrs 17", "sfcr", "ipo", "ceo"];
 
-/** 周报月报的总述可以直接写、不必在报道里找到出处的行业通用词（小写）。站名会自动算进去。 */
-export const PLAIN_TERMS: readonly string[] = ["ai", "api", "llm", "gpu", "agi", "ceo", "ipo"];
-
-/**
- * 内容理解一步给每篇资料判的“内容类型”（写在 prompts/content-understanding.md 里，改了类型要同步改那份提示词）。
- * 评分提示词（prompts/selection-score.md）按类型给五个维度不同的权重。
- */
+// 保留接口已有七类技术标识，保险语义见 selection-score.md 和 content-understanding.md。
+// model_release 仅指精算、巨灾、风险等模型的实质发布，监管规则归 industry_event。
 export const ITEM_TYPES = ["model_release", "product_launch", "tool_or_prompt", "research_paper", "industry_event", "opinion_analysis", "tutorial_explainer"] as const;
 
-// ── 标签词表 ────────────────────────────────────────────────────────────────────────────
-
-/** 每篇资料的第一个标签必须是这些“分类标签”之一。 */
 export const CATEGORY_TAGS = [
-  "产品更新", "模型发布", "论文/研究", "开源/仓库", "教程/实践", "现象/趋势", "大佬观点", "评测/基准", "安全/对齐", "行业动态", "政策/监管",
-  "非AI/通用工具", "其他",
+  "政策/监管",
+  "执法/许可",
+  "统计/披露",
+  "行业动态",
+  "产品更新",
+  "再保险/巨灾",
+  "保险科技",
+  "论文/研究",
+  "教程/实践",
+  "观点/解读",
+  "模型发布",
+  "其他"
 ] as const;
-
-/** 可选的主题标签。 */
 export const TOPIC_TAGS = [
-  "Agent", "编码", "推理", "多模态", "语音", "视频", "图像生成", "RAG", "端侧", "数据/训练", "搜索", "部署/工程", "开源生态", "具身智能", "MCP/工具调用",
+  "中国内地",
+  "港澳台",
+  "亚太",
+  "欧洲",
+  "北美",
+  "拉美与加勒比",
+  "非洲与中东",
+  "人身险",
+  "财产险",
+  "健康险",
+  "养老保险",
+  "农业保险",
+  "巨灾保险",
+  "再保险",
+  "自保保险",
+  "ILS/巨灾债券",
+  "偿付能力",
+  "财务报告",
+  "资产管理",
+  "消费者保护",
+  "保险中介",
+  "承保与定价",
+  "理赔",
+  "气候风险",
+  "AI/智能体",
+  "数据与隐私",
+  "反欺诈",
+  "精算",
+  "社会保障"
 ] as const;
-
-/** 可选的实体标签（公司、机构、平台）。 */
-export const ENTITY_TAGS = ["OpenAI", "Anthropic", "DeepSeek", "DeepMind", "Google", "Meta", "Microsoft", "xAI", "Hugging Face", "GitHub", "arXiv"] as const;
-
-/** 模型常写的近义词，统一成词表里的写法。 */
+export const ENTITY_TAGS = [
+  "金融监管总局",
+  "中国人民银行",
+  "中国保险行业协会",
+  "中国精算师协会",
+  "中国保险学会",
+  "上海保险交易所",
+  "中国保险保障基金",
+  "IAIS",
+  "日内瓦协会",
+  "EIOPA",
+  "NAIC",
+  "APRA",
+  "FCA",
+  "PRA",
+  "中国人寿",
+  "中国平安",
+  "中国人保",
+  "中国太保",
+  "新华保险",
+  "中国再保",
+  "泰康",
+  "阳光保险",
+  "中国太平",
+  "中国信保",
+  "Allianz",
+  "AXA",
+  "Zurich",
+  "Swiss Re",
+  "Munich Re",
+  "Hannover Re",
+  "SCOR",
+  "Generali",
+  "Aviva",
+  "Lloyd's",
+  "Chubb",
+  "AIG",
+  "MetLife",
+  "Manulife",
+  "QBE"
+] as const;
 export const TAG_SYNONYMS: Readonly<Record<string, string>> = {
-  "教程/玩法": "教程/实践", "技巧/最佳实践": "教程/实践", "合作/生态": "行业动态", "融资/收购": "行业动态", "公司动态": "行业动态",
-  合作: "行业动态", 生态: "行业动态", 融资: "行业动态", 收购: "行业动态", 投资: "行业动态", 并购: "行业动态",
-  政策: "政策/监管", 监管: "政策/监管", 法规: "政策/监管", 安全: "安全/对齐", 对齐: "安全/对齐",
-  论文: "论文/研究", 研究: "论文/研究", paper: "论文/研究", papers: "论文/研究",
-  "open-source": "开源/仓库", 开源: "开源/仓库", 仓库: "开源/仓库", repo: "开源/仓库",
-  教程: "教程/实践", 玩法: "教程/实践", 指南: "教程/实践", 技巧: "教程/实践", 最佳实践: "教程/实践", 实践: "教程/实践",
-  产品: "产品更新", 更新: "产品更新", 发布: "模型发布", 模型: "模型发布", 趋势: "现象/趋势", 现象: "现象/趋势", 观点: "大佬观点",
-  视频生成: "视频", 非ai: "非AI/通用工具", "non-ai": "非AI/通用工具", 通用工具: "非AI/通用工具", 工程工具: "非AI/通用工具",
-  安全扫描: "非AI/通用工具", devops: "非AI/通用工具", 行业: "行业动态", 动态: "行业动态",
+  "监管政策": "政策/监管",
+  "政策法规": "政策/监管",
+  "征求意见": "政策/监管",
+  "监管处罚": "执法/许可",
+  "行政许可": "执法/许可",
+  "财报": "统计/披露",
+  "业绩披露": "统计/披露",
+  "公司动态": "行业动态",
+  "融资": "行业动态",
+  "并购": "行业动态",
+  "产品发布": "产品更新",
+  "再保": "再保险",
+  "巨灾债券": "ILS/巨灾债券",
+  "人工智能": "AI/智能体",
+  "AI": "AI/智能体",
+  "教程": "教程/实践",
+  "评论": "观点/解读",
+  "观点": "观点/解读",
+  "研究报告": "论文/研究",
+  "精算研究": "论文/研究"
 };
 
-// ── 公司与主体 ──────────────────────────────────────────────────────────────────────────
-
-/**
- * 公司主题：id → 显示名、卡片上显示的标签（null 表示只用 entity:<id> 归类）、别名。
- * aliases 给结构抽取模型看；orgNames 是这家公司发消息时开头用的组织名（公司、实验室、团队），
- * 在它自己的主题页上读者知道说的是谁，可以省去；otherNames 是公司的其他称呼（官方账号名、子品牌）。
- * 所有这些名字都用来认出说的是哪家公司，比如把事实的主体对到发布方。
- */
 export const ENTITIES: Record<string, { name: string; displayTag: string | null; aliases: string[]; orgNames?: string[]; otherNames?: string[] }> = {
-  "world-labs": { name: "World Labs", displayTag: null, aliases: ["World Labs"] },
-  "thinking-machines": { name: "Thinking Machines Lab", displayTag: null, aliases: ["Thinking Machines"] },
-  amd: { name: "AMD", displayTag: null, aliases: ["AMD", "Advanced Micro Devices"] },
-  openai: { name: "OpenAI", displayTag: "OpenAI", aliases: ["OpenAI", "ChatGPT", "Sora", "Codex", "GPT"], orgNames: ["OpenAI"], otherNames: ["OpenAI Developers"] },
-  anthropic: { name: "Anthropic", displayTag: "Anthropic", aliases: ["Anthropic", "Claude"], orgNames: ["Anthropic"], otherNames: ["Claude Code"] },
-  google: { name: "Google", displayTag: "Google", aliases: ["Google", "DeepMind", "Gemini", "谷歌"], orgNames: ["Google DeepMind", "Google Research", "Google", "DeepMind", "谷歌"], otherNames: ["Google AI", "Google Labs", "Google Cloud"] },
-  deepseek: { name: "DeepSeek", displayTag: "DeepSeek", aliases: ["DeepSeek", "深度求索"], orgNames: ["DeepSeek", "深度求索"] },
-  qwen: { name: "千问 Qwen", displayTag: null, aliases: ["Qwen", "通义", "阿里"], orgNames: ["通义千问", "通义实验室", "阿里巴巴", "阿里云", "阿里", "Qwen Team", "Qwen", "Alibaba"], otherNames: ["千问", "千问APP", "Alibaba Cloud"] },
-  kimi: { name: "Kimi / 月之暗面", displayTag: null, aliases: ["Kimi", "月之暗面", "Moonshot"], orgNames: ["Moonshot AI", "月之暗面", "Kimi"] },
-  minimax: { name: "MiniMax", displayTag: null, aliases: ["MiniMax", "海螺"], orgNames: ["MiniMax", "稀宇科技"] },
-  zhipu: { name: "智谱 GLM", displayTag: null, aliases: ["智谱", "GLM", "Z.ai"], orgNames: ["智谱AI", "智谱", "Zhipu AI", "Z.ai"], otherNames: ["Zhipu"] },
-  xai: { name: "xAI", displayTag: "xAI", aliases: ["xAI", "Grok"], orgNames: ["SpaceX Super Intelligence", "SpaceXAI", "SpaceXSI", "xAI"], otherNames: ["Grok Bot"] },
-  meta: { name: "Meta", displayTag: "Meta", aliases: ["Meta", "Llama"], orgNames: ["Meta Superintelligence Labs", "Meta AI", "Meta"], otherNames: ["AI at Meta", "Muse"] },
-  microsoft: { name: "Microsoft", displayTag: "Microsoft", aliases: ["Microsoft", "微软", "Copilot"], orgNames: ["Microsoft Research", "Microsoft AI", "Microsoft", "微软"] },
-  nvidia: { name: "NVIDIA", displayTag: null, aliases: ["NVIDIA", "英伟达"], orgNames: ["NVIDIA", "英伟达"] },
-  "hugging-face": { name: "Hugging Face", displayTag: "Hugging Face", aliases: ["Hugging Face"], orgNames: ["Hugging Face", "HuggingFace"] },
-  cursor: { name: "Cursor", displayTag: null, aliases: ["Cursor", "Anysphere"], orgNames: ["Cursor"] },
-  openrouter: { name: "OpenRouter", displayTag: null, aliases: ["OpenRouter"], orgNames: ["OpenRouter"] },
+  "nfra": {
+    "name": "国家金融监督管理总局",
+    "displayTag": "金融监管总局",
+    "aliases": [
+      "国家金融监督管理总局",
+      "金融监管总局",
+      "NFRA",
+      "National Financial Regulatory Administration"
+    ]
+  },
+  "pbc": {
+    "name": "中国人民银行",
+    "displayTag": "中国人民银行",
+    "aliases": [
+      "中国人民银行",
+      "People's Bank of China",
+      "PBOC"
+    ]
+  },
+  "iachina": {
+    "name": "中国保险行业协会",
+    "displayTag": "中国保险行业协会",
+    "aliases": [
+      "中国保险行业协会",
+      "中保协",
+      "Insurance Association of China"
+    ]
+  },
+  "caa": {
+    "name": "中国精算师协会",
+    "displayTag": "中国精算师协会",
+    "aliases": [
+      "中国精算师协会",
+      "China Association of Actuaries"
+    ]
+  },
+  "isc": {
+    "name": "中国保险学会",
+    "displayTag": "中国保险学会",
+    "aliases": [
+      "中国保险学会",
+      "Insurance Society of China"
+    ]
+  },
+  "shie": {
+    "name": "上海保险交易所",
+    "displayTag": "上海保险交易所",
+    "aliases": [
+      "上海保险交易所",
+      "Shanghai Insurance Exchange"
+    ]
+  },
+  "cisf": {
+    "name": "中国保险保障基金",
+    "displayTag": "中国保险保障基金",
+    "aliases": [
+      "中国保险保障基金",
+      "China Insurance Security Fund"
+    ]
+  },
+  "iais": {
+    "name": "国际保险监督官协会",
+    "displayTag": "IAIS",
+    "aliases": [
+      "IAIS",
+      "International Association of Insurance Supervisors",
+      "国际保险监督官协会"
+    ]
+  },
+  "geneva": {
+    "name": "日内瓦协会",
+    "displayTag": "日内瓦协会",
+    "aliases": [
+      "The Geneva Association",
+      "Geneva Association",
+      "日内瓦协会"
+    ]
+  },
+  "eiopa": {
+    "name": "欧洲保险和职业养老金管理局",
+    "displayTag": "EIOPA",
+    "aliases": [
+      "EIOPA",
+      "European Insurance and Occupational Pensions Authority"
+    ]
+  },
+  "naic": {
+    "name": "美国保险监督官协会",
+    "displayTag": "NAIC",
+    "aliases": [
+      "NAIC",
+      "National Association of Insurance Commissioners",
+      "美国保险监督官协会"
+    ]
+  },
+  "apra": {
+    "name": "澳大利亚审慎监管局",
+    "displayTag": "APRA",
+    "aliases": [
+      "APRA",
+      "Australian Prudential Regulation Authority"
+    ]
+  },
+  "fca": {
+    "name": "英国金融行为监管局",
+    "displayTag": "FCA",
+    "aliases": [
+      "FCA",
+      "Financial Conduct Authority"
+    ]
+  },
+  "pra": {
+    "name": "英国审慎监管局",
+    "displayTag": "PRA",
+    "aliases": [
+      "PRA",
+      "Prudential Regulation Authority"
+    ]
+  },
+  "chinalife": {
+    "name": "中国人寿",
+    "displayTag": "中国人寿",
+    "aliases": [
+      "中国人寿",
+      "China Life"
+    ]
+  },
+  "pingan": {
+    "name": "中国平安",
+    "displayTag": "中国平安",
+    "aliases": [
+      "中国平安",
+      "Ping An"
+    ]
+  },
+  "picc": {
+    "name": "中国人保",
+    "displayTag": "中国人保",
+    "aliases": [
+      "中国人保",
+      "中国人民保险集团",
+      "PICC Group"
+    ]
+  },
+  "cpic": {
+    "name": "中国太保",
+    "displayTag": "中国太保",
+    "aliases": [
+      "中国太保",
+      "中国太平洋保险",
+      "China Pacific Insurance",
+      "CPIC"
+    ]
+  },
+  "newchinalife": {
+    "name": "新华保险",
+    "displayTag": "新华保险",
+    "aliases": [
+      "新华保险",
+      "新华人寿",
+      "New China Life"
+    ]
+  },
+  "chinare": {
+    "name": "中国再保",
+    "displayTag": "中国再保",
+    "aliases": [
+      "中国再保",
+      "中国再保险",
+      "China Re"
+    ]
+  },
+  "taikang": {
+    "name": "泰康",
+    "displayTag": "泰康",
+    "aliases": [
+      "泰康保险集团",
+      "泰康人寿",
+      "Taikang"
+    ]
+  },
+  "sunshine": {
+    "name": "阳光保险",
+    "displayTag": "阳光保险",
+    "aliases": [
+      "阳光保险",
+      "Sunshine Insurance"
+    ]
+  },
+  "taiping": {
+    "name": "中国太平",
+    "displayTag": "中国太平",
+    "aliases": [
+      "中国太平",
+      "China Taiping"
+    ]
+  },
+  "sinosure": {
+    "name": "中国信保",
+    "displayTag": "中国信保",
+    "aliases": [
+      "中国出口信用保险公司",
+      "中国信保",
+      "Sinosure"
+    ]
+  },
+  "allianz": {
+    "name": "Allianz",
+    "displayTag": "Allianz",
+    "aliases": [
+      "Allianz",
+      "安联"
+    ]
+  },
+  "axa": {
+    "name": "AXA",
+    "displayTag": "AXA",
+    "aliases": [
+      "AXA",
+      "安盛"
+    ]
+  },
+  "zurich": {
+    "name": "Zurich Insurance Group",
+    "displayTag": "Zurich",
+    "aliases": [
+      "Zurich Insurance",
+      "苏黎世保险"
+    ]
+  },
+  "swissre": {
+    "name": "Swiss Re",
+    "displayTag": "Swiss Re",
+    "aliases": [
+      "Swiss Re",
+      "瑞士再保险",
+      "瑞再"
+    ]
+  },
+  "munichre": {
+    "name": "Munich Re",
+    "displayTag": "Munich Re",
+    "aliases": [
+      "Munich Re",
+      "慕尼黑再保险",
+      "慕再"
+    ]
+  },
+  "hannoverre": {
+    "name": "Hannover Re",
+    "displayTag": "Hannover Re",
+    "aliases": [
+      "Hannover Re",
+      "汉诺威再保险"
+    ]
+  },
+  "scor": {
+    "name": "SCOR",
+    "displayTag": "SCOR",
+    "aliases": [
+      "SCOR",
+      "法国再保险"
+    ]
+  },
+  "generali": {
+    "name": "Generali",
+    "displayTag": "Generali",
+    "aliases": [
+      "Generali",
+      "忠利保险"
+    ]
+  },
+  "aviva": {
+    "name": "Aviva",
+    "displayTag": "Aviva",
+    "aliases": [
+      "Aviva",
+      "英杰华"
+    ]
+  },
+  "lloyds": {
+    "name": "Lloyd's",
+    "displayTag": "Lloyd's",
+    "aliases": [
+      "Lloyd's",
+      "Lloyd’s",
+      "劳合社"
+    ]
+  },
+  "chubb": {
+    "name": "Chubb",
+    "displayTag": "Chubb",
+    "aliases": [
+      "Chubb",
+      "安达保险"
+    ]
+  },
+  "aig": {
+    "name": "AIG",
+    "displayTag": "AIG",
+    "aliases": [
+      "AIG",
+      "American International Group",
+      "美国国际集团"
+    ]
+  },
+  "metlife": {
+    "name": "MetLife",
+    "displayTag": "MetLife",
+    "aliases": [
+      "MetLife",
+      "大都会人寿"
+    ]
+  },
+  "manulife": {
+    "name": "Manulife",
+    "displayTag": "Manulife",
+    "aliases": [
+      "Manulife",
+      "宏利"
+    ]
+  },
+  "qbe": {
+    "name": "QBE",
+    "displayTag": "QBE",
+    "aliases": [
+      "QBE",
+      "昆士兰保险"
+    ]
+  }
 };
 
-/**
- * 身份词典：摘要和标题里出现的公司，必须在原文里也出现过，否则退回原标题、丢掉摘要（防止模型张冠李戴）。
- * 行业没有这个问题时可以留空数组。
- */
+// 只用明确机构名匹配，避免把城市、人名或无保险语境的普通名词当作保险主体。
 export const IDENTITY_LEXICON: ReadonlyArray<{ id: string; name: string; patterns: RegExp[] }> = [
-  { id: "openai", name: "OpenAI", patterns: [/openai|chatgpt|\bgpt-?[o\d]|\bsora\b|\bcodex\b/i] },
-  { id: "anthropic", name: "Anthropic", patterns: [/anthropic|\bclaude\b/i, /\b(?:opus|sonnet|haiku)\s*\d+(?:[.\-]\d+)*\b/i, /\bfable\s*\d+(?:[.\-]\d+)*\b|\bmythos\b/i] },
-  { id: "google", name: "Google / Gemini", patterns: [/google|deepmind|\bgemini\b|notebooklm|\bveo\s?\d|\bAlphaFold\b|\bAMIE\b/i] },
-  { id: "deepseek", name: "DeepSeek", patterns: [/deepseek|深度求索/i] },
-  { id: "xai", name: "xAI / Grok", patterns: [/\bxai\b|\bgrok\b/i] },
-  { id: "meta", name: "Meta / Llama", patterns: [/\bMeta\b/, /\bmeta\s?ai\b|\bllama\b/i] },
-  { id: "microsoft", name: "Microsoft / Copilot", patterns: [/microsoft|copilot|微软/i] },
-  { id: "nvidia", name: "NVIDIA", patterns: [/nvidia|英伟达|\bnemotron\b|\bnemo\b|\bblackwell\b|\brubin(?:\s+ultra)?\b|\bcuda\b/i] },
-  { id: "qwen", name: "千问 Qwen", patterns: [/\bqwen|通义|千问/i] },
-  { id: "hugging-face", name: "Hugging Face", patterns: [/hugging\s?face/i] },
-  { id: "cursor", name: "Cursor", patterns: [/\bCursor\b/] },
-  { id: "kimi", name: "Kimi / 月之暗面", patterns: [/\bkimi\b|月之暗面|\bmoonshot\s?ai\b/i] },
-  { id: "openrouter", name: "OpenRouter", patterns: [/openrouter/i] },
-  { id: "minimax", name: "MiniMax", patterns: [/minimax/i] },
-  { id: "zhipu", name: "智谱 GLM", patterns: [/智谱|\bglm-?[4-9]/i] },
-  { id: "hunyuan", name: "腾讯混元", patterns: [/混元|hunyuan/i] },
-  { id: "doubao", name: "字节豆包", patterns: [/豆包|doubao|字节跳动|bytedance/i] },
-  { id: "mistral", name: "Mistral", patterns: [/mistral/i] },
-  { id: "perplexity", name: "Perplexity", patterns: [/\bPerplexity\b/] },
-  { id: "runway", name: "Runway", patterns: [/\brunway\b/i] },
-  { id: "suno", name: "Suno", patterns: [/\bsuno\b/i] },
-  { id: "midjourney", name: "Midjourney", patterns: [/midjourney/i] },
-  { id: "stability-ai", name: "Stability AI", patterns: [/stability\s?ai/i] },
-  { id: "elevenlabs", name: "ElevenLabs", patterns: [/eleven\s?labs/i] },
-  { id: "vllm", name: "vLLM", patterns: [/\bvllm\b/i] },
-  { id: "ollama", name: "Ollama", patterns: [/\bollama\b/i] },
-  { id: "windsurf", name: "Windsurf", patterns: [/windsurf/i] },
-  { id: "devin", name: "Devin", patterns: [/\bdevin\b/i] },
-  { id: "manus", name: "Manus", patterns: [/\bmanus\b/i] },
-  { id: "apple", name: "Apple AI", patterns: [/\bapple\s?(intelligence|silicon|ai)\b|苹果(智能|\s?AI)/i] },
-  { id: "amazon", name: "Amazon / AWS", patterns: [/amazon|\baws\b|亚马逊/i] },
-  { id: "baidu", name: "百度文心", patterns: [/百度|baidu|文心|\bernie\s?bot\b/i] },
+  { id: "nfra", name: "国家金融监督管理总局", patterns: [/国家金融监督管理总局|金融监管总局|\bNFRA\b|\bNational Financial Regulatory Administration\b/i] },
+  { id: "pbc", name: "中国人民银行", patterns: [/中国人民银行|\bPeople's Bank of China\b|\bPBOC\b/i] },
+  { id: "iachina", name: "中国保险行业协会", patterns: [/中国保险行业协会|中保协|\bInsurance Association of China\b/i] },
+  { id: "caa", name: "中国精算师协会", patterns: [/中国精算师协会|\bChina Association of Actuaries\b/i] },
+  { id: "isc", name: "中国保险学会", patterns: [/中国保险学会|\bInsurance Society of China\b/i] },
+  { id: "shie", name: "上海保险交易所", patterns: [/上海保险交易所|\bShanghai Insurance Exchange\b/i] },
+  { id: "cisf", name: "中国保险保障基金", patterns: [/中国保险保障基金|\bChina Insurance Security Fund\b/i] },
+  { id: "iais", name: "国际保险监督官协会", patterns: [/\bIAIS\b|\bInternational Association of Insurance Supervisors\b|国际保险监督官协会/i] },
+  { id: "geneva", name: "日内瓦协会", patterns: [/\bThe Geneva Association\b|\bGeneva Association\b|日内瓦协会/i] },
+  { id: "eiopa", name: "欧洲保险和职业养老金管理局", patterns: [/\bEIOPA\b|\bEuropean Insurance and Occupational Pensions Authority\b/i] },
+  { id: "naic", name: "美国保险监督官协会", patterns: [/\bNAIC\b|\bNational Association of Insurance Commissioners\b|美国保险监督官协会/i] },
+  { id: "apra", name: "澳大利亚审慎监管局", patterns: [/\bAPRA\b|\bAustralian Prudential Regulation Authority\b/i] },
+  { id: "fca", name: "英国金融行为监管局", patterns: [/\bFCA\b|\bFinancial Conduct Authority\b/i] },
+  { id: "pra", name: "英国审慎监管局", patterns: [/\bPRA\b|\bPrudential Regulation Authority\b/i] },
+  { id: "chinalife", name: "中国人寿", patterns: [/中国人寿|\bChina Life\b/i] },
+  { id: "pingan", name: "中国平安", patterns: [/中国平安|\bPing An\b/i] },
+  { id: "picc", name: "中国人保", patterns: [/中国人保|中国人民保险集团|\bPICC Group\b/i] },
+  { id: "cpic", name: "中国太保", patterns: [/中国太保|中国太平洋保险|\bChina Pacific Insurance\b|\bCPIC\b/i] },
+  { id: "newchinalife", name: "新华保险", patterns: [/新华保险|新华人寿|\bNew China Life\b/i] },
+  { id: "chinare", name: "中国再保", patterns: [/中国再保|中国再保险|\bChina Re\b/i] },
+  { id: "taikang", name: "泰康", patterns: [/泰康保险集团|泰康人寿|\bTaikang\b/i] },
+  { id: "sunshine", name: "阳光保险", patterns: [/阳光保险|\bSunshine Insurance\b/i] },
+  { id: "taiping", name: "中国太平", patterns: [/中国太平|\bChina Taiping\b/i] },
+  { id: "sinosure", name: "中国信保", patterns: [/中国出口信用保险公司|中国信保|\bSinosure\b/i] },
+  { id: "allianz", name: "Allianz", patterns: [/\bAllianz\b|安联/i] },
+  { id: "axa", name: "AXA", patterns: [/\bAXA\b|安盛/i] },
+  { id: "zurich", name: "Zurich Insurance Group", patterns: [/\bZurich Insurance\b|苏黎世保险/i] },
+  { id: "swissre", name: "Swiss Re", patterns: [/\bSwiss Re\b|瑞士再保险|瑞再/i] },
+  { id: "munichre", name: "Munich Re", patterns: [/\bMunich Re\b|慕尼黑再保险|慕再/i] },
+  { id: "hannoverre", name: "Hannover Re", patterns: [/\bHannover Re\b|汉诺威再保险/i] },
+  { id: "scor", name: "SCOR", patterns: [/\bSCOR\b|法国再保险/i] },
+  { id: "generali", name: "Generali", patterns: [/\bGenerali\b|忠利保险/i] },
+  { id: "aviva", name: "Aviva", patterns: [/\bAviva\b|英杰华/i] },
+  { id: "lloyds", name: "Lloyd's", patterns: [/\bLloyd's\b|Lloyd’s|劳合社/i] },
+  { id: "chubb", name: "Chubb", patterns: [/\bChubb\b|安达保险/i] },
+  { id: "aig", name: "AIG", patterns: [/\bAIG\b|\bAmerican International Group\b|美国国际集团/i] },
+  { id: "metlife", name: "MetLife", patterns: [/\bMetLife\b|大都会人寿/i] },
+  { id: "manulife", name: "Manulife", patterns: [/\bManulife\b|宏利/i] },
+  { id: "qbe", name: "QBE", patterns: [/\bQBE\b|昆士兰保险/i] },
 ];
 
-/** 这些域名上的文章，发布方就是对应的公司（托管平台如 GitHub、arXiv 不算）。 */
+// 机构专属域名仅用于识别发布方，不表示其文章只有该机构一个主体。
 export const PUBLISHER_DOMAINS: ReadonlyArray<{ entityId: string; domains: readonly string[] }> = [
-  { entityId: "openai", domains: ["openai.com"] },
-  { entityId: "anthropic", domains: ["anthropic.com", "claude.com"] },
-  { entityId: "google", domains: ["deepmind.google", "ai.google", "blog.google"] },
-  { entityId: "deepseek", domains: ["deepseek.com"] },
-  { entityId: "xai", domains: ["x.ai"] },
-  { entityId: "meta", domains: ["ai.meta.com"] },
-  { entityId: "microsoft", domains: ["microsoft.com"] },
-  { entityId: "nvidia", domains: ["nvidia.com"] },
-  { entityId: "qwen", domains: ["qwen.ai"] },
-  { entityId: "cursor", domains: ["cursor.com"] },
-  { entityId: "openrouter", domains: ["openrouter.ai"] },
+  {
+    "entityId": "nfra",
+    "domains": [
+      "nfra.gov.cn"
+    ]
+  },
+  {
+    "entityId": "pbc",
+    "domains": [
+      "pbc.gov.cn"
+    ]
+  },
+  {
+    "entityId": "iachina",
+    "domains": [
+      "iachina.cn"
+    ]
+  },
+  {
+    "entityId": "caa",
+    "domains": [
+      "e-caa.org.cn"
+    ]
+  },
+  {
+    "entityId": "isc",
+    "domains": [
+      "isc-org.cn"
+    ]
+  },
+  {
+    "entityId": "shie",
+    "domains": [
+      "shie.com.cn"
+    ]
+  },
+  {
+    "entityId": "cisf",
+    "domains": [
+      "cisf.cn"
+    ]
+  },
+  {
+    "entityId": "iais",
+    "domains": [
+      "iais.org"
+    ]
+  },
+  {
+    "entityId": "geneva",
+    "domains": [
+      "genevaassociation.org"
+    ]
+  },
+  {
+    "entityId": "eiopa",
+    "domains": [
+      "eiopa.europa.eu"
+    ]
+  },
+  {
+    "entityId": "naic",
+    "domains": [
+      "naic.org"
+    ]
+  },
+  {
+    "entityId": "apra",
+    "domains": [
+      "apra.gov.au"
+    ]
+  },
+  {
+    "entityId": "fca",
+    "domains": [
+      "fca.org.uk"
+    ]
+  },
+  {
+    "entityId": "chinalife",
+    "domains": [
+      "chinalife.com.cn"
+    ]
+  },
+  {
+    "entityId": "pingan",
+    "domains": [
+      "pingan.cn"
+    ]
+  },
+  {
+    "entityId": "picc",
+    "domains": [
+      "picc.com.cn"
+    ]
+  },
+  {
+    "entityId": "cpic",
+    "domains": [
+      "cpic.com.cn"
+    ]
+  },
+  {
+    "entityId": "newchinalife",
+    "domains": [
+      "newchinalife.com"
+    ]
+  },
+  {
+    "entityId": "chinare",
+    "domains": [
+      "chinare.com.cn"
+    ]
+  },
+  {
+    "entityId": "allianz",
+    "domains": [
+      "allianz.com"
+    ]
+  },
+  {
+    "entityId": "axa",
+    "domains": [
+      "axa.com"
+    ]
+  },
+  {
+    "entityId": "zurich",
+    "domains": [
+      "zurich.com"
+    ]
+  },
+  {
+    "entityId": "swissre",
+    "domains": [
+      "swissre.com"
+    ]
+  },
+  {
+    "entityId": "munichre",
+    "domains": [
+      "munichre.com"
+    ]
+  },
+  {
+    "entityId": "hannoverre",
+    "domains": [
+      "hannover-re.com"
+    ]
+  },
+  {
+    "entityId": "scor",
+    "domains": [
+      "scor.com"
+    ]
+  },
+  {
+    "entityId": "generali",
+    "domains": [
+      "generali.com"
+    ]
+  },
+  {
+    "entityId": "aviva",
+    "domains": [
+      "aviva.com"
+    ]
+  },
+  {
+    "entityId": "lloyds",
+    "domains": [
+      "lloyds.com"
+    ]
+  },
+  {
+    "entityId": "chubb",
+    "domains": [
+      "chubb.com"
+    ]
+  },
+  {
+    "entityId": "aig",
+    "domains": [
+      "aig.com"
+    ]
+  },
+  {
+    "entityId": "metlife",
+    "domains": [
+      "metlife.com"
+    ]
+  },
+  {
+    "entityId": "manulife",
+    "domains": [
+      "manulife.com"
+    ]
+  },
+  {
+    "entityId": "qbe",
+    "domains": [
+      "qbe.com"
+    ]
+  }
 ];
 
-/** 原文里的这些写法也算提到了对应公司。 */
-export const IDENTITY_CONTEXT_ALIASES: ReadonlyArray<{ entityId: string; pattern: RegExp }> = [
-  { entityId: "meta", pattern: /@AIatMeta\b/i },
-  { entityId: "zhipu", pattern: /\bZhipu(?:\s+AI\b|['’]s\b)/i },
-];
+export const IDENTITY_CONTEXT_ALIASES: ReadonlyArray<{ entityId: string; pattern: RegExp }> = [];

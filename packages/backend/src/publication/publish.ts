@@ -11,7 +11,8 @@ import { originalPostCopy } from "../content/posts.ts";
 import { itemUrl } from "./links.ts";
 import { pickRepresentative, REPRESENTATIVE_COLUMNS, type RepresentativeIdentity } from "./representative.ts";
 import { enqueue, QUEUES, shutdownSignal } from "../jobs/queue.ts";
-import { emit } from "../modules.ts";
+import { emit, serverModules } from "../modules.ts";
+import { storedScreening } from "./screening.ts";
 import {
   bodyModeOf, channelOf, displayTags, isIndexable, isPoolEligible, isSelectable, isIndependentSelectedSource, mayRedistribute, publicSourceName, type SourceFacts,
 } from "./rules.ts";
@@ -22,6 +23,8 @@ interface ArticleRow {
   source_id: string;
   url: string;
   title: string;
+  revision: number;
+  excerpt: string | null;
   language: string | null;
   published_at: Date | null;
   discovered_at: Date;
@@ -38,6 +41,7 @@ interface ArticleRow {
 
 interface AnalysisRow {
   id: number;
+  input_revision: number;
   relevance: string | null;
   category: string | null;
   tags: string[];
@@ -56,6 +60,7 @@ interface OverrideRow {
 
 interface PublicationRow {
   article_id: string;
+  analysis_id: number | null;
   source_id: string;
   first_party: boolean;
   revision: number;
@@ -234,7 +239,7 @@ export async function publishArticle(articleId: string, options: PublishOptions 
 
 export async function publishArticleTx(tx: Tx, articleId: string, options: PublishOptions = {}): Promise<PublishResult | null> {
   const [article] = await tx<ArticleRow[]>`
-    SELECT id, source_id, url, title, language, published_at, discovered_at, timeline_at, backfill, body_status,
+    SELECT id, source_id, url, title, revision, excerpt, language, published_at, discovered_at, timeline_at, backfill, body_status,
            body_text, x_post, x_article, grouped_at, grouping_status, selection_adds_value
     FROM articles WHERE id = ${articleId} FOR UPDATE`;
   if (!article) return null;
@@ -246,9 +251,13 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
   const [source] = await tx<SourceFacts[]>`
     SELECT id, name, kind, tier, participation_mode, first_party, site_fulltext, syndicate_fulltext FROM sources WHERE id = ${article.source_id}`;
   if (!source) return null;
-  const [analysis] = await tx<AnalysisRow[]>`
-    SELECT id, relevance, category, tags, subjects, title_zh, summary_zh, reason_zh, score, selected
+  const analyses = await tx<AnalysisRow[]>`
+    SELECT id, input_revision, relevance, category, tags, subjects, title_zh, summary_zh, reason_zh, score, selected
     FROM analyses WHERE article_id = ${articleId} ORDER BY input_revision DESC, id DESC LIMIT 1`;
+  let analysis: AnalysisRow | undefined = analyses[0];
+  const screening = await storedScreening(tx, articleId);
+  // A changed screened article cannot retain an older completed judgement.
+  if (screening && analysis?.input_revision !== article.revision) analysis = undefined;
   const [override] = await tx<OverrideRow[]>`SELECT fields, visibility FROM editorial_overrides WHERE article_id = ${articleId}`;
   const [membership] = await tx<{ fact_id: number; story_id: number | null }[]>`
     SELECT fa.fact_id, f.story_id FROM fact_articles fa JOIN facts f ON f.id = fa.fact_id
@@ -264,6 +273,11 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
   // Stamp releases after all lock waits, which can cross an edition's cutoff.
   await tx`SELECT pg_advisory_xact_lock_shared(hashtext('report_candidates'))`;
   const now = options.now ?? new Date();
+  const heldForReview = screening?.revision === article.revision && screening.reviewRequired;
+  const prefiltered = !analysis && screening?.revision === article.revision && screening.label === "PASS"
+    && !heldForReview && !!article.published_at && article.published_at >= screening.from && article.published_at <= now;
+  const sourceExcerpt = prefiltered ? collapseWhitespace(article.excerpt || article.body_text || "") : "";
+  const excerpt = sourceExcerpt ? sourceExcerpt.slice(0, 240) + (sourceExcerpt.length > 240 ? "…" : "") : null;
 
   const f = override?.fields ?? {};
   const isChineseTitle = isChineseText(article.title, article.language);
@@ -271,20 +285,20 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
   // text is the title, where an article would still be a half-finished card.
   const zhTitle = analysis?.title_zh?.trim() ? analysis.title_zh : null;
   const original = originalPostCopy(article.x_post, article.url, article.x_article);
-  const title = pickString(f.title, original?.title ?? zhTitle ?? (isChineseTitle || article.x_post ? collapseWhitespace(article.title) : null));
-  const summary = pickString(f.summary, original ? original.summary : analysis?.summary_zh ?? null);
+  const title = pickString(f.title, original?.title ?? zhTitle ?? (isChineseTitle || article.x_post || prefiltered ? collapseWhitespace(article.title) : null));
+  const summary = pickString(f.summary, prefiltered ? excerpt : original ? original.summary : analysis?.summary_zh ?? null);
   const category = pickString(f.category, analysis?.category ?? null);
   const tags = Array.isArray(f.tags) ? (f.tags as string[]) : [...new Set([...(analysis?.tags ?? []), ...(analysis?.subjects ?? []).map((s) => `entity:${s}`)])];
   const score = f.score === null || typeof f.score === "number" ? f.score : analysis?.score ?? null;
-  const relevance = typeof f.relevance === "string" ? (f.relevance as string) : analysis?.relevance ?? null;
-  const judgedSelected = typeof f.selected === "boolean" ? (f.selected as boolean) : analysis?.selected ?? null;
+  const relevance = typeof f.relevance === "string" ? (f.relevance as string) : analysis?.relevance ?? (prefiltered ? "pass" : null);
+  const judgedSelected = prefiltered ? false : typeof f.selected === "boolean" ? (f.selected as boolean) : analysis?.selected ?? null;
   // Material from an isolated source reaches no public surface at all: not even a detail page.
   const visibility = source.participation_mode === "isolated" ? "withdrawn" : (override?.visibility ?? "public");
 
   // An undated archive has a readable detail page, but its discovery is not a news timestamp.
   // Explicit imports can retain an editorial decision already published elsewhere.
   const eligible = isPoolEligible({ participationMode: source.participation_mode, relevance, title, summary, originalPost: !!original })
-    && (!article.backfill || article.published_at !== null || !!options.releasedAt);
+    && !heldForReview && (!article.backfill || article.published_at !== null || !!options.releasedAt);
   const selectionCandidate = isSelectable(eligible, judgedSelected, source.tier);
   // Scoring nominates a report; a completed identity/value decision admits it to selection.
   // A historical import already has its public decision. Preserve that confirmed state on rebuild.
@@ -296,14 +310,14 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
   const hasBody = !!article.body_text || !!article.x_post?.text || !!article.x_post?.media?.length || !!article.x_post?.quoted?.text;
   const bodyMode = bodyModeOf(source, article.body_status, hasBody);
   const syndicate = mayRedistribute(source, bodyMode);
-  const originalTitle = isChineseTitle && title === collapseWhitespace(article.title) ? null : collapseWhitespace(article.title);
+  const originalTitle = title === collapseWhitespace(article.title) && (isChineseTitle || prefiltered) ? null : collapseWhitespace(article.title);
 
   // Waiting candidates are readable in the pool, with no selected seat, sync entry or push.
   // Completion stamps the actual release after lock waits, including across report cutoffs.
   const selectedReadyAt = previous?.selected_ready_at ?? (selectionCandidate ? options.releasedAt ?? now : null);
   const visibleAfter = selected ? (previous?.selected && previous.visible_after ? previous.visible_after : options.releasedAt ?? now) : null;
 
-  const indexable = isIndexable({
+  const indexable = !prefiltered && isIndexable({
     visibility, sourceMode: source.participation_mode, hasSummary: !!summary, selected, seoIndexedAt: previous?.seo_indexed_at ?? null, seoExcludedAt: previous?.seo_excluded_at ?? null,
   });
   const searchText = collapseWhitespace(
@@ -322,6 +336,7 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
   }
 
   const next = {
+    analysis_id: analysis?.id ?? null,
     source_id: source.id, first_party: source.tier === "T1",
     visibility, eligible, selected, selection_candidate: selectionCandidate, title: title ?? collapseWhitespace(article.title), original_title: originalTitle, summary, reason,
     category, tags, score: round1(score), body_mode: bodyMode, story_id: membership?.story_id ?? null, fact_id: membership?.fact_id ?? null,
@@ -337,7 +352,7 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
     && (previous.story_id === null || previous.story_id === next.story_id)
     && (previous.fact_id === null || previous.fact_id === next.fact_id)
     && changedFields.every((key) => admissionFields.has(key));
-  const firstAnalysisFields = new Set<keyof typeof after>([...admissionFields, "eligible", "selection_candidate", "title", "original_title", "summary", "category", "tags", "score"]);
+  const firstAnalysisFields = new Set<keyof typeof after>([...admissionFields, "analysis_id", "eligible", "selection_candidate", "title", "original_title", "summary", "category", "tags", "score"]);
   const firstAnalysis = previous && !previous.eligible && !previous.summary && previous.visibility === "public" && visibility === "public" && eligible
     && (previous.story_id === null || previous.story_id === next.story_id)
     && (previous.fact_id === null || previous.fact_id === next.fact_id)
@@ -456,4 +471,20 @@ export async function republishSource(sourceId: string, onProgress?: (done: numb
     await onProgress?.(done, total);
   }
   return { total, changed, reduced };
+}
+
+/** Rebuild stored screenings after enabling this publication policy. No analysis rows or paid jobs are created. */
+export async function republishScreenedArticles(): Promise<{ total: number; changed: number }> {
+  const ids = new Set<string>();
+  for (const module of serverModules()) {
+    if (!module.screenedPublication) continue;
+    const rows = await sql<{ id: string }[]>`SELECT DISTINCT sf.value->>'articleId' AS id FROM settings sf
+      LEFT JOIN publications p ON p.article_id=sf.value->>'articleId'
+      WHERE starts_with(sf.key,${module.screenedPublication.screeningPrefix}) AND sf.value->>'status'='screened'
+        AND (sf.value->>'label'='PASS' OR p.article_id IS NOT NULL)`;
+    for (const row of rows) if (row.id) ids.add(row.id);
+  }
+  let changed = 0;
+  for (const id of ids) if ((await publishArticle(id))?.changed) changed++;
+  return { total: ids.size, changed };
 }

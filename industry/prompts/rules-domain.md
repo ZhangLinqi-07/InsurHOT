@@ -1,45 +1,19 @@
+## 保险行业术语与事实边界
 
-【AI 领域翻译规则 — 本平台 100% 是 AI/ML/LLM 行业内容，严格遵守】
+本平台覆盖全球保险、再保险、精算、监管、风险、社会保障衔接及保险科技。按上下文翻译，不将全部词强制解释为 AI。Agent 在保险分销语境通常为代理人，在明确技术语境才译智能体。Premium 是保费，claim 是索赔或赔案，policy 在合同语境是保单、在公共规则语境是政策，coverage 是保障或承保范围，underwriting 是承保或核保，deductible 是免赔额，exclusion 是除外责任。reserve、provision、capital、surplus 按具体会计和监管语境处理，不混为利润。
 
-1. 歧义默认值：以下词在中文有非 AI 歧义，**一律按 AI 含义翻译**：
-   - LLM = 大语言模型（绝不译"法学硕士"/"Master of Laws"）
-   - Token / tokens = 模型 token（保留英文；绝不译"代币"/"令牌"）
-   - Transformer = Transformer 架构（保留英文；不译"变压器"）
-   - Diffusion = 扩散模型（AI 生成，不是物理扩散）
-   - Agent / Agentic = AI 智能体 / 智能体的（不译"代理人"/"中介"）
-   - Alignment = 对齐（AI 安全语境）
-   - Inference = 推理（模型生成）
-   - Reasoning = 推理（注意：与 inference 都译"推理"，必要时用"链式推理"区分 CoT；reasoning model 指 o1/o3/R1 这类思考型模型）
-   - Embedding = 嵌入向量（也可保留英文）
-   - Distillation = 知识蒸馏
-   - Hallucination = 模型幻觉
-   - Fine-tune / Fine-tuning = 微调
-   - Pretrain / Pretraining = 预训练
-   - Context window = 上下文窗口
-   - Prompt = 提示词
-   - Skill / Skills = 技能（Claude 等 Agent 框架的能力包，不译"特长"）
+保险损失与经济损失、保额与赔款、保费收入与营业收入、赔付率与综合成本率、存量与增量、百分点与百分比、同比与环比分别保留。毛额与净额、分保前后、集团与单体、报告期与发布日期、初步估算与最终结果不能互换。原文没有说明的口径不补全，不做隐含汇率换算或自行年化。
 
-2. 以下专有名词**一律保留英文原文**，不翻译不加中文括注：
-   - AI 公司：OpenAI / Anthropic / Google DeepMind / xAI / Meta AI / Mistral / DeepSeek / Cohere / HuggingFace（HF）/ Runway / ElevenLabs / Suno / Pika / Midjourney / Perplexity
-   - 模型族（举例 + 通用规则）：GPT / Claude / Gemini / Llama / Qwen / Grok / o 系列 / DeepSeek / Mistral / Mixtral / Phi / Sora / Veo / Imagen
-     **规则**：任何大模型族名、产品代号一律保留英文
-   - 模型版本号（举例 + 通用规则）：GPT-5 / Claude 4.7 / Claude Sonnet 4.6 / Llama 4 / Gemini 3 / o3 / o4 / DeepSeek-V4 / Qwen3.7
-     **规则**：版本号一字不改（包括字母数字后缀如 4o / 4.7 / 405B / V4 / R1），绝不"翻译性扩写"（不要把 "405B" 译成 "4050 亿"，不要把 "V4" 译成 "第 4 代"）
-   - 技术缩写（举例 + 通用规则）：LLM / RAG / RLHF / DPO / LoRA / QLoRA / PEFT / MoE / CoT / ReAct / KV cache / SOTA / AGI / MCP / ADK / NPU / GPU / TPU
-     **规则**：任何 2-5 字母的全大写缩写，默认按 AI/ML 含义保留英文
-   - 评测基准（举例 + 通用规则）：MMLU / GPQA / HumanEval / SWE-bench / SWE-bench Verified / AIME / HLE / ARC-AGI / ARC-AGI 2 / MT-Bench / Chatbot Arena / Aider Polyglot / LiveCodeBench
-     **规则**：以 -bench / -eval 结尾或全大写的评测名一律保留英文
-   - AI 工具/产品：Cursor / Copilot / Codex / Aider / Devin / Cline / Claude Code / Windsurf / Zed / v0 / Bolt / Lovable / Replit Agent
-   - Agent 框架：LangChain / LangGraph / LlamaIndex / CrewAI / AutoGen / Pydantic AI / Vercel AI SDK / DSPy
-   - 推理/部署：Ollama / vLLM / SGLang / TensorRT / Triton / CUDA / ROCm
-   - 通用技术：API / SDK / CLI / IDE / SaaS / CDN / SSO / OAuth / JWT / WebSocket / SSE / gRPC
+再保险、追溯再保险、自保保险、共同保险和保险保障基金按原文机制表述。ILS 保留缩写，可按上下文译保险连接证券；cat bond 为巨灾债券；SFCR 为偿付能力与财务状况报告。保留 IFRS 17、Solvency II、ICS、RBC 等制度或标准名称，并依原文说明所涉司法辖区。不得把某国制度当作全球统一要求。
 
-3. 中国厂商**优先用官方中文品牌名**（首次出现可双标"千问（Qwen3）"，后续选一种保持一致）：
-   - 千问（Qwen）/ 文心一言 / 智谱（GLM）/ 月之暗面（Kimi）/ 深度求索（DeepSeek）/ 阶跃星辰（Step）/ 零一万物（Yi）/ 百川 / 豆包（字节）/ 混元（腾讯）/ 可灵（Kling，快手）/ 即梦（Jimeng，字节）/ MiniMax（不译）/ 美团 LongCat / 昆仑万维 Skywork / 面壁 MiniCPM / 华为昇腾 / 寒武纪
+法律法规、征求意见稿、国际标准、协会自律文件、研究报告、法院判决、行政处罚和许可分别表述。区分发布、征求意见、通过、生效、实施和追溯适用。IAIS 或研究组织的文件不自动具有各国法定约束力。对某机构的处罚许可不自动推广到行业。监管机构和媒体的原文引述按发布者归属，不将指控、调查或预测写成确定事实。
 
-4. 代码 / 命令 / URL / 数字单位 **一字不改**保留：
-   - 反引号代码 `code` 不翻译
-   - 命令如 /code-review、pip install、npm run 不译（不要译"代码审查"）
-   - URL 原样
-   - 数字+单位：8k context / 175B params / 3.5x speedup / $3 per M tokens / 99.9%
-   - 金额、参数量、比例、区间必须保留原文的阿拉伯数字和单位；不要把 $10B-$100B 改写成“数百亿至数千亿美元”等中文数量词
+压缩监管禁止性条款时，必须连同适用前提、限定词和目的条件一起表述。不能把两个并列行为合成原文没有的新术语，也不能删去无实际保障内容等条件而扩大禁止范围。多业务分部使用不同利润或成本口径时分别写明，概述可用经营指标，不统一改写为经营利润。
+
+集团、寿险法人、财险法人、健康险公司和资产管理公司分别识别。共同品牌不能证明法律主体相同。PRA 与 FCA、国家金融监督管理总局与其他部门、行业协会与监管机构不能互换；机构名、角色或职责不明时按原文名称写，不猜测其权限。
+
+地名、司法辖区、法律文号、产品名、条款版本、币种、单位、日期和数字保持可核对。URL、代码与命令原样保留。外国机构可用原文全名或明确的中文名，缩写保留，不凭相似缩写扩写机构名。
+
+研究仅支持其样本、方法、时期与地区内的结论。相关关系不强化为因果，模拟或内部试验不写成已全面上线，宣传效果不当成独立验证。保险产品摘要绑定投保条件、等待期、免赔、除外、限额、地区和渠道，不能只摘收益或赔付宣传。历史样本站点的收录数、精选数和抓取状态不代表本项目当前情况。
+
+明确属于 AI 技术时，LLM 为大语言模型，Token、模型名和版本号保留原文，Agent 为智能体。AI 应用的保险业务范围、试点阶段、数据条件及效果证据按原文保留，不能凭供应商名补出保险客户或应用效果。

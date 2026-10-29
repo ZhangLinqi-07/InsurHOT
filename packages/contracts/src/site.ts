@@ -39,6 +39,8 @@ export interface StoryRef {
 
 /** What every site answer about an article carries; a card and a page each add the X post in their own form. */
 export interface ItemSummary {
+  /** Relevance-only publication with the original title and a source excerpt. */
+  prefiltered?: true;
   id: string;
   title: string;
   originalTitle: string | null;
@@ -58,7 +60,7 @@ export interface ItemSummary {
 }
 
 /** The fields rendered by a site feed card; full original text lives in the item detail. */
-export interface FeedItemSummary extends Pick<ItemSummary, "id" | "title" | "summary" | "reason" | "source" | "publishedAt" | "timelineAt" | "category" | "tags" | "score" | "selected" | "channel"> {
+export interface FeedItemSummary extends Pick<ItemSummary, "id" | "title" | "summary" | "reason" | "source" | "publishedAt" | "timelineAt" | "category" | "tags" | "score" | "selected" | "channel" | "prefiltered"> {
   x: (Pick<XPostView, "authorName" | "handle" | "avatarUrl" | "avatarSrcSet" | "media"> & {
     quoted: Omit<NonNullable<XPostView["quoted"]>, "url"> | null;
   }) | null;

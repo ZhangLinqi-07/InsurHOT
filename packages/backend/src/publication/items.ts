@@ -12,6 +12,7 @@ import { displayTags, publicSourceName } from "./rules.ts";
 import { foldableSelectionCondition, seatedCondition } from "./scope.ts";
 
 export interface ItemRow {
+  prefiltered?: boolean;
   id: string;
   title: string;
   original_title: string | null;
@@ -51,6 +52,7 @@ export interface ItemRow {
 export const ITEM_COLUMNS = sql`
   p.article_id AS id, p.title, p.original_title, p.summary, p.reason, p.category, p.tags, p.score,
   p.selected, p.seat, p.channel, p.url, p.published_at, p.discovered_at, p.timeline_at, p.visibility,
+  (p.analysis_id IS NULL AND p.eligible) AS prefiltered,
   p.body_mode, p.indexable, p.fact_id, s.name AS source_name, s.participation_mode AS source_mode,
   a.x_post, a.author, a.language,
   CASE WHEN s.kind = 'x_search' AND ${sourceOwnsPost(sql`s.config`, sql`a.x_post->>'handle'`)} THEN s.icon_url END AS author_avatar_url,
@@ -152,6 +154,7 @@ export function showsPost(row: { channel: string; body_mode: string }): boolean 
 /** The shared public article; its X post is added as each answer shows it. */
 export function toItemSummary(row: ItemRow): ItemSummary {
   return {
+    ...(row.prefiltered ? { prefiltered: true as const } : {}),
     id: row.id,
     title: row.title,
     originalTitle: row.original_title,
@@ -177,6 +180,7 @@ export function toFeedItemSummary(row: ItemRow): FeedItemSummary {
   const x = showsPost(row) ? xView(row, true) : null;
   return {
     id: item.id, title: item.title, summary: item.summary ?? (x?.text || null), reason: item.reason,
+    ...(item.prefiltered ? { prefiltered: true as const } : {}),
     source: item.source, publishedAt: item.publishedAt, timelineAt: item.timelineAt,
     category: item.category, tags: item.tags, score: item.score, selected: item.selected, channel: item.channel,
     x: x ? {

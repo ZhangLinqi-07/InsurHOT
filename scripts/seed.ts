@@ -14,6 +14,7 @@ interface SeedSource {
   config: Record<string, unknown>;
   tier?: string;
   owner_entity_id?: string | null;
+  signal_group_id?: string | null;
   participation_mode?: string;
   interval_minutes?: number;
   tags?: string[];
@@ -29,9 +30,9 @@ for (const s of sources) {
   const tier = s.tier ?? "T2";
   // First-party means a T1 source, as the admin sets it.
   const inserted = await sql`
-    INSERT INTO sources (id, name, kind, config, tier, first_party, owner_entity_id, participation_mode, interval_minutes, tags, site_fulltext, syndicate_fulltext, enabled, next_fetch_at)
+    INSERT INTO sources (id, name, kind, config, tier, first_party, owner_entity_id, signal_group_id, participation_mode, interval_minutes, tags, site_fulltext, syndicate_fulltext, enabled, next_fetch_at)
     VALUES (${s.id}, ${s.name}, ${s.kind}, ${sql.json(s.config as never)}, ${tier}, ${tier === "T1"}, ${s.owner_entity_id ?? null},
-            ${s.participation_mode ?? "editorial"}, ${s.interval_minutes ?? 60}, ${s.tags ?? []}, ${s.site_fulltext ?? false}, ${s.syndicate_fulltext ?? false},
+            ${s.signal_group_id ?? null}, ${s.participation_mode ?? "editorial"}, ${s.interval_minutes ?? 60}, ${s.tags ?? []}, ${s.site_fulltext ?? false}, ${s.syndicate_fulltext ?? false},
             ${s.enabled ?? true}, now())
     ON CONFLICT (id) DO NOTHING RETURNING id`;
   added += inserted.length;

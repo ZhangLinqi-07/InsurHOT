@@ -40,6 +40,7 @@ export const FeedItem = memo(function FeedItem({ item, group, filters, read = fa
     <article className="relative min-w-0 lg:card lg:card-hover lg:px-[18px] lg:pb-[14px] lg:pt-[15px]" data-item-id={item.id}>
       <header className="flex min-h-[22px] items-center gap-1.5 text-[12.5px] leading-[18px] text-ink-4 lg:min-h-[18px] lg:gap-2">
         <SourceLine item={item} className="text-ink-4" />
+        {item.prefiltered && <span className="shrink-0 text-[11px] text-ink-4">初筛相关</span>}
         {at && (
           <time dateTime={at} className="mono shrink-0 text-[12px] lg:hidden">
             · {beijingTime(at)}
@@ -76,7 +77,7 @@ export const FeedItem = memo(function FeedItem({ item, group, filters, read = fa
               {item.title}
             </IntentLink>
           </h3>
-          {item.summary && <p className="mt-1 line-clamp-2 text-[14.5px] leading-[1.7] text-ink-3 lg:mt-2 lg:line-clamp-3 lg:text-[15px] lg:leading-[1.75]">{item.summary}</p>}
+          {item.summary && <p className="mt-1 line-clamp-2 text-[14.5px] leading-[1.7] text-ink-3 lg:mt-2 lg:line-clamp-3 lg:text-[15px] lg:leading-[1.75]">{item.prefiltered && <span className="mr-2 text-[12px] text-ink-4">原文摘录</span>}{item.summary}</p>}
         </>
       )}
 

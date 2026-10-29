@@ -1,368 +1,3129 @@
 {
-  "$comment": "示范信源：首次启动时导入（scripts/seed.ts），已存在的不会被覆盖。之后在后台“信源”里新建、修改和暂停。字段说明见 docs/customize.md。",
+  "$comment": "Insurance source channels. The original 470 entries remain in source-catalog.json. Historical imports and limits are tracked separately in insurance-ingestion.json and database settings. Public full text stays disabled.",
   "sources": [
     {
-      "id": "rss-openai-news",
-      "name": "OpenAI News",
-      "kind": "rss",
+      "id": "nfra-928",
+      "name": "国家金融监督管理总局（规章及规范性文件）",
+      "kind": "json_list",
       "config": {
-        "feedUrl": "https://openai.com/news/rss.xml",
+        "url": "https://www.nfra.gov.cn/cbircweb/DocInfo/SelectDocByItemIdAndChild?itemId=928&pageSize=20&pageIndex=1",
+        "mode": "json_api",
+        "itemsPath": "data.rows",
+        "titlePaths": [
+          "docTitle"
+        ],
+        "urlTemplate": "https://www.nfra.gov.cn/cn/view/pages/ItemDetail.html?docId={docId}",
+        "publishedAtPath": "publishDate",
+        "publishedAtUtcOffset": "+08:00",
+        "externalIdPath": "docId",
         "_aihot": {
-          "initialBackfillLimit": 8
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
         }
       },
       "tier": "T1",
-      "owner_entity_id": "openai",
       "participation_mode": "editorial",
-      "interval_minutes": 120,
+      "interval_minutes": 360,
       "tags": [
-        "官方"
+        "保险"
       ],
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "owner_entity_id": "nfra"
     },
     {
-      "id": "rss-google-deepmind",
-      "name": "Google DeepMind",
-      "kind": "rss",
+      "id": "nfra-917",
+      "name": "国家金融监督管理总局（政策发布与解读）",
+      "kind": "json_list",
       "config": {
-        "feedUrl": "https://deepmind.google/blog/rss.xml",
+        "url": "https://www.nfra.gov.cn/cbircweb/DocInfo/SelectDocByItemIdAndChild?itemId=917&pageSize=20&pageIndex=1",
+        "mode": "json_api",
+        "itemsPath": "data.rows",
+        "titlePaths": [
+          "docTitle"
+        ],
+        "urlTemplate": "https://www.nfra.gov.cn/cn/view/pages/ItemDetail.html?docId={docId}",
+        "publishedAtPath": "publishDate",
+        "publishedAtUtcOffset": "+08:00",
+        "externalIdPath": "docId",
         "_aihot": {
-          "initialBackfillLimit": 8
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
         }
       },
       "tier": "T1",
-      "owner_entity_id": "google",
       "participation_mode": "editorial",
-      "interval_minutes": 120,
+      "interval_minutes": 360,
       "tags": [
-        "官方"
+        "保险"
       ],
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "owner_entity_id": "nfra"
     },
     {
-      "id": "rss-google-research",
-      "name": "Google Research",
-      "kind": "rss",
+      "id": "nfra-915",
+      "name": "国家金融监督管理总局（监管动态）",
+      "kind": "json_list",
       "config": {
-        "feedUrl": "https://research.google/blog/rss/",
+        "url": "https://www.nfra.gov.cn/cbircweb/DocInfo/SelectDocByItemIdAndChild?itemId=915&pageSize=20&pageIndex=1",
+        "mode": "json_api",
+        "itemsPath": "data.rows",
+        "titlePaths": [
+          "docTitle"
+        ],
+        "urlTemplate": "https://www.nfra.gov.cn/cn/view/pages/ItemDetail.html?docId={docId}",
+        "publishedAtPath": "publishDate",
+        "publishedAtUtcOffset": "+08:00",
+        "externalIdPath": "docId",
         "_aihot": {
-          "initialBackfillLimit": 8
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
         }
       },
       "tier": "T1",
-      "owner_entity_id": "google",
       "participation_mode": "editorial",
-      "interval_minutes": 120,
+      "interval_minutes": 360,
       "tags": [
-        "官方",
-        "研究"
+        "保险"
       ],
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "owner_entity_id": "nfra"
     },
     {
-      "id": "rss-hugging-face",
-      "name": "Hugging Face Blog",
-      "kind": "rss",
+      "id": "nfra-954",
+      "name": "国家金融监督管理总局（统计信息）",
+      "kind": "json_list",
       "config": {
-        "feedUrl": "https://huggingface.co/blog/feed.xml",
+        "url": "https://www.nfra.gov.cn/cbircweb/DocInfo/SelectDocByItemIdAndChild?itemId=954&pageSize=20&pageIndex=1",
+        "mode": "json_api",
+        "itemsPath": "data.rows",
+        "titlePaths": [
+          "docTitle"
+        ],
+        "urlTemplate": "https://www.nfra.gov.cn/cn/view/pages/ItemDetail.html?docId={docId}",
+        "publishedAtPath": "publishDate",
+        "publishedAtUtcOffset": "+08:00",
+        "externalIdPath": "docId",
         "_aihot": {
-          "initialBackfillLimit": 8
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
         }
       },
       "tier": "T1",
-      "owner_entity_id": "hugging-face",
       "participation_mode": "editorial",
-      "interval_minutes": 120,
+      "interval_minutes": 360,
       "tags": [
-        "官方",
-        "开源"
+        "保险"
       ],
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "owner_entity_id": "nfra"
     },
     {
-      "id": "rss-microsoft-research",
-      "name": "Microsoft Research",
-      "kind": "rss",
+      "id": "nfra-916",
+      "name": "国家金融监督管理总局（政策解读）",
+      "kind": "json_list",
       "config": {
-        "feedUrl": "https://www.microsoft.com/en-us/research/feed/",
+        "url": "https://www.nfra.gov.cn/cbircweb/DocInfo/SelectDocByItemIdAndChild?itemId=916&pageSize=20&pageIndex=1",
+        "mode": "json_api",
+        "itemsPath": "data.rows",
+        "titlePaths": [
+          "docTitle"
+        ],
+        "urlTemplate": "https://www.nfra.gov.cn/cn/view/pages/ItemDetail.html?docId={docId}",
+        "publishedAtPath": "publishDate",
+        "publishedAtUtcOffset": "+08:00",
+        "externalIdPath": "docId",
         "_aihot": {
-          "initialBackfillLimit": 8
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
         }
       },
       "tier": "T1",
-      "owner_entity_id": "microsoft",
       "participation_mode": "editorial",
-      "interval_minutes": 120,
+      "interval_minutes": 360,
       "tags": [
-        "官方",
-        "研究"
+        "保险"
       ],
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "owner_entity_id": "nfra"
     },
     {
-      "id": "rss-nvidia-blog",
-      "name": "NVIDIA Blog",
-      "kind": "rss",
+      "id": "nfra-951",
+      "name": "国家金融监督管理总局（征求意见）",
+      "kind": "json_list",
       "config": {
-        "feedUrl": "https://blogs.nvidia.com/feed/",
+        "url": "https://www.nfra.gov.cn/cbircweb/DocInfo/SelectDocByItemIdAndChild?itemId=951&pageSize=20&pageIndex=1",
+        "mode": "json_api",
+        "itemsPath": "data.rows",
+        "titlePaths": [
+          "docTitle"
+        ],
+        "urlTemplate": "https://www.nfra.gov.cn/cn/view/pages/ItemDetail.html?docId={docId}",
+        "publishedAtPath": "publishDate",
+        "publishedAtUtcOffset": "+08:00",
+        "externalIdPath": "docId",
         "_aihot": {
-          "initialBackfillLimit": 8
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
         }
       },
       "tier": "T1",
-      "owner_entity_id": "nvidia",
       "participation_mode": "editorial",
-      "interval_minutes": 120,
+      "interval_minutes": 360,
       "tags": [
-        "官方"
+        "保险"
       ],
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "owner_entity_id": "nfra"
     },
     {
-      "id": "rss-aws-ml",
-      "name": "AWS Machine Learning Blog",
-      "kind": "rss",
+      "id": "nfra-925",
+      "name": "国家金融监督管理总局（公告）",
+      "kind": "json_list",
       "config": {
-        "feedUrl": "https://aws.amazon.com/blogs/machine-learning/feed/",
+        "url": "https://www.nfra.gov.cn/cbircweb/DocInfo/SelectDocByItemIdAndChild?itemId=925&pageSize=20&pageIndex=1",
+        "mode": "json_api",
+        "itemsPath": "data.rows",
+        "titlePaths": [
+          "docTitle"
+        ],
+        "urlTemplate": "https://www.nfra.gov.cn/cn/view/pages/ItemDetail.html?docId={docId}",
+        "publishedAtPath": "publishDate",
+        "publishedAtUtcOffset": "+08:00",
+        "externalIdPath": "docId",
         "_aihot": {
-          "initialBackfillLimit": 8
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
         }
       },
       "tier": "T1",
-      "owner_entity_id": null,
       "participation_mode": "editorial",
-      "interval_minutes": 120,
+      "interval_minutes": 360,
       "tags": [
-        "官方",
-        "教程"
+        "保险"
       ],
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "owner_entity_id": "nfra"
     },
     {
-      "id": "rss-github-ai",
-      "name": "GitHub Blog · AI & ML",
-      "kind": "rss",
+      "id": "nfra-919",
+      "name": "国家金融监督管理总局（领导活动及讲话）",
+      "kind": "json_list",
       "config": {
-        "feedUrl": "https://github.blog/ai-and-ml/feed/",
+        "url": "https://www.nfra.gov.cn/cbircweb/DocInfo/SelectDocByItemIdAndChild?itemId=919&pageSize=20&pageIndex=1",
+        "mode": "json_api",
+        "itemsPath": "data.rows",
+        "titlePaths": [
+          "docTitle"
+        ],
+        "urlTemplate": "https://www.nfra.gov.cn/cn/view/pages/ItemDetail.html?docId={docId}",
+        "publishedAtPath": "publishDate",
+        "publishedAtUtcOffset": "+08:00",
+        "externalIdPath": "docId",
         "_aihot": {
-          "initialBackfillLimit": 8
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
         }
       },
       "tier": "T1",
-      "owner_entity_id": null,
       "participation_mode": "editorial",
-      "interval_minutes": 120,
+      "interval_minutes": 360,
       "tags": [
-        "官方"
+        "保险"
       ],
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "owner_entity_id": "nfra"
     },
     {
-      "id": "rss-mistral",
-      "name": "Mistral AI",
-      "kind": "rss",
+      "id": "caa-10",
+      "name": "中国精算师协会（通知公告）",
+      "kind": "json_list",
       "config": {
-        "feedUrl": "https://mistral.ai/news/rss",
+        "url": "https://www.e-caa.org.cn/systemNews/getNewsInfo/index?newsType=10",
+        "mode": "json_api",
+        "itemsPath": "rows",
+        "titlePaths": [
+          "informationTitle"
+        ],
+        "urlTemplate": "https://www.e-caa.org.cn{raw:informationUrl}",
+        "summaryPaths": [
+          "informationContent"
+        ],
+        "summaryIsBody": true,
+        "publishedAtPath": "publishTime",
+        "publishedAtUtcOffset": "+08:00",
+        "externalIdPath": "informationId",
         "_aihot": {
-          "initialBackfillLimit": 8
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
         }
       },
       "tier": "T1",
-      "owner_entity_id": null,
       "participation_mode": "editorial",
-      "interval_minutes": 120,
+      "interval_minutes": 360,
       "tags": [
-        "官方"
+        "保险"
       ],
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "owner_entity_id": "caa"
     },
     {
-      "id": "rss-bair",
-      "name": "Berkeley AI Research",
-      "kind": "rss",
+      "id": "caa-4",
+      "name": "中国精算师协会（协会动态）",
+      "kind": "json_list",
       "config": {
-        "feedUrl": "https://bair.berkeley.edu/blog/feed.xml",
+        "url": "https://www.e-caa.org.cn/systemNews/getNewsInfo/index?newsType=4",
+        "mode": "json_api",
+        "itemsPath": "rows",
+        "titlePaths": [
+          "informationTitle"
+        ],
+        "urlTemplate": "https://www.e-caa.org.cn{raw:informationUrl}",
+        "summaryPaths": [
+          "informationContent"
+        ],
+        "summaryIsBody": true,
+        "publishedAtPath": "publishTime",
+        "publishedAtUtcOffset": "+08:00",
+        "externalIdPath": "informationId",
         "_aihot": {
-          "initialBackfillLimit": 8
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
         }
       },
       "tier": "T1",
-      "owner_entity_id": null,
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "owner_entity_id": "caa"
+    },
+    {
+      "id": "sina-56757",
+      "name": "新浪财经保险（滚动）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://finance.sina.com.cn/roll/c/56757.shtml",
+        "parseMode": "html",
+        "itemSelector": "#listcontent li",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "publishedAtRegex": "(20\\d{2}-\\d{2}-\\d{2})/",
+        "publishedAtUtcOffset": "+08:00",
+        "allowUrlPrefixes": [
+          "https://finance.sina.com.cn/"
+        ],
+        "detail": {
+          "maxFetches": 3,
+          "summarySelector": "meta[name=\"description\"]",
+          "upgradeDatePrecision": true
+        },
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "tier": "T2",
       "participation_mode": "editorial",
       "interval_minutes": 180,
       "tags": [
-        "研究"
+        "保险"
       ],
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "signal_group_id": "sina-finance"
     },
     {
-      "id": "rss-the-verge-ai",
-      "name": "The Verge · AI",
-      "kind": "rss",
+      "id": "sina-56850",
+      "name": "新浪财经保险（行业动态）",
+      "kind": "web_list",
       "config": {
-        "feedUrl": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+        "url": "https://finance.sina.com.cn/roll/c/56850.shtml",
+        "parseMode": "html",
+        "itemSelector": "#listcontent li",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "publishedAtRegex": "(20\\d{2}-\\d{2}-\\d{2})/",
+        "publishedAtUtcOffset": "+08:00",
+        "allowUrlPrefixes": [
+          "https://finance.sina.com.cn/"
+        ],
+        "detail": {
+          "maxFetches": 3,
+          "summarySelector": "meta[name=\"description\"]",
+          "upgradeDatePrecision": true
+        },
         "_aihot": {
-          "initialBackfillLimit": 8
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
         }
       },
       "tier": "T2",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
-      "interval_minutes": 60,
-      "tags": [
-        "媒体"
-      ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-techcrunch-ai",
-      "name": "TechCrunch · AI",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T2",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
-      "interval_minutes": 60,
-      "tags": [
-        "媒体"
-      ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-ars-technica-ai",
-      "name": "Ars Technica · AI",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://arstechnica.com/ai/feed/",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T2",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
-      "interval_minutes": 60,
-      "tags": [
-        "媒体"
-      ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-mit-tech-review-ai",
-      "name": "MIT Technology Review · AI",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T2",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
-      "interval_minutes": 120,
-      "tags": [
-        "媒体"
-      ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-the-decoder",
-      "name": "The Decoder",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://the-decoder.com/feed/",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T2",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
-      "interval_minutes": 60,
-      "tags": [
-        "媒体"
-      ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-simon-willison",
-      "name": "Simon Willison",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://simonwillison.net/atom/everything/",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T2",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
-      "interval_minutes": 120,
-      "tags": [
-        "个人"
-      ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-import-ai",
-      "name": "Import AI",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://importai.substack.com/feed",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T2",
-      "owner_entity_id": null,
       "participation_mode": "editorial",
       "interval_minutes": 180,
       "tags": [
-        "个人",
-        "周刊"
+        "保险"
       ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "signal_group_id": "sina-finance"
+    },
+    {
+      "id": "sina-56854",
+      "name": "新浪财经保险（公司动态）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://finance.sina.com.cn/roll/c/56854.shtml",
+        "parseMode": "html",
+        "itemSelector": "#listcontent li",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "publishedAtRegex": "(20\\d{2}-\\d{2}-\\d{2})/",
+        "publishedAtUtcOffset": "+08:00",
+        "allowUrlPrefixes": [
+          "https://finance.sina.com.cn/"
+        ],
+        "detail": {
+          "maxFetches": 3,
+          "summarySelector": "meta[name=\"description\"]",
+          "upgradeDatePrecision": true
+        },
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "signal_group_id": "sina-finance"
+    },
+    {
+      "id": "sina-56852",
+      "name": "新浪财经保险（监管动态）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://finance.sina.com.cn/roll/c/56852.shtml",
+        "parseMode": "html",
+        "itemSelector": "#listcontent li",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "publishedAtRegex": "(20\\d{2}-\\d{2}-\\d{2})/",
+        "publishedAtUtcOffset": "+08:00",
+        "allowUrlPrefixes": [
+          "https://finance.sina.com.cn/"
+        ],
+        "detail": {
+          "maxFetches": 3,
+          "summarySelector": "meta[name=\"description\"]",
+          "upgradeDatePrecision": true
+        },
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "signal_group_id": "sina-finance"
+    },
+    {
+      "id": "gov-policy",
+      "name": "中国政府网（最新政策）",
+      "kind": "json_list",
+      "config": {
+        "url": "https://www.gov.cn/zhengce/zuixin/ZUIXINZHENGCE.json",
+        "mode": "json_api",
+        "titlePaths": [
+          "TITLE",
+          "title"
+        ],
+        "urlTemplate": "{raw:URL}",
+        "publishedAtPath": "DOCRELPUBTIME",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "eastmoney-insurance",
+      "name": "东方财富网（保险导读）",
+      "kind": "json_list",
+      "config": {
+        "url": "https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=214&pageSize=20&pageIndex=1&req_trace=insurhot",
+        "mode": "json_api",
+        "itemsPath": "data.list",
+        "titlePaths": [
+          "title"
+        ],
+        "urlTemplate": "{raw:uniqueUrl}",
+        "summaryPaths": [
+          "summary"
+        ],
+        "publishedAtPath": "showTime",
+        "publishedAtUtcOffset": "+08:00",
+        "externalIdPath": "code",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "rss-geneva",
+      "name": "The Geneva Association",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.genevaassociation.org/rss.xml",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "owner_entity_id": "geneva"
+    },
+    {
+      "id": "rss-insurance-journal",
+      "name": "Insurance Journal",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.insurancejournal.com/rss/news/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "signal_group_id": "wells-media"
+    },
+    {
+      "id": "rss-carrier-management",
+      "name": "Carrier Management",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.carriermanagement.com/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "signal_group_id": "wells-media"
+    },
+    {
+      "id": "rss-belize-osipp",
+      "name": "Belize OSIPP",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://osipp.gov.bz/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "rss-srpska-azors",
+      "name": "Insurance Agency of Republic of Srpska",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://azors.rs.ba/sr/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "rss-afsa-aifc",
+      "name": "Astana Financial Services Authority",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://afsa.aifc.kz/feed/rss/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "rss-panama-superseguros",
+      "name": "Superintendencia de Seguros de Panamá",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://superseguros.gob.pa/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "rss-palestine-pcma",
+      "name": "Palestine Capital Market Authority",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.pcma.ps/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "rss-montenegro-ano",
+      "name": "Insurance Supervision Agency of Montenegro",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://ano.me/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "rss-north-macedonia-aso",
+      "name": "Insurance Supervision Agency of North Macedonia",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://aso.mk/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "rss-qatar-qfcra",
+      "name": "Qatar Financial Centre Regulatory Authority",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.qfcra.com/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "rss-uganda-ira",
+      "name": "Insurance Regulatory Authority of Uganda",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://ira.go.ug/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "rss-nigeria-naicom",
+      "name": "National Insurance Commission Nigeria",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://naicom.gov.ng/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "rss-namibia-namfisa",
+      "name": "Namibia Financial Institutions Supervisory Authority",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.namfisa.com.na/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "rss-botswana-nbfira",
+      "name": "Non-Bank Financial Institutions Regulatory Authority Botswana",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.nbfira.org.bw/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "rss-bahamas-icb",
+      "name": "Insurance Commission of The Bahamas",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.icb.gov.bs/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "rss-reinsurance-news",
+      "name": "Reinsurance News",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.reinsurancene.ws/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "rss-artemis",
+      "name": "Artemis",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.artemis.bm/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "sortByPublishedAt": true
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "mp-gh_537c6f2c262e",
+      "name": "中国保险行业协会（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_537c6f2c262e",
+        "nickname": "中国保险行业协会（公众号）"
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "iachina"
+    },
+    {
+      "id": "mp-gh_f69075bc783e",
+      "name": "中国保险学会（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_f69075bc783e",
+        "nickname": "中国保险学会（公众号）"
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "isc"
+    },
+    {
+      "id": "mp-gh_42b4de59dd12",
+      "name": "中国精算师协会（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_42b4de59dd12",
+        "nickname": "中国精算师协会（公众号）"
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "caa"
+    },
+    {
+      "id": "mp-gh_902df58c33ee",
+      "name": "人保财险（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_902df58c33ee",
+        "nickname": "人保财险（公众号）",
+        "publisherRole": "organization"
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "picc"
+    },
+    {
+      "id": "mp-gh_6419ecfee240",
+      "name": "中国人保寿险（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_6419ecfee240",
+        "nickname": "中国人保寿险（公众号）",
+        "publisherRole": "organization"
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "picc"
+    },
+    {
+      "id": "mp-gh_1e4749f62813",
+      "name": "中国人寿（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_1e4749f62813",
+        "nickname": "中国人寿（公众号）",
+        "publisherRole": "organization"
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "chinalife"
+    },
+    {
+      "id": "mp-gh_524166677234",
+      "name": "泰康人寿保险（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_524166677234",
+        "nickname": "泰康人寿保险（公众号）",
+        "publisherRole": "organization"
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "taikang"
+    },
+    {
+      "id": "mp-gh_6bed67ef64d2",
+      "name": "中国平安（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_6bed67ef64d2",
+        "nickname": "中国平安（公众号）",
+        "publisherRole": "organization"
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "pingan"
+    },
+    {
+      "id": "mp-gh_8ecfd3ae981e",
+      "name": "阳光保险集团（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_8ecfd3ae981e",
+        "nickname": "阳光保险集团（公众号）",
+        "publisherRole": "organization"
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "sunshine"
+    },
+    {
+      "id": "mp-gh_1e7fef27385a",
+      "name": "平安产险头条（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_1e7fef27385a",
+        "nickname": "平安产险头条（公众号）",
+        "publisherRole": "organization"
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "pingan"
+    },
+    {
+      "id": "mp-gh_42f9a9082152",
+      "name": "中国人寿资产管理（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_42f9a9082152",
+        "nickname": "中国人寿资产管理（公众号）",
+        "publisherRole": "organization"
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "chinalife"
+    },
+    {
+      "id": "mp-gh_0dd45a0ae8af",
+      "name": "中国太平洋保险（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_0dd45a0ae8af",
+        "nickname": "中国太平洋保险（公众号）",
+        "publisherRole": "organization"
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "cpic"
+    },
+    {
+      "id": "mp-gh_997dda5cef67",
+      "name": "中国人保健康（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_997dda5cef67",
+        "nickname": "中国人保健康（公众号）",
+        "publisherRole": "organization"
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "picc"
+    },
+    {
+      "id": "mp-gh_4ddadf8b2d3c",
+      "name": "中国出口信用保险公司（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_4ddadf8b2d3c",
+        "nickname": "中国出口信用保险公司（公众号）",
+        "publisherRole": "organization"
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "sinosure"
+    },
+    {
+      "id": "mp-gh_59ad95b05856",
+      "name": "太平财险（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_59ad95b05856",
+        "nickname": "太平财险（公众号）",
+        "publisherRole": "organization"
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "owner_entity_id": "taiping"
+    },
+    {
+      "id": "mp-gh_b9a47083ba38",
+      "name": "慧保天下（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_b9a47083ba38",
+        "nickname": "慧保天下（公众号）"
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "mp-gh_011f8c2f7a19",
+      "name": "中保新知（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_011f8c2f7a19",
+        "nickname": "中保新知（公众号）"
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "mp-gh_a4dc99725cbe",
+      "name": "13个精算师（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_a4dc99725cbe",
+        "nickname": "13个精算师（公众号）"
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "mp-gh_d27f41e1b59b",
+      "name": "蓝鲸insurance（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_d27f41e1b59b",
+        "nickname": "蓝鲸insurance（公众号）"
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "mp-gh_027a4a522a23",
+      "name": "燕梳师院（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_027a4a522a23",
+        "nickname": "燕梳师院（公众号）"
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "mp-gh_588c4d6eb9ca",
+      "name": "保观（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_588c4d6eb9ca",
+        "nickname": "保观（公众号）"
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "mp-gh_d023a478cecf",
+      "name": "今日保（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_d023a478cecf",
+        "nickname": "今日保（公众号）"
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "mp-gh_997a414100bb",
+      "name": "中国银行保险报（公众号）",
+      "kind": "mp_account",
+      "config": {
+        "ghid": "gh_997a414100bb",
+        "nickname": "中国银行保险报（公众号）"
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "公众号",
+        "待配置授权服务"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "pingan-news",
+      "name": "中国平安（新闻通稿）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.pingan.cn/zh/common/pinganxinwen_zh.shtml",
+        "parseMode": "html",
+        "itemSelector": ".news_zone_list li",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "publishedAtUtcOffset": "+08:00",
+        "detail": {
+          "maxFetches": 3,
+          "summarySelector": "meta[name=\"description\"]",
+          "upgradeDatePrecision": true
+        },
+        "publisherRole": "organization",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "publishedAtSelector": "span"
+      },
+      "tier": "T1_5",
+      "owner_entity_id": "pingan",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "险企官方"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "picc-news",
+      "name": "中国人保（集团要闻）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.picc.com.cn/xwzx/jtyw/",
+        "parseMode": "html",
+        "itemSelector": "li.info",
+        "linkSelector": "a",
+        "titleSelector": ".title-l",
+        "publishedAtUtcOffset": "+08:00",
+        "detail": {
+          "maxFetches": 3,
+          "summarySelector": "meta[name=\"description\"]",
+          "upgradeDatePrecision": true
+        },
+        "publisherRole": "organization",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "publishedAtSelector": ".time"
+      },
+      "tier": "T1_5",
+      "owner_entity_id": "picc",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "险企官方"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "chinare-news",
+      "name": "中国再保（新闻动态）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.chinare.com.cn/zhzjt/441147/gsxw/index.html",
+        "parseMode": "html",
+        "itemSelector": "tr:has(td.art_tit)",
+        "linkSelector": "a",
+        "titleSelector": "td.art_tit a",
+        "publishedAtUtcOffset": "+08:00",
+        "detail": {
+          "maxFetches": 3,
+          "summarySelector": "meta[name=\"description\"]",
+          "upgradeDatePrecision": true
+        },
+        "publisherRole": "organization",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "publishedAtSelector": "td.date"
+      },
+      "tier": "T1_5",
+      "owner_entity_id": "chinare",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "险企官方"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "chinalife-news",
+      "name": "中国人寿（公司新闻）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.chinalife.com.cn/chinalife/xwzx/gsxw/",
+        "parseMode": "html",
+        "itemSelector": "li.easysite-article-li",
+        "linkSelector": ".ctitle a",
+        "titleSelector": ".ctitle a",
+        "publishedAtUtcOffset": "+08:00",
+        "detail": {
+          "maxFetches": 3,
+          "summarySelector": "meta[name=\"description\"]",
+          "upgradeDatePrecision": true
+        },
+        "publisherRole": "organization",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        },
+        "publishedAtSelector": ".article-time"
+      },
+      "tier": "T1_5",
+      "owner_entity_id": "chinalife",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "险企官方"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "rss-australia-ica",
+      "name": "Insurance Council of Australia",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://insurancecouncil.com.au/feed/",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "官方",
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "rss-nz-icnz",
+      "name": "Insurance Council of New Zealand",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.icnz.org.nz/feed/",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "官方",
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "rss-southafrica-saia",
+      "name": "South African Insurance Association",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://saia.co.za/feed/",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "官方",
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true
+    },
+    {
+      "id": "rss-zambia-pia",
+      "name": "Pensions and Insurance Authority Zambia",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.pia.org.zm/?feed=rss2",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "官方",
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false
+    },
+    {
+      "id": "rss-honduras-cnbs",
+      "name": "Comisión Nacional de Bancos y Seguros Honduras",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.cnbs.gob.hn/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "catalogIds": [
+        "insurance-source-0141"
+      ],
+      "catalogScope": "Comisión Nacional de Bancos y Seguros Honduras官方全站新闻RSS，不代表同机构许可名录或专题通函已被单独覆盖"
+    },
+    {
+      "id": "rss-poland-piu",
+      "name": "Polska Izba Ubezpieczeń",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://piu.org.pl/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "catalogIds": [
+        "insurance-source-0166"
+      ],
+      "catalogScope": "Polska Izba Ubezpieczeń官方全站新闻RSS，不代表同机构许可名录或专题通函已被单独覆盖"
+    },
+    {
+      "id": "rss-morocco-fma",
+      "name": "Fédération Marocaine de l’Assurance",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://fma.org.ma/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "catalogIds": [
+        "insurance-source-0168"
+      ],
+      "catalogScope": "Fédération Marocaine de l’Assurance官方全站新闻RSS，不代表同机构许可名录或专题通函已被单独覆盖"
+    },
+    {
+      "id": "rss-trinidad-cbtt",
+      "name": "Central Bank of Trinidad and Tobago",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.central-bank.org.tt/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "catalogIds": [
+        "insurance-source-0336"
+      ],
+      "catalogScope": "Central Bank of Trinidad and Tobago官方全站新闻RSS，不代表同机构许可名录或专题通函已被单独覆盖"
+    },
+    {
+      "id": "rss-cima-afrique",
+      "name": "Conférence Interafricaine des Marchés d’Assurances",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://cima-afrique.org/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "catalogIds": [
+        "insurance-source-0355"
+      ],
+      "catalogScope": "Conférence Interafricaine des Marchés d’Assurances官方全站新闻RSS，不代表同机构许可名录或专题通函已被单独覆盖"
+    },
+    {
+      "id": "rss-salvador-ssf",
+      "name": "Superintendencia del Sistema Financiero El Salvador",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://ssf.gob.sv/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": false,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "catalogIds": [
+        "insurance-source-0023"
+      ],
+      "catalogScope": "当前订阅样本为机构采购公告，未验证保险监管新闻覆盖，保留配置并暂停。"
+    },
+    {
+      "id": "rss-apra",
+      "name": "Australian Prudential Regulation Authority",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.apra.gov.au/rss.xml",
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "owner_entity_id": "apra",
+      "catalogIds": [
+        "insurance-source-0321"
+      ],
+      "catalogScope": "APRA官方RSS新闻和出版物，涉及多类金融行业，保险关联由原框架预筛判断；不等同单独保险行业归档"
+    },
+    {
+      "id": "pbc-news",
+      "name": "中国人民银行（新闻发布）",
+      "owner_entity_id": "pbc",
+      "tier": "T1",
+      "config": {
+        "url": "https://www.pbc.gov.cn/goutongjiaoliu/113456/113469/index.html",
+        "itemSelector": "td:has(> font.newslist_style)",
+        "linkSelector": "font.newslist_style a[istitle]",
+        "titleSelector": "font.newslist_style a[istitle]",
+        "publishedAtSelector": "span.hui12",
+        "sortByPublishedAt": true,
+        "allowUrlPrefixes": [
+          "https://www.pbc.gov.cn/goutongjiaoliu/113456/113469/"
+        ],
+        "publishedAtUtcOffset": "+08:00",
+        "fetchPublicContent": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "kind": "web_list",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0122"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "仅材料中的新闻发布栏目。包含宏观金融新闻，由现有保险预筛判断相关性，不代表统计数据或许可证名录已接入。"
+    },
+    {
+      "id": "shie-notices",
+      "name": "上海保险交易所（公告通知）",
+      "owner_entity_id": "shie",
+      "tier": "T1",
+      "config": {
+        "url": "https://www.shie.com.cn/html/shie/xwzx/meitichaxun/index.html",
+        "itemSelector": ".news-item",
+        "linkSelector": "a.title",
+        "titleSelector": "a.title",
+        "publishedAtSelector": ".v",
+        "allowUrlPrefixes": [
+          "https://www.shie.com.cn/html/shie/xwzx/meitichaxun/"
+        ],
+        "publishedAtUtcOffset": "+08:00",
+        "fetchPublicContent": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "kind": "web_list",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0185"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "材料指向的公告通知 /xwzx/meitichaxun/ 栏目，含业务项目、招标中标及采购等公告，不代表交易统计或其他资料栏目。"
+    },
+    {
+      "id": "iachina-news",
+      "name": "中国保险行业协会（协会要闻）",
+      "owner_entity_id": "iachina",
+      "tier": "T1",
+      "config": {
+        "url": "https://www.iachina.cn/module/web/jpage/dataproxy.jsp?col=1&webid=1&path=/&columnid=22&sourceContentType=3&unitid=2849&permissiontype=0&startrecord=1&endrecord=7&perpage=7",
+        "baseUrl": "https://www.iachina.cn/col/col22/index.html",
+        "itemSelector": ".xhyw-con",
+        "linkSelector": ".xhyw-title a",
+        "titleSelector": ".xhyw-title a",
+        "publishedAtSelector": ".xhyw-detail span",
+        "allowUrlPrefixes": [
+          "https://www.iachina.cn/art/"
+        ],
+        "publishedAtUtcOffset": "+08:00",
+        "fetchPublicContent": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "kind": "web_list",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0165",
+        "insurance-source-0180"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "协会要闻 columnid22 的原生分页响应，对应材料中的协会要闻和自律规则主题入口。栏目包含全部协会要闻，不声称仅采自律文件。"
+    },
+    {
+      "id": "iachina-notices",
+      "name": "中国保险行业协会（公告通知）",
+      "owner_entity_id": "iachina",
+      "tier": "T1",
+      "config": {
+        "url": "https://www.iachina.cn/module/web/jpage/dataproxy.jsp?col=1&webid=1&path=/&columnid=24&sourceContentType=1&unitid=1091&permissiontype=0&startrecord=1&endrecord=7&perpage=7",
+        "baseUrl": "https://www.iachina.cn/col/col24/index.html",
+        "itemSelector": "record",
+        "linkSelector": ".list-top a",
+        "titleSelector": ".list-top a",
+        "publishedAtSelector": ".date",
+        "allowUrlPrefixes": [
+          "https://www.iachina.cn/art/"
+        ],
+        "publishedAtUtcOffset": "+08:00",
+        "fetchPublicContent": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "kind": "web_list",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0192"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "协会公告通知 columnid24 的原生分页响应。包含招聘采购等公告，重要性仍由现有筛选流程决定，不将公告等同于自律制度。"
+    },
+    {
+      "id": "isc-news",
+      "name": "中国保险学会（学会动态）",
+      "owner_entity_id": "isc",
+      "tier": "T1",
+      "config": {
+        "url": "https://www.isc-org.cn/xhdt/index.jhtml",
+        "itemSelector": "ul.wzy_list_right_ul > li",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "publishedAtSelector": "span",
+        "allowUrlPrefixes": [
+          "https://www.isc-org.cn/xhdt/",
+          "https://www.isc-org.cn/ktfb/"
+        ],
+        "publishedAtUtcOffset": "+08:00",
+        "fetchPublicContent": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "kind": "web_list",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0186"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "材料中的学会动态列表。列表本身也展示课题发布栏目文章，因此保留 /xhdt/ 与 /ktfb/ 两类实际原文地址，不声称学术论文库已接入。"
+    },
+    {
+      "id": "jrj-insurance",
+      "name": "金融界（保险频道）",
+      "kind": "json_list",
+      "tier": "T2",
+      "config": {
+        "url": "https://gateway.jrj.com/jrj-news/news/queryNewsList",
+        "method": "POST",
+        "bodyJson": {
+          "sortBy": 1,
+          "pageSize": 20,
+          "makeDate": "",
+          "channelNum": "115",
+          "infoCls": ""
+        },
+        "mode": "json_api",
+        "itemsPath": "data.data",
+        "titlePaths": [
+          "title"
+        ],
+        "urlTemplate": "{raw:pcInfoUrl}",
+        "summaryPaths": [
+          "summary"
+        ],
+        "publishedAtPath": "makeDate",
+        "externalIdPath": "iiId",
+        "publishedAtUtcOffset": "+08:00",
+        "fetchPublicContent": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0245",
+        "insurance-source-0273"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "保险频道网页实际调用的公开列表接口 channelNum115。正文原始频道可为财经或股票频道，标题会含险资调研等宽泛匹配，由现有保险预筛决定是否入选。"
+    },
+    {
+      "id": "bbt-insurance",
+      "name": "北京商报（保险频道）",
+      "tier": "T2",
+      "config": {
+        "url": "https://www.bbtnews.com.cn/chuizhipd/caijingxinwenzx/baoxianpd/",
+        "itemSelector": "li:has(.info > h4 > a)",
+        "linkSelector": "h4 a",
+        "titleSelector": "h4 a",
+        "publishedAtSelector": ".others span:last-child",
+        "allowUrlPrefixes": [
+          "https://www.bbtnews.com.cn/20"
+        ],
+        "publishedAtUtcOffset": "+08:00",
+        "fetchPublicContent": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "kind": "web_list",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0269"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "材料中的保险频道主新闻列表，排除导航与侧栏推荐。"
+    },
+    {
+      "id": "cisf-news",
+      "name": "中国保险保障基金（公司新闻）",
+      "owner_entity_id": "cisf",
+      "tier": "T1",
+      "config": {
+        "url": "https://www.cisf.cn/cisf/xwzx/gsxw/index.shtml",
+        "itemSelector": "ul.lb > li",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "publishedAtSelector": "p",
+        "allowUrlPrefixes": [
+          "https://www.cisf.cn/cisf/20"
+        ],
+        "publishedAtUtcOffset": "+08:00",
+        "fetchPublicContent": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "kind": "web_list",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0188"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "材料中的公司新闻栏目，包含风险观察发布及公司活动。报告发布页可读正文不等同于PDF报告全文已采集。"
+    },
+    {
+      "id": "cpic-news",
+      "name": "中国太保（热点新闻）",
+      "owner_entity_id": "cpic",
+      "tier": "T1_5",
+      "config": {
+        "url": "https://www.cpic.com.cn/aboutUs/gsdt/rdxw/index.shtml",
+        "itemSelector": "li.newsListItem",
+        "linkSelector": "a.listText",
+        "titleSelector": "a.listText",
+        "detail": {
+          "maxFetches": 3,
+          "publishedAtRegex": "PublishDate=(20\\d{2}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})",
+          "publishedAtAuthoritative": true
+        },
+        "allowUrlPrefixes": [
+          "https://www.cpic.com.cn/c/"
+        ],
+        "publisherRole": "organization",
+        "publishedAtUtcOffset": "+08:00",
+        "fetchPublicContent": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "kind": "web_list",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0234"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "材料中的公司热点新闻栏目。列表原文路径包含上传日期，使用原文详情发布日期补齐，以免把标题括号中的事件日期误作网页发布日期。"
+    },
+    {
+      "id": "eeo-insurance",
+      "name": "经济观察网（保险）",
+      "tier": "T2",
+      "config": {
+        "url": "https://www.eeo.com.cn/jg/jinrong/baoxian/",
+        "itemSelector": "#lyp_article > li",
+        "linkSelector": "h5 a",
+        "titleSelector": "h5 a",
+        "detail": {
+          "maxFetches": 3,
+          "publishedAtSelector": "#showFocus > span:nth-of-type(2)",
+          "publishedAtAuthoritative": true
+        },
+        "allowUrlPrefixes": [
+          "https://www.eeo.com.cn/20"
+        ],
+        "publishedAtUtcOffset": "+08:00",
+        "fetchPublicContent": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "kind": "web_list",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0267"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "材料中的金融保险频道。列表没有日期，沿用框架现有 detail.maxFetches=3 从原文元数据补齐，公开仍仅摘要和链接。"
+    },
+    {
+      "id": "cbimc-commentary",
+      "name": "中国银行保险报（评论观点）",
+      "kind": "json_list",
+      "tier": "T2",
+      "config": {
+        "url": "https://rm-api.cfmc.cn/web/news/getChannelNewsList?data=%7B%22channel_id%22%3A250%2C%22channel_type%22%3A4%2C%22page%22%3A1%2C%22page_size%22%3A10%2C%22needTop%22%3Atrue%2C%22needBanner%22%3Atrue%2C%22needOrdinary%22%3Atrue%2C%22needFirst%22%3Afalse%2C%22webOrg%22%3A2%7D",
+        "method": "POST",
+        "headers": {
+          "tenantId": "37"
+        },
+        "mode": "json_api",
+        "itemsPath": "data.newsList",
+        "titlePaths": [
+          "news_title"
+        ],
+        "urlTemplate": "https://www.cbimc.cn/news/{news_id}",
+        "summaryPaths": [
+          "brief"
+        ],
+        "sortByPublishedAt": true,
+        "publishedAtPath": "happen_time",
+        "publishedAtUnit": "epoch_ms",
+        "externalIdPath": "news_id",
+        "publishedAtUtcOffset": "+08:00",
+        "fetchPublicContent": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0275"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "材料中明确的评论观点栏目，channel_id250。官网公开租户路由头 tenantId37 由静态脚本确认，栏目参数由 getInitSetting 返回的导航确认。仅取 newsList 普通新闻，不含 bannerNewsList，不代表所有子栏目、名录或年报已接入。",
+      "signal_group_id": "cbimc"
+    },
+    {
+      "id": "cbimc-insurance",
+      "name": "中国银行保险报（保险频道）",
+      "kind": "json_list",
+      "tier": "T2",
+      "config": {
+        "url": "https://rm-api.cfmc.cn/web/news/getChannelNewsList?data=%7B%22channel_id%22%3A30%2C%22channel_type%22%3A4%2C%22page%22%3A1%2C%22page_size%22%3A10%2C%22needTop%22%3Atrue%2C%22needBanner%22%3Atrue%2C%22needOrdinary%22%3Atrue%2C%22needFirst%22%3Afalse%2C%22webOrg%22%3A2%7D",
+        "method": "POST",
+        "headers": {
+          "tenantId": "37"
+        },
+        "mode": "json_api",
+        "itemsPath": "data.newsList",
+        "titlePaths": [
+          "news_title"
+        ],
+        "urlTemplate": "https://www.cbimc.cn/news/{news_id}",
+        "summaryPaths": [
+          "brief"
+        ],
+        "sortByPublishedAt": true,
+        "publishedAtPath": "happen_time",
+        "publishedAtUnit": "epoch_ms",
+        "externalIdPath": "news_id",
+        "publishedAtUtcOffset": "+08:00",
+        "fetchPublicContent": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0276"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "材料中明确的保险频道栏目，channel_id30。官网公开租户路由头 tenantId37 由静态脚本确认，栏目参数由 getInitSetting 返回的导航确认。仅取 newsList 普通新闻，不含 bannerNewsList，不代表所有子栏目、名录或年报已接入。",
+      "signal_group_id": "cbimc"
+    },
+    {
+      "id": "cbimc-insurance-news",
+      "name": "中国银行保险报（保险资讯）",
+      "kind": "json_list",
+      "tier": "T2",
+      "config": {
+        "url": "https://rm-api.cfmc.cn/web/news/getChannelNewsList?data=%7B%22channel_id%22%3A68%2C%22channel_type%22%3A4%2C%22page%22%3A1%2C%22page_size%22%3A10%2C%22needTop%22%3Atrue%2C%22needBanner%22%3Atrue%2C%22needOrdinary%22%3Atrue%2C%22needFirst%22%3Afalse%2C%22webOrg%22%3A2%7D",
+        "method": "POST",
+        "headers": {
+          "tenantId": "37"
+        },
+        "mode": "json_api",
+        "itemsPath": "data.newsList",
+        "titlePaths": [
+          "news_title"
+        ],
+        "urlTemplate": "https://www.cbimc.cn/news/{news_id}",
+        "summaryPaths": [
+          "brief"
+        ],
+        "sortByPublishedAt": true,
+        "publishedAtPath": "happen_time",
+        "publishedAtUnit": "epoch_ms",
+        "externalIdPath": "news_id",
+        "publishedAtUtcOffset": "+08:00",
+        "fetchPublicContent": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0277"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "材料中明确的保险资讯栏目，channel_id68。官网公开租户路由头 tenantId37 由静态脚本确认，栏目参数由 getInitSetting 返回的导航确认。仅取 newsList 普通新闻，不含 bannerNewsList，不代表所有子栏目、名录或年报已接入。",
+      "signal_group_id": "cbimc"
+    },
+    {
+      "id": "cbimc-insurance-opinion",
+      "name": "中国银行保险报（保险观点）",
+      "kind": "json_list",
+      "tier": "T2",
+      "config": {
+        "url": "https://rm-api.cfmc.cn/web/news/getChannelNewsList?data=%7B%22channel_id%22%3A71%2C%22channel_type%22%3A4%2C%22page%22%3A1%2C%22page_size%22%3A10%2C%22needTop%22%3Atrue%2C%22needBanner%22%3Atrue%2C%22needOrdinary%22%3Atrue%2C%22needFirst%22%3Afalse%2C%22webOrg%22%3A2%7D",
+        "method": "POST",
+        "headers": {
+          "tenantId": "37"
+        },
+        "mode": "json_api",
+        "itemsPath": "data.newsList",
+        "titlePaths": [
+          "news_title"
+        ],
+        "urlTemplate": "https://www.cbimc.cn/news/{news_id}",
+        "summaryPaths": [
+          "brief"
+        ],
+        "sortByPublishedAt": true,
+        "publishedAtPath": "happen_time",
+        "publishedAtUnit": "epoch_ms",
+        "externalIdPath": "news_id",
+        "publishedAtUtcOffset": "+08:00",
+        "fetchPublicContent": true,
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 12
+        }
+      },
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "保险"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0278"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "材料中明确的保险观点栏目，channel_id71。官网公开租户路由头 tenantId37 由静态脚本确认，栏目参数由 getInitSetting 返回的导航确认。仅取 newsList 普通新闻，不含 bannerNewsList，不代表所有子栏目、名录或年报已接入。",
+      "signal_group_id": "cbimc"
+    },
+    {
+      "id": "rss-finma-news",
+      "name": "FINMA（官方新闻）",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.finma.ch/en/rss/news/",
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0364"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "FINMA官方RSS新闻，含跨金融行业新闻与制裁通报，保险相关性由预筛判定"
+    },
+    {
+      "id": "rss-kyrgyzstan-fsa-native",
+      "name": "Kyrgyzstan Financial Market Regulatory and Supervisory Service（原语种新闻）",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://fsa.gov.kg/feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0132"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "原语种全站新闻，替代含人员简介的英文feed"
+    },
+    {
+      "id": "rss-norway-fsa",
+      "name": "Finanstilsynet Norway（新闻归档RSS）",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.finanstilsynet.no/en/rss/news-feed/",
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0377"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "官方RSS入口列明的news archive，跨金融行业新闻由保险预筛判定"
+    },
+    {
+      "id": "rss-boe-pra",
+      "name": "Bank of England/PRA（审慎监管出版物）",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.bankofengland.co.uk/rss/prudential-regulation-publications",
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "owner_entity_id": "pra",
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [],
+      "catalogCandidateIds": [
+        "insurance-source-0361"
+      ],
+      "catalogScope": "官方RSS页明列的Prudential regulation publications，不覆盖银行全部新闻或PRA全部许可名录"
+    },
+    {
+      "id": "osfi-news",
+      "name": "OSFI Canada（新闻）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.osfi-bsif.gc.ca/en/news",
+        "itemSelector": "article.news.feed",
+        "linkSelector": "h3 a",
+        "titleSelector": "h3 a",
+        "publishedAtSelector": "time",
+        "publishedAtUtcOffset": "-04:00",
+        "allowUrlPrefixes": [
+          "https://www.osfi-bsif.gc.ca/en/news/",
+          "https://www.osfi-bsif.gc.ca/index%2Ephp/en/news/"
+        ],
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0315"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "OSFI官方新闻栏目，保险与银行等金融监管内容由保险预筛区分"
+    },
+    {
+      "id": "iais-latest-news",
+      "name": "IAIS（最新新闻）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.iais.org/news-and-events/latest-news/",
+        "itemSelector": ".display-posts-listing .post.type-post",
+        "linkSelector": ".entry-title a",
+        "titleSelector": ".entry-title a",
+        "publishedAtSelector": ".post-date",
+        "publishedAtUtcOffset": "+00:00",
+        "allowUrlPrefixes": [
+          "https://www.iais.org/20"
+        ],
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "owner_entity_id": "iais",
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0190"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "IAIS最新新闻列表中的公告、研究和讲话，不将成员目录视为新闻"
+    },
+    {
+      "id": "finland-fsa-press",
+      "name": "FIN-FSA Finland（新闻稿）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.finanssivalvonta.fi/en/publications-and-press-releases/Press-release/",
+        "itemSelector": "ul.listing.pagelist > li",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "publishedAtSelector": "time",
+        "publishedAtUtcOffset": "+02:00",
+        "allowUrlPrefixes": [
+          "https://www.finanssivalvonta.fi/en/publications-and-press-releases/Press-release/20"
+        ],
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0376"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "FIN-FSA新闻稿列表，跨金融行业内容由保险预筛判定，其他监督通函栏目未包含"
+    },
+    {
+      "id": "iom-fsa-news",
+      "name": "Isle of Man FSA（最新新闻）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.iomfsa.im/",
+        "itemSelector": ".latest-news li",
+        "linkSelector": "a",
+        "titleSelector": "a p:first-child",
+        "publishedAtRegex": "(\\d{1,2} [A-Za-z]+ 20\\d{2})",
+        "publishedAtUtcOffset": "+00:00",
+        "allowUrlPrefixes": [
+          "https://www.iomfsa.im/fsa-news/"
+        ],
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0385"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "官网最新三条新闻；整站RSS响应超过体积限制所以使用明确新闻卡片"
+    },
+    {
+      "id": "eiopa-news",
+      "name": "EIOPA（新闻）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.eiopa.europa.eu/media/news_en",
+        "itemSelector": "article.ecl-content-item",
+        "linkSelector": ".ecl-content-block__title a",
+        "titleSelector": ".ecl-content-block__title a",
+        "publishedAtSelector": "time",
+        "publishedAtUtcOffset": "+01:00",
+        "allowUrlPrefixes": [
+          "https://www.eiopa.europa.eu/"
+        ],
+        "_aihot": {
+          "initialBackfillLimit": 3
+        }
+      },
+      "owner_entity_id": "eiopa",
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "保险",
+        "国际"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "catalogIds": [
+        "insurance-source-0164",
+        "insurance-source-0356"
+      ],
+      "catalogCandidateIds": [],
+      "catalogScope": "EIOPA当前实际新闻列表/media/news_en，旧newsroom_en链接失效，机构成员或企业登记名录不在此采集范围"
+    },
+    {
+      "id": "archive-wp-aso-mk-post",
+      "name": "北马其顿｜Insurance Supervision Agency (ISA)：官方机构入口",
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "json_list",
+      "config": {
+        "url": "https://aso.mk/wp-json/wp/v2/posts?per_page=5&page=1&order=desc&orderby=date",
+        "mode": "json_api",
+        "titlePaths": [
+          "title.rendered"
+        ],
+        "urlTemplate": "{raw:link}",
+        "summaryPaths": [
+          "content.rendered"
+        ],
+        "summaryIsBody": true,
+        "publishedAtPath": "date_gmt",
+        "publishedAtUtcOffset": "+00:00",
+        "externalIdPath": "id",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        }
+      },
+      "signal_group_id": "insurance-publisher:aso.mk"
+    },
+    {
+      "id": "archive-wp-a-zn-si-post",
+      "name": "斯洛文尼亚｜Insurance Supervision Agency：官方机构入口",
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "json_list",
+      "config": {
+        "url": "https://www.a-zn.si/wp-json/wp/v2/posts?per_page=5&page=1&order=desc&orderby=date",
+        "mode": "json_api",
+        "titlePaths": [
+          "title.rendered"
+        ],
+        "urlTemplate": "{raw:link}",
+        "summaryPaths": [
+          "content.rendered"
+        ],
+        "summaryIsBody": true,
+        "publishedAtPath": "date_gmt",
+        "publishedAtUtcOffset": "+00:00",
+        "externalIdPath": "id",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        }
+      },
+      "signal_group_id": "insurance-publisher:a-zn.si"
+    },
+    {
+      "id": "archive-wp-100seguro-com-ar-post",
+      "name": "阿根廷｜100% Seguro：SSN监管报道：100% Seguro：SSN监管报道",
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "json_list",
+      "config": {
+        "url": "https://100seguro.com.ar/wp-json/wp/v2/posts?per_page=5&page=1&order=desc&orderby=date",
+        "mode": "json_api",
+        "titlePaths": [
+          "title.rendered"
+        ],
+        "urlTemplate": "{raw:link}",
+        "summaryPaths": [
+          "content.rendered"
+        ],
+        "summaryIsBody": true,
+        "publishedAtPath": "date_gmt",
+        "publishedAtUtcOffset": "+00:00",
+        "externalIdPath": "id",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        }
+      },
+      "signal_group_id": "insurance-publisher:100seguro.com.ar"
+    },
+    {
+      "id": "archive-wp-revistaapolice-com-br-post",
+      "name": "巴西｜Revista Apólice：SUSEP监管报道：Revista Apólice：SUSEP监管报道",
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "json_list",
+      "config": {
+        "url": "https://revistaapolice.com.br/wp-json/wp/v2/posts?per_page=5&page=1&order=desc&orderby=date",
+        "mode": "json_api",
+        "titlePaths": [
+          "title.rendered"
+        ],
+        "urlTemplate": "{raw:link}",
+        "summaryPaths": [
+          "content.rendered"
+        ],
+        "summaryIsBody": true,
+        "publishedAtPath": "date_gmt",
+        "publishedAtUtcOffset": "+00:00",
+        "externalIdPath": "id",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        }
+      },
+      "signal_group_id": "insurance-publisher:revistaapolice.com.br"
+    },
+    {
+      "id": "archive-wp-gu-com-pl-post",
+      "name": "波兰｜Gazeta Ubezpieczeniowa：KNF保险监管报道：Gazeta Ubezpieczeniowa：KNF保险监管报道",
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "json_list",
+      "config": {
+        "url": "https://gu.com.pl/wp-json/wp/v2/posts?per_page=5&page=1&order=desc&orderby=date",
+        "mode": "json_api",
+        "titlePaths": [
+          "title.rendered"
+        ],
+        "urlTemplate": "{raw:link}",
+        "summaryPaths": [
+          "content.rendered"
+        ],
+        "summaryIsBody": true,
+        "publishedAtPath": "date_gmt",
+        "publishedAtUtcOffset": "+00:00",
+        "externalIdPath": "id",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        }
+      },
+      "signal_group_id": "insurance-publisher:gu.com.pl"
+    },
+    {
+      "id": "archive-wp-fscjamaica-org-post",
+      "name": "牙买加 FSC",
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "json_list",
+      "config": {
+        "url": "https://www.fscjamaica.org/wp-json/wp/v2/posts?per_page=5&page=1&order=desc&orderby=date",
+        "mode": "json_api",
+        "titlePaths": [
+          "title.rendered"
+        ],
+        "urlTemplate": "{raw:link}",
+        "summaryPaths": [
+          "content.rendered"
+        ],
+        "summaryIsBody": true,
+        "publishedAtPath": "date_gmt",
+        "publishedAtUtcOffset": "+00:00",
+        "externalIdPath": "id",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        }
+      },
+      "signal_group_id": "insurance-publisher:fscjamaica.org"
+    },
+    {
+      "id": "archive-wp-ami-mr-post",
+      "name": "毛里塔尼亚｜Agence mauritanienne d'information：保险行业全面改革官方消息",
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "json_list",
+      "config": {
+        "url": "https://ami.mr/fr/wp-json/wp/v2/posts?per_page=5&page=1&order=desc&orderby=date",
+        "mode": "json_api",
+        "titlePaths": [
+          "title.rendered"
+        ],
+        "urlTemplate": "{raw:link}",
+        "summaryPaths": [
+          "content.rendered"
+        ],
+        "summaryIsBody": true,
+        "publishedAtPath": "date_gmt",
+        "publishedAtUtcOffset": "+00:00",
+        "externalIdPath": "id",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        }
+      },
+      "signal_group_id": "insurance-publisher:ami.mr"
+    },
+    {
+      "id": "archive-wp-cair-cb-org-press-release",
+      "name": "加勒比保险监管者协会 CAIR",
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "json_list",
+      "config": {
+        "url": "https://cair-cb.org/wp-json/wp/v2/press-release?per_page=5&page=1&order=desc&orderby=date",
+        "mode": "json_api",
+        "titlePaths": [
+          "title.rendered"
+        ],
+        "urlTemplate": "{raw:link}",
+        "summaryPaths": [
+          "content.rendered"
+        ],
+        "summaryIsBody": true,
+        "publishedAtPath": "date_gmt",
+        "publishedAtUtcOffset": "+00:00",
+        "externalIdPath": "id",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        }
+      },
+      "signal_group_id": "insurance-publisher:cair-cb.org"
+    },
+    {
+      "id": "archive-wp-ipec-co-zw-post",
+      "name": "津巴布韦 IPEC",
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "json_list",
+      "config": {
+        "url": "https://ipec.co.zw/wp-json/wp/v2/posts?per_page=5&page=1&order=desc&orderby=date",
+        "mode": "json_api",
+        "titlePaths": [
+          "title.rendered"
+        ],
+        "urlTemplate": "{raw:link}",
+        "summaryPaths": [
+          "content.rendered"
+        ],
+        "summaryIsBody": true,
+        "publishedAtPath": "date_gmt",
+        "publishedAtUtcOffset": "+00:00",
+        "externalIdPath": "id",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        }
+      },
+      "signal_group_id": "insurance-publisher:ipec.co.zw"
+    },
+    {
+      "id": "archive-wp-archgroup-com-post",
+      "name": "Arch Capital（百慕大/全球）",
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "json_list",
+      "config": {
+        "url": "https://www.archgroup.com/wp-json/wp/v2/posts?per_page=5&page=1&order=desc&orderby=date",
+        "mode": "json_api",
+        "titlePaths": [
+          "title.rendered"
+        ],
+        "urlTemplate": "{raw:link}",
+        "summaryPaths": [
+          "content.rendered"
+        ],
+        "summaryIsBody": true,
+        "publishedAtPath": "date_gmt",
+        "publishedAtUtcOffset": "+00:00",
+        "externalIdPath": "id",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        }
+      },
+      "signal_group_id": "insurance-publisher:archgroup.com"
+    },
+    {
+      "id": "archive-rss-businessdailyafrica-com",
+      "name": "Business Daily Africa（东非）",
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.businessdailyafrica.com/bd/rss.xml",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        }
+      },
+      "signal_group_id": "insurance-publisher:businessdailyafrica.com"
+    },
+    {
+      "id": "archive-rss-ilsole24ore-com",
+      "name": "Il Sole 24 Ore（意大利）",
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.ilsole24ore.com/rss/homepage.xml",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        }
+      },
+      "signal_group_id": "insurance-publisher:ilsole24ore.com"
+    },
+    {
+      "id": "archive-wp-qfcra-com-press_releases",
+      "name": "卡塔尔｜Qatar Financial Centre Regulatory Authority (QFCRA)：官方机构入口",
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "json_list",
+      "config": {
+        "url": "https://www.qfcra.com/wp-json/wp/v2/press_releases?per_page=5&page=1&order=desc&orderby=date",
+        "mode": "json_api",
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        },
+        "titlePaths": [
+          "title.rendered"
+        ],
+        "urlTemplate": "{raw:link}",
+        "summaryPaths": [],
+        "summaryIsBody": false,
+        "externalIdPath": "id",
+        "publishedAtPath": "date_gmt",
+        "sortByPublishedAt": true,
+        "publishedAtUtcOffset": "+00:00"
+      },
+      "signal_group_id": "insurance-publisher:qfcra.com"
+    },
+    {
+      "id": "archive-rss-businessinsurance-com",
+      "name": "Business Insurance（美国/国际）",
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.businessinsurance.com/feed/",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        }
+      },
+      "signal_group_id": "insurance-publisher:businessinsurance.com"
+    },
+    {
+      "id": "archive-rss-commercialriskonline-com",
+      "name": "Commercial Risk（商业险/风险管理）",
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "enabled": true,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.commercialriskonline.com/feed/",
+        "sortByPublishedAt": true,
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        }
+      },
+      "signal_group_id": "insurance-publisher:commercialriskonline.com"
+    },
+    {
+      "id": "catalog-list-0365",
+      "name": "德国 BaFin",
+      "kind": "web_list",
+      "tier": "T1",
+      "enabled": true,
+      "participation_mode": "editorial",
+      "interval_minutes": 240,
+      "config": {
+        "url": "https://www.bafin.de/EN/die-bafin/die-bafin_node_en",
+        "itemSelector": "a[href]",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "publishedAtUtcOffset": "+01:00",
+        "detail": {
+          "maxFetches": 6
+        },
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        },
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "allowUrlPrefixes": [
+          "https://www.bafin.de/SharedDocs/Veroeffentlichungen/EN/Meldung/",
+          "https://www.bafin.de/SharedDocs/Veroeffentlichungen/EN/Pressemitteilung/"
+        ]
+      },
       "site_fulltext": false,
       "syndicate_fulltext": false
     },
     {
-      "id": "rss-latent-space",
-      "name": "Latent Space",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://www.latent.space/feed",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T2",
-      "owner_entity_id": null,
+      "id": "catalog-list-0369",
+      "name": "比利时 FSMA",
+      "kind": "web_list",
+      "tier": "T1",
+      "enabled": true,
       "participation_mode": "editorial",
-      "interval_minutes": 180,
-      "tags": [
-        "个人"
-      ],
+      "interval_minutes": 240,
+      "config": {
+        "url": "https://www.fsma.be/en",
+        "itemSelector": "a[href]",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "publishedAtUtcOffset": "+01:00",
+        "detail": {
+          "maxFetches": 6
+        },
+        "_aihot": {
+          "initialBackfillLimit": 100,
+          "initialBackfillMonths": 24
+        },
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "allowUrlPrefixes": [
+          "https://www.fsma.be/en/news/"
+        ]
+      },
       "site_fulltext": false,
       "syndicate_fulltext": false
     }

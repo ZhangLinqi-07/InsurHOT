@@ -37,8 +37,8 @@ const api=fakeApi((url,res,req)=>{
   if(p==='/api/site/meta'||p==='/api/site/track')return;
   hits.push(req.url!);
   if(p===failing){res.statusCode=503;return {code:'unavailable'};}
-  if(p==='/api/site/search/suggestions')return {topics:[{slug:'openai',name:'OpenAI',group:'company'}],hot:[{rank:1,title:'建议版本 '+suggestionsVersion,to:'/story/fixture'}]};
-  if(p==='/api/site/topics')return {groups:[],topics:[{slug:'openai',name:'OpenAI',group:'company',definition:'Fixture',brand:null,total:0,recent:0,indexable:false,latest:null}]};
+  if(p==='/api/site/search/suggestions')return {topics:[{slug:'qbe',name:'QBE',group:'company'}],hot:[{rank:1,title:'建议版本 '+suggestionsVersion,to:'/story/fixture'}]};
+  if(p==='/api/site/topics')return {groups:[],topics:[{slug:'qbe',name:'QBE',group:'company',definition:'Fixture',brand:null,total:0,recent:0,indexable:false,latest:null}]};
   if(p==='/api/site/hot')return {computedAt:at,windowHours:48,entries:[{rank:1,story:{publicId:'fixture',title:'建议版本 '+suggestionsVersion},heat:10,trend:'flat',trendPct:0,badges:[],participantCount:0,sourceCount:0,sourceNames:[],participants:[],spark:[],summary:null,latest:null,cover:null}]};
   if(p==='/api/site/timeline'){
     res.setHeader('X-Accel-Expires','@'+(Math.floor(Date.now()/1000)+ttl));
@@ -92,15 +92,15 @@ test('SSR list and visited query variants return offline without another read',a
     await expect(page.getByRole('link',{name:'性能检查文章',exact:true})).toBeVisible({timeout:1500});
     await context.setOffline(false);
     await page.getByRole('button',{name:/^筛选/}).click();
-    await page.getByRole('link',{name:'模型',exact:true}).click();
-    await expect(page.getByRole('link',{name:'分类 ai-models',exact:true})).toBeVisible();
+    await page.getByRole('link',{name:'监管',exact:true}).click();
+    await expect(page.getByRole('link',{name:'分类 regulation',exact:true})).toBeVisible();
     await page.getByRole('button',{name:/^筛选/}).click();
     await page.getByRole('link',{name:'产品',exact:true}).click();
-    await expect(page.getByRole('link',{name:'分类 ai-products',exact:true})).toBeVisible();
+    await expect(page.getByRole('link',{name:'分类 products',exact:true})).toBeVisible();
     await context.setOffline(true);
     await page.goBack();
-    await expect(page.getByRole('link',{name:'分类 ai-models',exact:true})).toBeVisible({timeout:1500});
-    await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href',origin+'/?category=ai-models');
+    await expect(page.getByRole('link',{name:'分类 regulation',exact:true})).toBeVisible({timeout:1500});
+    await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href',origin+'/?category=regulation');
   }finally{await context.close();}
 });
 
@@ -153,17 +153,17 @@ test('a press on a selected link preserves visited data and the next revisit sta
   page.on('request',request=>{if(request.url().includes('.data'))requests.push(request.url());});
   try{
     await visit(page,origin+'/');
-    await page.getByRole('link',{name:'模型',exact:true}).click();
-    await expect(page.getByRole('link',{name:'分类 ai-models',exact:true})).toBeVisible();
-    await page.getByRole('link',{name:'模型',exact:true}).dispatchEvent('pointerdown',{button:0,pointerType:'mouse',isPrimary:true});
+    await page.getByRole('link',{name:'监管',exact:true}).click();
+    await expect(page.getByRole('link',{name:'分类 regulation',exact:true})).toBeVisible();
+    await page.getByRole('link',{name:'监管',exact:true}).dispatchEvent('pointerdown',{button:0,pointerType:'mouse',isPrimary:true});
     await page.waitForTimeout(150);
     await page.getByRole('link',{name:'产品',exact:true}).click();
-    await expect(page.getByRole('link',{name:'分类 ai-products',exact:true})).toBeVisible();
+    await expect(page.getByRole('link',{name:'分类 products',exact:true})).toBeVisible();
     await page.getByRole('link',{name:'产品',exact:true}).dispatchEvent('pointerdown',{button:0,pointerType:'mouse',isPrimary:true});
     await page.waitForTimeout(150);
     const before=requests.length;
-    await page.getByRole('link',{name:'模型',exact:true}).click();
-    await expect(page.getByRole('link',{name:'分类 ai-models',exact:true})).toBeVisible();
+    await page.getByRole('link',{name:'监管',exact:true}).click();
+    await expect(page.getByRole('link',{name:'分类 regulation',exact:true})).toBeVisible();
     assert.deepEqual(requests.slice(before),[],'neither prefetch nor navigation may evict and reload a still-valid visited page');
   }finally{await context.close();}
 });

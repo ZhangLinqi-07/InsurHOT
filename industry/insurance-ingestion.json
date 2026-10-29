@@ -1,0 +1,1641 @@
+{
+  "schemaVersion": 1,
+  "from": "2024-10-28T16:00:00.000Z",
+  "timeZone": "Asia/Shanghai",
+  "collectionOnly": true,
+  "plans": [
+    {
+      "sourceId": "nfra-928",
+      "pagination": {
+        "kind": "query",
+        "key": "pageIndex",
+        "first": 1
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": true
+    },
+    {
+      "sourceId": "nfra-917",
+      "pagination": {
+        "kind": "query",
+        "key": "pageIndex",
+        "first": 1
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": true
+    },
+    {
+      "sourceId": "nfra-915",
+      "pagination": {
+        "kind": "query",
+        "key": "pageIndex",
+        "first": 1
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": true
+    },
+    {
+      "sourceId": "nfra-954",
+      "pagination": {
+        "kind": "query",
+        "key": "pageIndex",
+        "first": 1
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": true
+    },
+    {
+      "sourceId": "nfra-916",
+      "pagination": {
+        "kind": "query",
+        "key": "pageIndex",
+        "first": 1
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": true
+    },
+    {
+      "sourceId": "nfra-951",
+      "pagination": {
+        "kind": "query",
+        "key": "pageIndex",
+        "first": 1
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": true
+    },
+    {
+      "sourceId": "nfra-925",
+      "pagination": {
+        "kind": "query",
+        "key": "pageIndex",
+        "first": 1
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": true
+    },
+    {
+      "sourceId": "nfra-919",
+      "pagination": {
+        "kind": "query",
+        "key": "pageIndex",
+        "first": 1
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": true
+    },
+    {
+      "sourceId": "caa-10",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "caa-4",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "sina-56757",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "sina-56850",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "sina-56854",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "sina-56852",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "gov-policy",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "eastmoney-insurance",
+      "pagination": {
+        "kind": "query",
+        "key": "page_index",
+        "first": 1
+      },
+      "evidence": ".data/insurance-ingestion/extended-checks.json",
+      "coverage": "Insurance news column 214 with verified snake-case page_index pagination.",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=214&req_trace=insurhot&page_index=1&page_size=50",
+          "mode": "json_api",
+          "itemsPath": "data.list",
+          "titlePaths": [
+            "title"
+          ],
+          "urlTemplate": "{raw:uniqueUrl}",
+          "summaryPaths": [
+            "summary"
+          ],
+          "publishedAtPath": "showTime",
+          "publishedAtUtcOffset": "+08:00",
+          "externalIdPath": "code",
+          "_aihot": {
+            "initialBackfillLimit": 3,
+            "initialBackfillMonths": 12
+          }
+        }
+      },
+      "descending": true
+    },
+    {
+      "sourceId": "rss-geneva",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "rss-insurance-journal",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "rss-carrier-management",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "rss-srpska-azors",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://azors.rs.ba/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "rss-afsa-aifc",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://afsa.aifc.kz/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "rss-palestine-pcma",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://www.pcma.ps/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "rss-montenegro-ano",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://ano.me/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "rss-uganda-ira",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://ira.go.ug/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "rss-nigeria-naicom",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://naicom.gov.ng/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "rss-namibia-namfisa",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://www.namfisa.com.na/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "rss-botswana-nbfira",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "rss-bahamas-icb",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://www.icb.gov.bs/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "rss-reinsurance-news",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://www.reinsurancene.ws/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "pingan-news",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "picc-news",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only."
+    },
+    {
+      "sourceId": "chinare-news",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "chinalife-news",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "rss-nz-icnz",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "rss-southafrica-saia",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "rss-honduras-cnbs",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "rss-poland-piu",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://piu.org.pl/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "rss-morocco-fma",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://fma.org.ma/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "rss-trinidad-cbtt",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://www.central-bank.org.tt/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "rss-cima-afrique",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://cima-afrique.org/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "rss-apra",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "pbc-news",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "shie-notices",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "iachina-news",
+      "pagination": {
+        "kind": "query",
+        "key": "startrecord",
+        "first": 1,
+        "step": 7,
+        "companions": {
+          "endrecord": 7
+        }
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": true
+    },
+    {
+      "sourceId": "iachina-notices",
+      "pagination": {
+        "kind": "query",
+        "key": "startrecord",
+        "first": 1,
+        "step": 7,
+        "companions": {
+          "endrecord": 7
+        }
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": true
+    },
+    {
+      "sourceId": "isc-news",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "jrj-insurance",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "bbt-insurance",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "cisf-news",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "cpic-news",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "eeo-insurance",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "cbimc-commentary",
+      "pagination": {
+        "kind": "json-query",
+        "key": "data",
+        "pageKey": "page",
+        "first": 1
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": false
+    },
+    {
+      "sourceId": "cbimc-insurance",
+      "pagination": {
+        "kind": "json-query",
+        "key": "data",
+        "pageKey": "page",
+        "first": 1
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": false
+    },
+    {
+      "sourceId": "cbimc-insurance-news",
+      "pagination": {
+        "kind": "json-query",
+        "key": "data",
+        "pageKey": "page",
+        "first": 1
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": true
+    },
+    {
+      "sourceId": "cbimc-insurance-opinion",
+      "pagination": {
+        "kind": "json-query",
+        "key": "data",
+        "pageKey": "page",
+        "first": 1
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": true
+    },
+    {
+      "sourceId": "rss-finma-news",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "rss-kyrgyzstan-fsa-native",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://fsa.gov.kg/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "rss-norway-fsa",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "rss-boe-pra",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "osfi-news",
+      "pagination": {
+        "kind": "query",
+        "key": "page",
+        "first": 0
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": true
+    },
+    {
+      "sourceId": "iais-latest-news",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "finland-fsa-press",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "iom-fsa-news",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "eiopa-news",
+      "pagination": {
+        "kind": "query",
+        "key": "page",
+        "first": 0
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "This configured editorial channel's verified pagination only.",
+      "descending": true
+    },
+    {
+      "sourceId": "archive-wp-aso-mk-post",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://aso.mk/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "archive-wp-a-zn-si-post",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://www.a-zn.si/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "archive-wp-100seguro-com-ar-post",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://100seguro.com.ar/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "archive-wp-revistaapolice-com-br-post",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://revistaapolice.com.br/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "archive-wp-gu-com-pl-post",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://gu.com.pl/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "archive-wp-fscjamaica-org-post",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://www.fscjamaica.org/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "archive-wp-ami-mr-post",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://ami.mr/fr/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "archive-wp-cair-cb-org-press-release",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://cair-cb.org/wp-json/wp/v2/press-release?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "press-release public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "archive-wp-ipec-co-zw-post",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://ipec.co.zw/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "archive-wp-archgroup-com-post",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://www.archgroup.com/wp-json/wp/v2/posts?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "post public REST archive. The site's other post types, directories and attachments are separate coverage."
+    },
+    {
+      "sourceId": "archive-rss-businessdailyafrica-com",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "archive-rss-ilsole24ore-com",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "archive-wp-qfcra-com-press_releases",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://www.qfcra.com/wp-json/wp/v2/press_releases?per_page=50&page=1&order=desc&orderby=date",
+          "mode": "json_api",
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [],
+          "summaryIsBody": false,
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00",
+          "externalIdPath": "id",
+          "sortByPublishedAt": true,
+          "_aihot": {
+            "initialBackfillLimit": 100,
+            "initialBackfillMonths": 24
+          }
+        }
+      },
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "descending": true,
+      "evidence": ".data/insurance-ingestion/discovery.json",
+      "coverage": "Verified public press-release title/date/link archive. REST content.rendered contains only a Cookie Notice; article bodies remain unconfirmed.",
+      "bodyAccess": "metadata-only"
+    },
+    {
+      "sourceId": "archive-rss-businessinsurance-com",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "archive-rss-commercialriskonline-com",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/pagination-checks.json",
+      "coverage": "Current listing only. A two-year archive has not been established."
+    },
+    {
+      "sourceId": "catalog-list-0365",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/list-discovery.json",
+      "coverage": "Articles linked from this public page, within verified editorial URL prefixes. Historical pagination remains unverified."
+    },
+    {
+      "sourceId": "catalog-list-0369",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": ".data/insurance-ingestion/list-discovery.json",
+      "coverage": "Articles linked from this public page, within verified editorial URL prefixes. Historical pagination remains unverified."
+    }
+  ],
+  "supplementalAssociations": [
+    {
+      "catalogIds": [
+        "insurance-source-0034"
+      ],
+      "sourceId": "rss-afsa-aifc",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/afsa-aifc-kz-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0008"
+      ],
+      "sourceId": "rss-srpska-azors",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/azors-rs-ba-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0047"
+      ],
+      "sourceId": "rss-montenegro-ano",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/ano-me-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0050"
+      ],
+      "sourceId": "rss-palestine-pcma",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/pcma-ps-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0058"
+      ],
+      "sourceId": "archive-wp-aso-mk-post",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/aso-mk-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0064"
+      ],
+      "sourceId": "archive-wp-a-zn-si-post",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/a-zn-si-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0132"
+      ],
+      "sourceId": "rss-kyrgyzstan-fsa-native",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/fsa-gov-kg-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0168"
+      ],
+      "sourceId": "rss-morocco-fma",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/fma-org-ma-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0166"
+      ],
+      "sourceId": "rss-poland-piu",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/piu-org-pl-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0291"
+      ],
+      "sourceId": "archive-wp-100seguro-com-ar-post",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/100seguro-com-ar-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0290"
+      ],
+      "sourceId": "archive-wp-revistaapolice-com-br-post",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/revistaapolice-com-br-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0287"
+      ],
+      "sourceId": "archive-wp-gu-com-pl-post",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/gu-com-pl-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0333"
+      ],
+      "sourceId": "rss-bahamas-icb",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/icb-gov-bs-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0335"
+      ],
+      "sourceId": "archive-wp-fscjamaica-org-post",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/fscjamaica-org-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0306"
+      ],
+      "sourceId": "archive-wp-ami-mr-post",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/ami-mr-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0340",
+        "insurance-source-0397"
+      ],
+      "sourceId": "archive-wp-cair-cb-org-press-release",
+      "scope": "press-release public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/cair-cb-org-press-release.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0336"
+      ],
+      "sourceId": "rss-trinidad-cbtt",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/central-bank-org-tt-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0346"
+      ],
+      "sourceId": "rss-uganda-ira",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/ira-go-ug-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0351"
+      ],
+      "sourceId": "archive-wp-ipec-co-zw-post",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/ipec-co-zw-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0343"
+      ],
+      "sourceId": "rss-nigeria-naicom",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/naicom-gov-ng-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0349"
+      ],
+      "sourceId": "rss-namibia-namfisa",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/namfisa-com-na-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0417"
+      ],
+      "sourceId": "archive-wp-archgroup-com-post",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/archgroup-com-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0458"
+      ],
+      "sourceId": "rss-reinsurance-news",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/reinsurancene-ws-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0355"
+      ],
+      "sourceId": "rss-cima-afrique",
+      "scope": "post public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/cima-afrique-org-post.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0442"
+      ],
+      "sourceId": "archive-rss-businessdailyafrica-com",
+      "scope": "Declared feed only; historical coverage not yet established",
+      "relation": "publisher-news-channel-only"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0449"
+      ],
+      "sourceId": "archive-rss-ilsole24ore-com",
+      "scope": "Declared feed only; historical coverage not yet established",
+      "relation": "publisher-news-channel-only"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0057"
+      ],
+      "sourceId": "archive-wp-qfcra-com-press_releases",
+      "scope": "press_releases public REST archive. The site's other post types, directories and attachments are separate coverage.",
+      "relation": "publisher-news-channel-only",
+      "evidence": ".data/insurance-ingestion/discovery/qfcra-com-press_releases.json"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0451"
+      ],
+      "sourceId": "archive-rss-businessinsurance-com",
+      "scope": "Declared feed only; historical coverage not yet established",
+      "relation": "publisher-news-channel-only"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0464"
+      ],
+      "sourceId": "archive-rss-commercialriskonline-com",
+      "scope": "Declared feed only; historical coverage not yet established",
+      "relation": "publisher-news-channel-only"
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0365"
+      ],
+      "sourceId": "catalog-list-0365",
+      "relation": "publisher-news-channel-only",
+      "scope": "Articles linked from this public page, within verified editorial URL prefixes. Historical pagination remains unverified."
+    },
+    {
+      "catalogIds": [
+        "insurance-source-0369"
+      ],
+      "sourceId": "catalog-list-0369",
+      "relation": "publisher-news-channel-only",
+      "scope": "Articles linked from this public page, within verified editorial URL prefixes. Historical pagination remains unverified."
+    }
+  ]
+}
