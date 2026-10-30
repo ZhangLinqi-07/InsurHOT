@@ -1,0 +1,26 @@
+{
+  "recordedAt": "2026-10-30T06:38:12.264Z",
+  "databaseRestore": "passed",
+  "archiveReassemblyAndHashes": "passed",
+  "credentialScan": "passed",
+  "typecheck": "passed",
+  "productionBuild": "passed",
+  "smoke": {
+    "passed": true,
+    "checks": 30
+  },
+  "backend": {
+    "tests": 985,
+    "passed": 958,
+    "failed": 26,
+    "cancelled": 1,
+    "status": "failed",
+    "note": "Several legacy model stubs do not produce the current auditable rubric event/axes schema. Full failures are retained in backend.log."
+  },
+  "browser": {
+    "status": "stopped-after-failures",
+    "note": "Two outline assertions failed. This optional web validation runner was stopped after the failures while concurrent UI work continued. The production build passed."
+  },
+  "sourcePatchReconstruction": "passed",
+  "logFormatting": "Line endings and trailing whitespace normalized in the separately saved validation logs."
+}

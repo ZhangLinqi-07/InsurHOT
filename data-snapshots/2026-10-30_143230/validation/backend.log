@@ -1,0 +1,1808 @@
+
+> test
+> node --test-global-setup=tests/databases.ts --import ./tests/databases.ts --test --test-concurrency=6 --test-timeout=120000 "tests/*.test.ts" "modules/*/tests/*.test.ts"
+
+✔ the two-year window includes the Beijing starting day and rejects unknown and future publication dates (3.565866ms)
+✔ pagination preserves the live cursor and all unrelated channel parameters (2.031314ms)
+✔ mixed or unknown dates and repeated pages cannot claim a complete archive (0.631676ms)
+✔ a failed page resumes in place, deduplicates material, queues without model calls, and leaves the live cursor intact (420.22647ms)
+✔ article metadata reads are bounded and continue within a page without a broken link stranding later items (388.045937ms)
+✔ a metadata-only WordPress route never promotes its cookie notice to confirmed article text (46.611105ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ one untitled WordPress entry is retained as a coverage gap while other pages continue (59.79348ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":22,"count":0,"jobs":[]}
+✔ the collection reader exposes current relevance and original excerpts without publishing unreviewed news or leaking full text (390.028921ms)
+✔ collection search, source filters and numeric pages agree on the selected results (31.71475ms)
+✔ source coverage reports channels separately from inventory entries and strips credentials from links (12.963934ms)
+✔ the library HTTP endpoint rejects malformed filters and performs only reads (546.025782ms)
+✔ a recorded preview limitation appears for review without rewriting the original model label (49.359467ms)
+✔ current screenings enter the ordinary pool, search and details without analyses, scores or paid requests, and revisions revoke admission (2541.299633ms)
+✔ radar uses Beijing publication dates, public scope and source excerpts without exposing body or internal tags (49.967004ms)
+✔ radar discloses bounded coverage and accepts only supported HTTP date windows (358.322829ms)
+✔ NFRA bodies require a matching document and substantive text (57.129977ms)
+✔ NFRA enrichment only accepts the public canonical article entrance (0.998634ms)
+✔ a failed NFRA body advances the database rotation to unattempted articles (105.266417ms)
+✔ NFRA uses the known JSON article body for short notices, rejects corrupt text and footer-only extraction (4.258106ms)
+✔ relevance-only screening completes its receipt without scoring or publication when no publication policy is installed (259.782211ms)
+✔ an installed publication policy publishes a successful current screening in the same save without scoring (141.92473ms)
+✔ a failed model output stays in the fixed trial and does not trigger another paid attempt (59.667627ms)
+✔ concurrent source intake creates one source for the same feed (251.887995ms)
+✔ a source transaction rolled back at commit leaves no successful audit entry (406.323418ms)
+✔ content corrections, public projection and audit either commit together or remain retryable (462.768212ms)
+✔ repeating a completed command returns its job without resetting newer processing or a manual detach (312.39821ms)
+✔ a rejected SEO correction leaves both the decision and public indexing unchanged (283.612859ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":1,"count":0,"jobs":[]}
+✔ bad admin input is a client error and never starts processing (130.706582ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":46,"count":0,"jobs":[]}
+✔ releasing an unknown receipt of an analysis step puts the article back (301.350432ms)
+✔ a report grouped into a fact already sent to a group is not sent there again (201.725454ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ the content group gets first-party and near-first-party sources only (48.852764ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":14,"count":0,"jobs":[]}
+✔ the source list shows health and the failure reason, failing sources first (47.770251ms)
+✔ session binding migration keeps its established unique filename (4.471763ms)
+✔ session binding migration preserves an already-installed binding and legacy rows (163.267843ms)
+✔ effective password replacement revokes old cookies at actual read/write/check guards (384.236257ms)
+✔ password removal revokes existing sessions (51.149544ms)
+✔ password invalid-short config revokes existing sessions (22.736836ms)
+✔ unchanged sessions preserve CSRF, and neither the password nor the token is stored (62.712525ms)
+✔ Feishu original union or normalized email remains authorized under OR semantics (95.727552ms)
+✔ a coalesced older profile email cannot keep a newly verified identity authorized (34.215542ms)
+✔ new profile claims cannot replace the original verified session claims (23.7301ms)
+✔ password and Feishu sessions sharing admin@local retain independent authority (65.677679ms)
+✔ Feishu app ID revokes only federated sessions (44.115091ms)
+✔ Feishu missing ID revokes only federated sessions (45.122589ms)
+✔ Feishu missing secret revokes only federated sessions (65.287318ms)
+✔ Feishu app-secret-only rotation preserves same-app authorized sessions (26.99435ms)
+✔ session-secret rotation revokes both methods (63.356015ms)
+✔ session-secret removal revokes both methods (47.245895ms)
+✔ legacy unbound sessions fail closed and are deleted (21.427715ms)
+✔ malformed bindings and Feishu claims fail closed (294.154899ms)
+✔ expiry, unknown token, logout isolation and explicit development mode retain their guards (49.195307ms)
+✔ the session cookie is Secure only when the request itself is HTTPS, whatever SITE_URL says (54.292684ms)
+✔ Agent discovery uses the configured identity, address and categories (264.19149ms)
+✔ empty answers are explicit and fixed reports include their flash section (1.405567ms)
+✔ a new problem wakes the agent once; reminders, recoveries and follow-ups do not (473.357546ms)
+✔ an agent that refuses or cannot be reached does not hold up or repeat the owner's alert (68.766267ms)
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 网站停止收录新文章","lines":["影响：读者看不到新文章"]}
+✔ nothing is woken where no webhook is configured or outward actions are off (18.867126ms)
+✔ a check that fails after telling a problem wakes the agent only once the problem is recorded as told (78.688665ms)
+✔ the worker going down wakes the agent once, its recovery does not (49.169721ms)
+✔ a definite refusal remains visible and can be resumed without repeating the owner's alert (83.988273ms)
+✔ an unknown HTTP outcome is durable and never blindly creates a second paid run (26.851757ms)
+✔ a recorded alert resumes its missing handoff after a process interruption (18.0398ms)
+✔ an open incident from the old version is reconciled instead of waking a possible existing run twice (13.45611ms)
+✔ a new model refusal wakes separately while preserving the model incident (52.897351ms)
+✔ a new model refusal wakes separately while preserving the legacy service incident (61.737105ms)
+✔ a switched-away limit becomes a first alert if its model is selected again (84.637828ms)
+✔ upgrade keeps a later model already covered by a legacy incident (10 minutes old) (138.933696ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ upgrade keeps a later model already covered by a legacy incident (120 minutes old) (62.799707ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":18,"count":0,"jobs":[]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 新内容卡住了，进不了网站","lines":["影响：11 篇积压文章仍在等待处理，精选和热点会缺内容","会自己好吗：排队中的文章会继续处理，仍需核实是否完成","你需要：转给 AI 处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 2026-10-30 的日报还没生成","lines":["影响：读者看不到 2026-10-30 的日报","会自己好吗：尚未补齐；需查看运行记录确认是否需要人工补做","你需要：尽快发起一次维护处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 仍未恢复：新内容卡住了，进不了网站（已持续 1 小时 1 分钟）","lines":["影响：11 篇积压文章仍在等待处理，精选和热点会缺内容","会自己好吗：排队中的文章会继续处理，仍需核实是否完成","你需要：转给 AI 处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 仍未恢复：2026-10-30 的日报还没生成（已持续 1 小时 1 分钟）","lines":["影响：读者看不到 2026-10-30 的日报","会自己好吗：尚未补齐；需查看运行记录确认是否需要人工补做","你需要：尽快发起一次维护处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"✅ 已恢复：新内容卡住了，进不了网站","lines":["持续 1 小时 10 分钟（10月30日 14:33 起）"]}
+✔ an outage is announced once, repeated hourly, and closed with one recovery (648.597321ms)
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 新内容卡住了，进不了网站","lines":["影响：11 篇积压文章仍在等待处理，精选和热点会缺内容","会自己好吗：排队中的文章会继续处理，仍需核实是否完成","你需要：转给 AI 处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 仍未恢复：新内容卡住了，进不了网站（已持续 2 小时）","lines":["影响：11 篇处理失败的文章仍未补齐，精选和热点会缺内容","会自己好吗：已失败的文章需要恢复处理；服务恢复不代表积压已经补齐","你需要：转给 AI 处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 仍未恢复：2026-10-30 的日报还没生成（已持续 2 小时 1 分钟）","lines":["影响：读者看不到 2026-10-30 的日报","会自己好吗：尚未补齐；需查看运行记录确认是否需要人工补做","你需要：尽快发起一次维护处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"✅ 已恢复：新内容卡住了，进不了网站","lines":["持续 2 小时 2 分钟（10月30日 14:33 起）"]}
+✔ content incidents survive restarts, pauses, aging failures and partial recovery (228.003906ms)
+✔ refusal and spent-budget alerts name the steps currently routed to the provider (85.377828ms)
+✔ backup failures still escalate after fifty hours without a success (36.685957ms)
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 有精选新闻卡在去重确认，暂未发布（已持续 20 分钟）","lines":["影响：1 条已达到精选条件的新闻仍未完成去重确认，还没进入精选，读者可能晚看到这些更新","会自己好吗：1 条需要人工处理后才能恢复","你需要：转给 AI 处理；核对计费，或在已有恢复授权内如实记录计费未知后放行"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"✅ 已恢复：有精选新闻卡在去重确认，暂未发布","lines":["持续 22 分钟（10月30日 14:13 起）"]}
+✔ selected identity delays show reader impact, recovery state and the affected articles (434.699612ms)
+✔ the ops digest does not describe unknown paid work as harmless or already retried (12.338019ms)
+✔ provider alerts use the same 429 spending classification as paid requests (173.68704ms)
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🟠 飞书内容群有推送没发出去","lines":["影响：1 条通知尚未确认送达内容群","会自己好吗：不会自动重发","你需要：转给 AI 处理；如果推送机器人被移出了群，需要你把它加回去"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🟠 仍未恢复：飞书内容群有推送没发出去（已持续 25 小时）","lines":["影响：1 条通知尚未确认送达内容群","会自己好吗：不会自动重发","你需要：转给 AI 处理；如果推送机器人被移出了群，需要你把它加回去"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"✅ 已恢复：飞书内容群有推送没发出去","lines":["持续 25 小时 2 分钟（10月30日 14:33 起）"]}
+✔ failed deliveries remain open after a day and through resend until confirmed (78.127636ms)
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🟠 DeepSeek 拒绝调用，需要核对账号或额度","lines":["影响：标题摘要、事件归组、事件综述、周报月报的总述与主题、精选全文翻译可能受影响","会自己好吗：需先恢复访问，再确认失败任务已接续","你需要：去DeepSeek 开放平台看余额、套餐和消费上限，恢复访问后核实一次成功调用，并从后台接续失败任务；都正常的话，发起一次维护查原因"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"✅ 已恢复：DeepSeek 拒绝调用，需要核对账号或额度","lines":["持续 2 小时 1 分钟（10月30日 14:33 起）"]}
+✔ a refused provider stays open without a newer successful call (43.415123ms)
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🟠 飞书内容群有推送没发出去","lines":["影响：1 条通知尚未确认送达内容群","会自己好吗：不会自动重发","你需要：转给 AI 处理；如果推送机器人被移出了群，需要你把它加回去"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"已结束跟进：飞书内容群有推送没发出去","lines":["1 条旧通知已决定不再补发，未确认送达"]}
+✔ a deliberately dropped delivery closes without claiming successful delivery (23.674525ms)
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🟠 阿里云百炼 拒绝调用，需要核对账号或额度","lines":["影响：精选预筛可能受影响","会自己好吗：需先恢复访问，再确认失败任务已接续","你需要：去阿里云百炼控制台看余额、套餐和消费上限，恢复访问后核实一次成功调用，并从后台接续失败任务；都正常的话，发起一次维护查原因"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"✅ 已恢复：阿里云百炼 拒绝调用，需要核对账号或额度","lines":["持续 2 小时 2 分钟（10月30日 14:33 起）"]}
+✔ provider recovery follows the refused model and current routing (78.175679ms)
+✔ provider impact includes the same evaluated fallback as modelRoute (1.523277ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ a refusal first seen after switching models survives the first-hour window (34.830768ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":14,"count":0,"jobs":[]}
+✖ a late successful analysis preserves newer input awaiting processing (319.248358ms)
+✖ a failed analysis commit rolls back its judgement and receipt completion; retry reuses the saved responses (102.047155ms)
+✔ SIGKILL after the provider accepted a request leaves an unknown outcome, released only once (8429.621789ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✖ SIGKILL after responses are saved but before the business commit reuses all receipts on restart (15084.926362ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":18,"count":0,"jobs":[]}
+✔ title-only articles wait for evidence without a model call (no prefilter label could count) (2.420938ms)
+▶ real body, feed excerpt and quoted text still receive both scores and writing
+  ✖ {"bodyText":"来源确认模型发布。"} (230.020979ms)
+  ✖ {"excerpt":"来源确认模型发布。"} (110.498409ms)
+  ✖ {"xPost":{"text":"支持","quoted":{"text":"来源确认模型发布。"}}} (50.479468ms)
+✖ real body, feed excerpt and quoted text still receive both scores and writing (400.253964ms)
+▶ an empty or link-only original post keeps scoring and verbatim publication
+  ✖ media-only (52.021749ms)
+  ✖ https://example.org/launch (44.694805ms)
+✖ an empty or link-only original post keeps scoring and verbatim publication (98.502234ms)
+✖ a later material revision can be scored after the title-only revision waits (40.824049ms)
+✔ an unresolved current identity does not start a separate writing request (179.546566ms)
+✖ SIGTERM during the final paid writing call still commits the complete analysis and publication (120027.481301ms)
+✖ SIGTERM during successful first score drains slower structure and leaves a retryable job (1408.749573ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✖ SIGTERM during failed first score drains slower structure and leaves a retryable job (1995.948564ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✖ a selected item: prefilter, two scores, the content understanding and the structure (163.141068ms)
+✖ a word the site keeps from readers goes back once to be changed; copy without one is not sent (98.224392ms)
+✖ the first copy stands when the provider refuses the mend, the mend changes a number or leaves as many such words (80.15241ms)
+✔ structure retains grounded conditions, rejects invented or unseen quotes, and does not infer missing scope (25.191642ms)
+✖ a near-selected item is written like a selected one; below the floor it is translated (71.18439ms)
+✖ the prefilter's BLOCK stops everything; UNKNOWN with material goes on like PASS (144.913039ms)
+✖ a feed summary alone: the article page is fetched first, then the whole article is judged (290.944656ms)
+✖ a short post in Chinese is its own copy; a content-filter refusal is translated instead (128.181753ms)
+✔ guards: a company the input does not name is not written in; long summaries are cut at sentences (9.080457ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✖ analysing the same revision again reuses every paid answer (66.663673ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":16,"count":0,"jobs":[]}
+✔ API startup is quiet and an unexpected error retains the request, stack and response contract (2114.195854ms)
+✔ the web reaches the backend only over HTTP (35.769873ms)
+✔ packages never import the apps, and nothing below the admin imports it (79.420991ms)
+✔ public routes read content only through the public read layer (3.822034ms)
+✔ the tables that carry a rule are written only by the code that owns it (22.043125ms)
+✔ the public scope and the composite rule are spelled once, in publication/scope.ts (17.414036ms)
+✔ every table and column is used by the code that reads and writes the database (119.122539ms)
+✔ every environment variable the code reads is listed in a template, and every listed one is read (157.687934ms)
+✔ Beijing time is converted only in contracts/time.ts (96.702274ms)
+✔ modules do not import other modules (2.046306ms)
+✔ corners use the radius scale (113.996829ms)
+✔ the clipboard is written only through lib/clipboard.ts (39.298545ms)
+✔ scripts read the reduced-motion preference only through lib/motion.ts (22.714895ms)
+✔ pages are prefetched only through IntentLink (39.764039ms)
+✔ custom prompt blocks survive extraction and translation verbatim, without their controls (77.765439ms)
+✔ hidden prompt components remain hidden (30.157549ms)
+✔ comparison panels keep metric headings, model/value relationships and the source note (68.64694ms)
+✔ a source declares only widget rules extraction can run (1.137726ms)
+✔ a cold read that finds nothing yet does not stick: later reads see the first published ranking (52.318569ms)
+✔ a real paired restore opens a feedback screenshot when forwarding is disabled and uploads are absent (1464.693066ms)
+✔ both attachment roots restore nested paths and bytes, without caches or previous backups (402.934737ms)
+✔ missing/empty roots produce an extractable archive: neither (521.072707ms)
+✔ missing/empty roots produce an extractable archive: uploads+feedback-screenshots (580.128596ms)
+✔ an unreadable upload directory cannot become a successful empty backup (957.427911ms)
+✔ packing retries once and a successful retry preserves the screenshot (488.547625ms)
+✔ persistent packing failure still sends the database and reports incomplete backup (371.421511ms)
+✔ local retention keeps three dump/archive pairs without deleting source attachments (2129.568012ms)
+✔ a failed database dump keeps connection credentials out of argv and the reported error (272.115069ms)
+✔ worker stop drains a real pg_dump without terminating or restarting it (2020.286891ms)
+✔ worker stop drains a real tar without terminating or restarting it (2964.237072ms)
+✔ a real dump preserves libpq query parameter escaping (434.872305ms)
+✔ insurance reports omit the launch metric when the industry has no configured release kind (1.428321ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ category corrections revise every standard report atomically without selecting, rewriting or notifying (410.412625ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":23,"count":0,"jobs":[]}
+✔ publication metadata recovery keeps a confirmed body and only fills an unconfirmed body (505.202808ms)
+✔ an unmatchable translated layout stays intact, records a visible follow-up and does not stop its feed (781.104592ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":1,"count":0,"jobs":[]}
+✔ normal extraction resolves a failed presentation only when the same article's HTML actually changes (235.22095ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":64,"count":0,"jobs":[]}
+✔ the minute budget stops unsent details, retains the listing and recovers the tail on later runs (763.705555ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ shutdown during detail work escapes collection without recording source failures (57.037318ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":38,"count":0,"jobs":[]}
+✔ later listing runs fill missing detail fields left beyond the existing budget (635.651887ms)
+✔ a failed detail read stays observable and can recover on a later listing run (164.270685ms)
+✔ a page the site refuses is reported once and not read again; the entries behind it get the budget (624.313801ms)
+✔ successful detail pages without dates do not consume every later run's budget (293.603128ms)
+✔ a detail page larger than the response limit is read once up to the limit, without a cut-off body (5518.726889ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":1,"count":0,"jobs":[]}
+✔ recoverable errors at the front cannot consume every later detail budget (587.706386ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":15,"count":0,"jobs":[]}
+✔ detail enrichment shares material identity across duplicate cards and changing tracking parameters (715.438404ms)
+✔ html sections explicitly configured as posts retain distinct identities (104.312744ms)
+✔ markdown sections explicitly configured as posts retain distinct identities (95.533115ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ a podcast episode without a page links to its media file, keeps its guid's identity and is not sent to fetch a page (238.018891ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":16,"count":0,"jobs":[]}
+✔ the 61st entry of a known feed is stored before its validator answers 304 (1529.552987ms)
+✔ a regular JSON run keeps all 0 entries it was given (40.138544ms)
+✔ a regular JSON run keeps all 61 entries it was given (1004.97964ms)
+✔ a listing longer than a query's parameter limit is still deduplicated and its new tail stored (2478.148956ms)
+✔ with the first 60 known, the tail is still created and revised, and queued for processing once (1676.94246ms)
+✔ a web list of 61 entries loses none, newest first (838.332808ms)
+✔ a web list of 61 entries loses none, oldest first (697.324724ms)
+✔ the first import keeps its count and age limits; later runs take what was published since, and undated entries, before accepting 304 (1079.605592ms)
+✔ a listing repairs an existing old article without admitting a new old archive item (79.278654ms)
+✔ in the tail an alias of a known URL keeps the first record, and URL, category and noise filters still apply (1162.312024ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ a storage failure in the tail does not advance the feed's validator; the retry fills in without new revisions (1348.89947ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":18,"count":0,"jobs":[]}
+✔ a known real headline does not buy a new detail read merely because it is long and the listing says Read the Blog (254.044272ms)
+✔ a new CTA obtains its title and date from one existing detail rendering path, and does not reread on the next run (408.781444ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ an explicit authoritative title rule still replaces a known headline (108.291157ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":17,"count":0,"jobs":[]}
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ an X search longer than one run is read to the old watermark over the next runs (1460.679559ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":22,"count":0,"jobs":[]}
+✔ a previously unseen, undated tail cannot become selected news, heat, a report or a queued push (1892.036797ms)
+✔ an original source can supply a missing date without changing the text; discovery and explicit backfill are preserved (275.507029ms)
+✔ body extraction uses page publication metadata, never its updated time or a model release in the prose (155.361501ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ the second fetch of an initial catalogue still archives its undated remainder (105.662131ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":31,"count":0,"jobs":[]}
+✔ source tier and event ownership are separate; mentions of an entity do not establish authority (5.40205ms)
+✔ mentions cannot choose a timeline origin, anchor, representative, or a latest-progress link (321.618997ms)
+✔ item detail counts the same fact evidence as its expanded group (44.54652ms)
+✔ website and machine stories choose the same latest development and archive fallback (74.438235ms)
+✔ digest input excludes mentions, preserves scoped conditions, and ignores generated latest (204.884899ms)
+✔ rewriting a story digest uses the current reports and prompt and is audited (142.066669ms)
+✔ a cleared digest recovers from matching saved evidence without another model call (163.57557ms)
+✔ all story exits hide a digest whose title input changed (388.745545ms)
+✔ all story exits hide a digest whose summary input changed (172.464432ms)
+✔ all story exits hide a digest whose source input changed (137.869256ms)
+✔ all story exits hide a digest whose time input changed (128.392054ms)
+✔ all story exits hide a digest whose conditions input changed (114.233552ms)
+✔ all story exits hide a digest whose evidence input changed (116.080869ms)
+✔ all story exits hide a digest whose unlisted input changed (87.621214ms)
+✔ story text without no-hash never republishes unverifiable historical claims (184.639713ms)
+✔ story text without no-ids never republishes unverifiable historical claims (185.146161ms)
+✔ story text without no-version never republishes unverifiable historical claims (246.513405ms)
+✔ story text without different-text never republishes unverifiable historical claims (168.829553ms)
+✔ a story summary is visible only while a current public report supports those exact words (61.931098ms)
+✔ the hot board shows an event under its own title, linked to the fact most sources report (107.929851ms)
+✔ hot exits date latest progress by current event evidence after a withdrawal (99.061267ms)
+✔ an editor moves a report into the fact it repeats: no false development remains and the membership is the editor's (109.557102ms)
+✔ an in-flight digest cannot overwrite an editor revision or a merge, and its paid response remains reusable (78.443935ms)
+✔ an in-flight digest rejects changed report inputs after correction (88.898118ms)
+✔ an in-flight digest rejects changed report inputs after withdrawal (66.704648ms)
+✔ an in-flight digest rejects changed report inputs after detach (54.823039ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ an in-flight digest rejects changed report inputs after addition (58.772592ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":17,"count":0,"jobs":[]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 2026-10-06 的日报还没生成","lines":["影响：读者看不到 2026-10-06 的日报","会自己好吗：尚未补齐；需查看运行记录确认是否需要人工补做","你需要：尽快发起一次维护处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 仍未恢复：2026-10-06 的日报还没生成（已持续 10 小时 30 分钟）","lines":["影响：读者看不到 2026-10-06 的日报","会自己好吗：尚未补齐；需查看运行记录确认是否需要人工补做","你需要：尽快发起一次维护处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 2026-10-07 的日报还没生成","lines":["影响：读者看不到 2026-10-07 的日报","会自己好吗：尚未补齐；需查看运行记录确认是否需要人工补做","你需要：尽快发起一次维护处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"✅ 已恢复：2026-10-07 的日报还没生成","lines":["持续 10 分钟（10月7日 10:00 起）"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"✅ 已恢复：2026-10-06 的日报还没生成","lines":["持续 10 小时 50 分钟（10月6日 23:30 起）"]}
+✔ midnight preserves a missing edition; each date recovers only when its report exists (385.677585ms)
+✔ recent gap detection uses report activity and each edition's overdue time (38.885347ms)
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 2026-10-01 的日报还没生成","lines":["影响：读者看不到 2026-10-01 的日报","会自己好吗：尚未补齐；需查看运行记录确认是否需要人工补做","你需要：尽快发起一次维护处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 仍未恢复：2026-10-01 的日报还没生成（已持续 6 天）","lines":["影响：读者看不到 2026-10-01 的日报","会自己好吗：尚未补齐；需查看运行记录确认是否需要人工补做","你需要：尽快发起一次维护处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 2026-10-07 的日报还没生成","lines":["影响：读者看不到 2026-10-07 的日报","会自己好吗：尚未补齐；需查看运行记录确认是否需要人工补做","你需要：尽快发起一次维护处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"✅ 已恢复：2026-10-01 的日报还没生成","lines":["持续 6 天（10月1日 10:00 起）"]}
+✔ open dates outlive disabled generation and restarts keep checking missing editions (73.427568ms)
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 2026-10-01 的日报还没生成","lines":["影响：读者看不到 2026-10-01 的日报","会自己好吗：尚未补齐；需查看运行记录确认是否需要人工补做","你需要：尽快发起一次维护处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 2026-10-08 的日报还没生成","lines":["影响：读者看不到 2026-10-08 的日报","会自己好吗：尚未补齐；需查看运行记录确认是否需要人工补做","你需要：尽快发起一次维护处理"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"2026-10-01 的日报没能补出，停止提醒","lines":["读者看不到 2026-10-01 的日报；缺期从 10月1日 10:00 起，已超出七天的检查范围"]}
+{"level":"warn","msg":"alert (not sent: FEISHU_INTERNAL_ENABLED is off)","title":"🔴 仍未恢复：2026-10-08 的日报还没生成（已持续 2 小时）","lines":["影响：读者看不到 2026-10-08 的日报","会自己好吗：尚未补齐；需查看运行记录确认是否需要人工补做","你需要：尽快发起一次维护处理"]}
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ an edition still missing past the scan window is closed once instead of reminded forever (41.022698ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":15,"count":0,"jobs":[]}
+✔ a WeChat body that failed for a passing reason is fetched on the next check and analysed again (454.638658ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ the Dajiala key never follows a redirect to another origin; a same-origin redirect still works (63.045966ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✖ one model runs the prefilter, both scores, the writing and the structure (262.034717ms)
+✔ disabled pushes and missing credentials leave the retry available without sending (77.65001ms)
+✔ only an explicit webhook acknowledgement counts as delivered (55.515075ms)
+✔ a disabled target cannot receive a manual retry (11.535755ms)
+✔ a withdrawn selected item cannot be sent through manual recovery (32.69104ms)
+✔ a withdrawal while one target is sending stops the following mirror (31.572832ms)
+✔ a lost webhook reply still suppresses another report later grouped into the same fact (81.492163ms)
+✔ regrouping the same selected article cannot send it again under a new fact identity (126.124548ms)
+✔ enabling a group excludes earlier content and includes content arriving at its activation time (26.591612ms)
+✔ concurrent sibling claims reserve a target once, including the pending delivery (44.526178ms)
+✔ manual recovery requires an explicit valid outcome and a note before changing or sending a delivery (179.739872ms)
+{"level":50,"time":1793342639419,"pid":407987,"hostname":"LAPTOP-NJLK5DRP","reqId":"82569391-f00a-4ef9-984d-bd62d34875fb","method":"GET","path":"/sitemap.xml","err":{"type":"PostgresError","message":"PostgreSQL request failed","code":"42P01","stack":"    at ErrorResponse (file:///tmp/insurhot-validation/node_modules/postgres/src/connection.js:815:30)\n    at handle (file:///tmp/insurhot-validation/node_modules/postgres/src/connection.js:489:6)\n    at Socket.data (file:///tmp/insurhot-validation/node_modules/postgres/src/connection.js:324:9)\n    at Socket.emit (node:events:514:28)\n    at addChunk (node:internal/streams/readable:569:12)\n    at readableAddChunkPushByteMode (node:internal/streams/readable:520:3)\n    at Readable.push (node:internal/streams/readable:400:5)\n    at TCP.onStreamRead (node:internal/stream_base_commons:194:23)\n    at cachedError (file:///tmp/insurhot-validation/node_modules/postgres/src/query.js:170:23)\n    at new Query (file:///tmp/insurhot-validation/node_modules/postgres/src/query.js:36:24)\n    at sql (file:///tmp/insurhot-validation/node_modules/postgres/src/index.js:112:11)\n    at loadDiscoveryEntries (file:///tmp/insurhot-validation/packages/backend/src/publication/sitemap.ts:43:95)"},"msg":"sitemap unavailable"}
+✔ sitemap responses and rebuild failures preserve the original freshness deadline (207.522048ms)
+✔ llms and sitemap build from current topic scope rather than a cached directory (242.469308ms)
+✔ discovery dates follow page content and publication scope (77.212696ms)
+✔ dry runs leave changes pending, corrections and disappeared URLs are submitted again (137.569568ms)
+✔ batches over the service limit make progress even when every change has the same timestamp (648.723762ms)
+✔ failed requests and failed inventories never acknowledge a batch (75.319422ms)
+✔ egress resolves independently of local DNS and pins CONNECT while preserving Host (93.741075ms)
+✔ internal, mixed, reserved, empty and malformed DNS answers never reach the proxy (37.583702ms)
+✔ configured public host uses the direct transport without consulting proxy DNS (22.842395ms)
+✔ a redirect recalculates routing for its destination instead of inheriting the exception (52.348959ms)
+✔ the host list matches exact hostnames and explicit direct callers still work (18.009733ms)
+✔ direct host exceptions never grant permission to fetch a private address (0.962676ms)
+✔ a stored vector of 2 dimensions is computed again at the configured 4 (107.89701ms)
+✔ a stored vector of 8 dimensions is computed again at the configured 4 (27.558827ms)
+✔ a restarted process with other dimensions pays for a request of its own (669.695319ms)
+✔ the provider's own size keeps stored vectors, asks for no dimensions and never compares sizes (1022.816035ms)
+✔ unusable embedding responses retain the paid answer and never write partial vectors (255.875793ms)
+✔ out-of-order embeddings keep their inputs, and a rolled-back batch reuses its paid receipt (89.981623ms)
+✔ stored float32 coordinates retain their bits without asking the provider (39.068226ms)
+✔ unusable stored vectors still require a valid replacement (294.166128ms)
+✔ stored text hashes and model identities are still required for reuse (57.014935ms)
+✔ API error logs keep database codes and frames without row values or query parameters (2767.9056ms)
+✔ OAuth rejects failed exchanges without logging the upstream response text (1984.431058ms)
+✔ the queue's PostgreSQL driver also keeps values out of worker error logs (318.886378ms)
+✔ soft 404 and security interstitials cannot become native article bodies (245.870904ms)
+✔ a missing target stays unconfirmed and its paid response is reused, not bought again (275.575406ms)
+✔ Reader target failures and rendered HTML challenges reject before listing or detail parsing (113.876449ms)
+✔ a native soft error supplies neither listing items nor detail title, date or summary (17.197219ms)
+✔ a redirect to a sign-in form cannot become the body (37.35904ms)
+✔ a listing's sign-in links are not articles (14.120255ms)
+✔ explicitly insufficient original material cannot found an event or retain an automatic fact (341.677964ms)
+✔ a detach made while the model is deciding the report's fact stands (334.240701ms)
+✔ a report joins the fact the model names, and a revision keeps that membership without asking again (170.860679ms)
+✔ an explicit regroup drops the automatic membership and decides again (308.473403ms)
+✔ a development attaches to the story's earliest fact that still holds reports (161.663976ms)
+✔ a SAME_OCCURRENCE decision made before a merge is retried without writing into the retired story (248.556253ms)
+✔ a SAME_STORY decision made before a merge is retried without writing into the retired story (196.934399ms)
+✔ detaching a discussion post removes its signal even though it has no fact membership (90.409076ms)
+✔ a manual detach during a discussion judgement wins just as it does for an editorial report (94.386262ms)
+✔ fact dates survive candidate recall without a timezone shift and invalid dates stay unknown (257.83562ms)
+✔ a composite first, with no candidates, stays standalone and cannot become the later single report's root (123.699105ms)
+✔ a composite arriving after independent products only mentions them even when the model calls both the same occurrence (111.589301ms)
+✔ a newly identified composite loses automatic membership and cannot serve as an old root or redirect bridge (127.959616ms)
+✔ composite classification never deletes an editor's explicit membership (76.528748ms)
+✔ ROUNDUP answers describe a pair, not the single query's identity; grounded conditions reach its new fact (134.20947ms)
+✔ a story's root is the fact reported first, not the one with the lowest number (147.328234ms)
+✔ two stories a report ties together merge when both models see one story in their roots (207.608181ms)
+✔ editor-confirmed identities skip automatic comparison and merging, while explicit editor merges work (85.008333ms)
+✔ an editor identity correction during comparison prevents merging and is not reported as a successful merge (79.781064ms)
+✔ two stories stay apart when their roots are different events, whatever the report ties them with (221.317506ms)
+✔ a story whose reports all moved away keeps its address: it redirects to where the last one went (373.586181ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ stories that reports keep tying together without merging list each other as related (385.494702ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":21,"count":0,"jobs":[]}
+✔ a stale page successful response cannot change newer material (266.616177ms)
+✔ a stale page empty response cannot change newer material (66.264103ms)
+✔ a stale X Article successful response cannot change newer material (61.932982ms)
+✔ a stale X Article empty response cannot change newer material (28.135599ms)
+✔ overlapping page extractions and an unchanged admin retry create only one body revision (76.975646ms)
+✔ an audited presentation refresh previews and applies only the reviewed layout without reprocessing (149.486704ms)
+✔ an audited RSS presentation refresh uses the source body without substituting the web-page wording (47.591629ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":1,"count":0,"jobs":[]}
+✔ an obsolete extraction failure cannot penalize a newer complete report (182.348887ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":16,"count":0,"jobs":[]}
+✔ normal corrections and security reports retain code, changed contacts, pages and images (252.124296ms)
+✔ persistent repeat abuse is paused once, survives a new process, and never extends its expiry (564.252767ms)
+✔ slow changing feedback is paused for an hour; expiry restores it and other browser sources stay open (64.262324ms)
+✔ a rapid fourth report is not saved, repeated requests do not extend the pause, and a moderator can release immediately (59.221994ms)
+✔ daily cleanup removes expired temporary state and bans, preserves manual bans, and the admin hides expired entries (28.107262ms)
+✔ a confirmed email ban holds after changing network and browser, before image decoding (73.206993ms)
+✔ manual email moderation expires, is visible on every matching report, and can be released early (177.882047ms)
+✔ email moderation does not block shared domains, anonymous security reports, or turn forged contacts into automatic bans (214.878365ms)
+✔ the authenticated moderation API enforces the pause on multipart submissions for both hosts (1538.506072ms)
+✔ a 5 MiB multipart screenshot waits intact for forwarding (339.588816ms)
+✔ malformed multipart and screenshots above the existing backend limit are rejected (370.956958ms)
+✔ a picture sent without a type (some phones do) is taken by its bytes (52.670909ms)
+✔ erasing one feedback preserves an identical screenshot on another feedback (88.661456ms)
+✔ multipart retries reuse one screenshot and ID across both Host headers (81.176188ms)
+✔ a failed screenshot upload keeps the feedback waiting, and the sweep sends it with the image (85.481445ms)
+✔ a send that fails after the upload goes out with the same image next time (40.893186ms)
+✔ a screenshot that cannot be uploaded for a day is dropped, and the text still goes (41.844969ms)
+✔ a picture Feishu refuses is dropped at once, and the text still goes (30.136837ms)
+✔ screenshots left behind are removed after a week, whether or not forwarding ran; without the chat they stay (14.624174ms)
+✔ imported feedback that was never forwarded is not sent now (2.511764ms)
+✔ a browser retry creates one feedback and forwards one notification (34.185434ms)
+✔ grouping includes late evidence from both sides within its ten-thousand-character allowance (1.647299ms)
+✔ missing and invalid identity answers cannot silently assert unrelated (497.550872ms)
+✔ a single report with an incomplete answer stays unresolved and can recover (525.983765ms)
+✔ a roundup with an incomplete answer stays unresolved and can recover (213.847479ms)
+✔ receipt completion failure rolls back report grouping and recovery reuses the response (219.378329ms)
+✔ receipt completion failure rolls back roundup grouping and recovery reuses the response (181.700273ms)
+✔ receipt completion failure rolls back kept grouping and recovery reuses the response (138.924453ms)
+✔ primary timeout continues through the backup; two timeouts wait for release of the actual blocked job (407.908105ms)
+✔ a spent budget leaves a report's grouping pending and the repair sweep resumes it (183.402027ms)
+✔ a spent budget leaves a discussion post's grouping pending and the repair sweep resumes it (97.118734ms)
+✔ a provider outage on primary and backup leaves a report's grouping pending and the repair sweep resumes it (137.827661ms)
+✔ a provider outage on primary and backup leaves a discussion post's grouping pending and the repair sweep resumes it (134.861762ms)
+✔ the repair sweep leaves discussion posts that are history (17.486175ms)
+✔ a lost pending grouping job is repaired once, but a terminal failure waits for recovery (139.849558ms)
+✔ the repair sweep keeps history behind live work (183.943786ms)
+✔ an old grouping answer cannot settle a changed material (207.114754ms)
+✔ an old grouping failure cannot settle a changed material (155.61236ms)
+✔ revision withdraws the old selected projection in the same transaction (277.135006ms)
+✔ regroup withdraws the old selected projection in the same transaction (257.343863ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ per-run grouping judges preserve normal value gates and omitted hooks keep the provider (603.915916ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":19,"count":0,"jobs":[]}
+✔ whatever a browser hides by inline style stays out of the body (161.285447ms)
+✔ whatever a browser shows stays in the body (38.599917ms)
+✔ a hidden placeholder still lets its noscript image through (19.904467ms)
+✔ a figure's inline drawing becomes its own description, once for its wide and narrow versions (41.194985ms)
+✔ a drawing's title and description, or the text it is labelled by, stand in for it (48.743898ms)
+✔ a hidden version of a drawing does not hide the description of the version that is shown (18.015894ms)
+✔ a drawing's holder keeps its other images and text, and hidden words do not count as shown (38.983215ms)
+✔ drawings without a description, and drawings outside figures, are still left out (5.882295ms)
+✔ a description is text, never markup (18.313286ms)
+✔ faces are 精选组 sources by tier (T1, T1.5, T2), at most 6; 氛围组 only counts in +N (268.422383ms)
+✔ hot cards send a Unicode-safe excerpt while the event keeps its complete public text (234.916787ms)
+✔ hot covers follow current visibility and full-text rights within one ranking (156.301595ms)
+✔ editorial heat follows factual membership; signal-only evidence survives without a fact (162.802836ms)
+✔ withdrawn reports and changed roles are counted as they stand now (26.087281ms)
+✔ one company's channels are one participant; every community author is one (58.505254ms)
+✔ publisher attribution repairs participant identity without rewriting stored evidence (48.475209ms)
+✔ the change compares with the earlier time's full 48-hour window, without sources added since (66.506662ms)
+✔ hourly snapshots are idempotent and repair an incomplete hour after collection catches up (60.489393ms)
+✔ an hour taken again updates the cohort after a source changes role (22.239318ms)
+✔ cross-origin replay refuses sensitive header Authorization (53.341638ms)
+✔ cross-origin replay refuses sensitive header aUtHoRiZaTiOn (6.299945ms)
+✔ cross-origin replay refuses sensitive header Cookie (5.542278ms)
+✔ cross-origin replay refuses sensitive header Proxy-Authorization (6.69164ms)
+✔ cross-origin replay refuses sensitive header X-Unknown-Credential (2.669395ms)
+✔ body-bearing request stays origin-bound (JSON) (6.204974ms)
+✔ body-bearing request stays origin-bound (empty) (3.700186ms)
+✔ explicit query protection and late relative chain stay bound to the original origin (9.209218ms)
+✔ ordinary public headers allow a different-origin redirect (9.576029ms)
+✔ a caller's header replaces the default whatever the case of its name (6.370399ms)
+✔ same-origin 301 preserves expected POST semantics (12.591907ms)
+✔ same-origin 301 preserves expected PUT semantics (8.18153ms)
+✔ same-origin 301 preserves expected GET semantics (3.719962ms)
+✔ same-origin 301 preserves expected HEAD semantics (7.295273ms)
+✔ same-origin 302 preserves expected POST semantics (10.74117ms)
+✔ same-origin 302 preserves expected PUT semantics (9.376734ms)
+✔ same-origin 302 preserves expected GET semantics (6.8767ms)
+✔ same-origin 302 preserves expected HEAD semantics (6.65544ms)
+✔ same-origin 303 preserves expected POST semantics (6.022699ms)
+✔ same-origin 303 preserves expected PUT semantics (8.914439ms)
+✔ same-origin 303 preserves expected GET semantics (4.982036ms)
+✔ same-origin 303 preserves expected HEAD semantics (6.880705ms)
+✔ same-origin 307 preserves expected POST semantics (7.67125ms)
+✔ same-origin 307 preserves expected PUT semantics (5.883627ms)
+✔ same-origin 307 preserves expected GET semantics (8.249134ms)
+✔ same-origin 307 preserves expected HEAD semantics (6.501644ms)
+✔ same-origin 308 preserves expected POST semantics (6.504936ms)
+✔ same-origin 308 preserves expected PUT semantics (11.139123ms)
+✔ same-origin 308 preserves expected GET semantics (8.719911ms)
+✔ same-origin 308 preserves expected HEAD semantics (6.812247ms)
+✔ non-redirect 300 with Location is returned without another request (2.732504ms)
+✔ non-redirect 304 with Location is returned without another request (7.183908ms)
+✔ non-redirect 305 with Location is returned without another request (5.702057ms)
+✔ protected request remains bound after its body was removed by 303 (6.694396ms)
+✔ synthetic HTTPS downgrade is refused before target dispatch without TLS bypass (9.068919ms)
+✔ redirect limits do not expose query credentials (4.39634ms)
+✔ one deadline and response byte limit remain effective (116.051423ms)
+✔ normal private-network guards still refuse direct and redirect destinations (5.459004ms)
+✔ opaque JSON-source query configuration cannot redirect to another origin (4.34246ms)
+✔ opaque JSON query callers retain same-origin redirects (9.670147ms)
+✔ received NUL text is representable in PostgreSQL while the original bytes remain intact (24.606955ms)
+✔ normal text and its escaped NUL notation are unchanged (2.802079ms)
+✔ NUL is handled after decoding a declared non-UTF8 charset (1.930192ms)
+✔ a quoted charset in Content-Type is honoured (5.847143ms)
+✔ JSON strings containing an old HTML charset cannot change UTF-8 response decoding (10.541612ms)
+✔ PNG bytes served as image/x-icon produce a readable avatar (20.370679ms)
+✔ an HTML error served as image/x-icon remains a failure (2.353513ms)
+✔ PNG bytes served as image/vnd.microsoft.icon produce a readable avatar (12.534514ms)
+✔ an HTML error served as image/vnd.microsoft.icon remains a failure (0.461968ms)
+✔ YouTube embed, /v/, and youtu.be pages are not article images (1.760587ms)
+✔ Vimeo watch and player pages are not article images (0.315482ms)
+✔ inline images retain image MIME types and reject documents across ingestion and reads (44.03142ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ independent selected sources retain identity and their own cards across publication outlets (1662.842346ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":34,"count":0,"jobs":[]}
+✔ a paused external source rejects pushed items without recording a successful fetch (177.703469ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ an externally reported calendar day stays date-only through storage (23.256884ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ epoch_s collection keeps invalid middle claims and later articles, then repeats cleanly (369.886516ms)
+✔ epoch_ms collection keeps invalid middle claims and later articles, then repeats cleanly (163.436372ms)
+✔ text collection keeps invalid middle claims and later articles, then repeats cleanly (183.105453ms)
+✔ first-import sorting keeps unknown epoch dates and the normal backfill fallback (92.810763ms)
+✔ invalid claim does not break an existing identity's unchanged write (33.79047ms)
+✔ invalid claim does not break an existing identity's revised write (45.672784ms)
+✔ storage preserves finite future claims and existing timeline boundaries (27.228974ms)
+✔ a post listed up to a day before its stated time gets that time once it arrives; a far-future date never (101.482589ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ unrelated storage failures still fail collection visibly (52.018264ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":16,"count":0,"jobs":[]}
+✔ a listing read whose outcome is unknown is not sent again; each later fetch is a paid read of its own (860.561657ms)
+✔ a listing parsed with selectors is read from Jina as rendered HTML, dates included (104.127213ms)
+✔ a JSON listing embedded in a page is read from Jina as rendered HTML (79.321467ms)
+✔ a listing page received before a storage failure stays on its receipt (107.937791ms)
+✔ each admin preview is a paid read of its own (60.227147ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ a received Jina page with NUL persists its receipt and reuses it without another paid call (20.346588ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":15,"count":0,"jobs":[]}
+✔ RSS, HTML and JSON listings recover from a dropped connection, a second drop fails (227.202832ms)
+✔ YouTube's intermittent 404 is retried with the same validators and accepts a valid 304 (17.993624ms)
+✔ upstream 500 is retried once, but ordinary missing URLs and access/rate refusals are read once (54.505599ms)
+✔ an article a feed lists twice is stored once and stays put across fetches (329.049669ms)
+✔ sections of one page are separate articles when the source keeps fragments (108.060888ms)
+✔ a feed that garbles different characters on every load keeps one version (82.484745ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ a changelog's date headings date its updates and are no articles themselves (104.258956ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ appearance startup applies a saved browser font before rendering and safely handles invalid storage (70.169729ms)
+✔ font choices survive version-1 backups and denied writes without touching existing reader data (0.893927ms)
+✔ inherited object names are nonexistent share cards (1334.001318ms)
+✔ ordinary share cards keep their PNG and conditional cache responses (774.99786ms)
+✔ decoded controls in topic paths return 404 without injecting response headers (874.415089ms)
+✔ ordinary first topic page keeps its permanent redirect (7.213075ms)
+✔ reader Markdown preserves block structure and still passes through the HTML whitelist (83.077043ms)
+✔ OpenAI Reader pages drop responsive navigation and recommendations, retaining captions and notes (54.509758ms)
+✔ a repeated article takes its actual headline after an earlier call to action (3.908426ms)
+✔ a clean headline replaces a repeated card label that swallowed its whole summary (2.451469ms)
+✔ the first clean headline stays stable and a lone call to action can still be enriched from its detail page (1.891034ms)
+✔ parentheses in card image URLs cannot enter the headline or make it change with an asset deployment (1.471914ms)
+✔ event markets ignore language/source/entity names, retain explicit cross-market scope and unknowns (266.398304ms)
+✔ market filtering happens before page limits and composes with channel/category/tag and both search orderings (591.053322ms)
+✔ selected timeline, fact representatives, group expansion, day counts and cursor binding use the same market (128.151431ms)
+✔ site APIs default to all and reject invalid market filters (235.834372ms)
+{"marketInventory":2000,"storedSourceCharsPerArticle":16000,"elapsedMs":697,"executionMs":367.058,"planningMs":1.813,"plan":{"Node Type":"Aggregate","Strategy":"Plain","Partial Mode":"Simple","Parallel Aware":false,"Async Capable":false,"Startup Cost":29.28,"Total Cost":29.29,"Plan Rows":1,"Plan Width":8,"Actual Startup Time":366.96,"Actual Total Time":366.963,"Actual Rows":1,"Actual Loops":1,"Shared Hit Blocks":12089,"Shared Read Blocks":0,"Shared Dirtied Blocks":0,"Shared Written Blocks":0,"Local Hit Blocks":0,"Local Read Blocks":0,"Local Dirtied Blocks":0,"Local Written Blocks":0,"Temp Read Blocks":0,"Temp Written Blocks":0,"Plans":[{"Node Type":"Bitmap Heap Scan","Parent Relationship":"Outer","Parallel Aware":false,"Async Capable":false,"Relation Name":"publications","Alias":"p","Startup Cost":8.56,"Total Cost":29.27,"Plan Rows":1,"Plan Width":0,"Actual Startup Time":0.914,"Actual Total Time":366.279,"Actual Rows":2000,"Actual Loops":1,"Recheck Cond":"(tags @> '{market-mvuljyxg44n7i-perf}'::text[])","Rows Removed by Index Recheck":0,"Filter":"((tags && '{market:domestic,中国内地,港澳台}'::text[]) OR (SubPlan 2))","Rows Removed by Filter":0,"Exact Heap Blocks":87,"Lossy Heap Blocks":0,"Shared Hit Blocks":12089,"Shared Read Blocks":0,"Shared Dirtied Blocks":0,"Shared Written Blocks":0,"Local Hit Blocks":0,"Local Read Blocks":0,"Local Dirtied Blocks":0,"Local Written Blocks":0,"Temp Read Blocks":0,"Temp Written Blocks":0,"Plans":[{"Node Type":"Bitmap Index Scan","Parent Relationship":"Outer","Parallel Aware":false,"Async Capable":false,"Index Name":"publications_tags_idx","Startup Cost":0,"Total Cost":8.56,"Plan Rows":1,"Plan Width":0,"Actual Startup Time":0.279,"Actual Total Time":0.28,"Actual Rows":2000,"Actual Loops":1,"Index Cond":"(tags @> '{market-mvuljyxg44n7i-perf}'::text[])","Shared Hit Blocks":2,"Shared Read Blocks":0,"Shared Dirtied Blocks":0,"Shared Written Blocks":0,"Local Hit Blocks":0,"Local Read Blocks":0,"Local Dirtied Blocks":0,"Local Written Blocks":0,"Temp Read Blocks":0,"Temp Written Blocks":0},{"Node Type":"Nested Loop","Parent Relationship":"SubPlan","Subplan Name":"SubPlan 2","Parallel Aware":false,"Async Capable":false,"Join Type":"Inner","Startup Cost":0.56,"Total Cost":16.7,"Plan Rows":1,"Plan Width":0,"Actual Startup Time":0.18,"Actual Total Time":0.18,"Actual Rows":1,"Actual Loops":2000,"Inner Unique":true,"Join Filter":"(market_article.revision = market_analysis.input_revision)","Rows Removed by Join Filter":0,"Shared Hit Blocks":12000,"Shared Read Blocks":0,"Shared Dirtied Blocks":0,"Shared Written Blocks":0,"Local Hit Blocks":0,"Local Read Blocks":0,"Local Dirtied Blocks":0,"Local Written Blocks":0,"Temp Read Blocks":0,"Temp Written Blocks":0,"Plans":[{"Node Type":"Index Scan","Parent Relationship":"Outer","Parallel Aware":false,"Async Capable":false,"Scan Direction":"Forward","Index Name":"analyses_article_idx","Relation Name":"analyses","Alias":"market_analysis","Startup Cost":0.28,"Total Cost":8.39,"Plan Rows":1,"Plan Width":33,"Actual Startup Time":0.168,"Actual Total Time":0.168,"Actual Rows":1,"Actual Loops":2000,"Index Cond":"((article_id = p.article_id) AND (id = p.analysis_id))","Rows Removed by Index Recheck":0,"Filter":"(((output #>> '{rubric,material,sourceHash}'::text[]) ~ '^[a-f0-9]{64}$'::text) AND ((output #>> '{rubric,material,articleId}'::text[]) = p.article_id) AND ((output #>> '{rubric,version}'::text[]) = 'insurance-auditable-v0.1'::text) AND ((output #> '{rubric,reviewRequired}'::text[]) = 'false'::jsonb) AND ((output #>> '{rubric,material,revision}'::text[]) = (input_revision)::text) AND (jsonb_array_length(CASE WHEN (jsonb_typeof((output #> '{rubric,passes}'::text[])) = 'array'::text) THEN (output #> '{rubric,passes}'::text[]) ELSE '[]'::jsonb END) = 2) AND (NOT (SubPlan 1)))","Rows Removed by Filter":0,"Shared Hit Blocks":6000,"Shared Read Blocks":0,"Shared Dirtied Blocks":0,"Shared Written Blocks":0,"Local Hit Blocks":0,"Local Read Blocks":0,"Local Dirtied Blocks":0,"Local Written Blocks":0,"Temp Read Blocks":0,"Temp Written Blocks":0,"Plans":[{"Node Type":"Function Scan","Parent Relationship":"SubPlan","Subplan Name":"SubPlan 1","Parallel Aware":false,"Async Capable":false,"Function Name":"jsonb_array_elements","Alias":"market_pass","Startup Cost":0.01,"Total Cost":3.01,"Plan Rows":100,"Plan Width":0,"Actual Startup Time":0.049,"Actual Total Time":0.049,"Actual Rows":0,"Actual Loops":2000,"Filter":"(((jsonb_typeof((data -> 'score'::text)) = 'number'::text) AND ((data -> 'holdReasons'::text) = '[]'::jsonb) AND (regexp_replace((data #>> '{raw,event,jurisdiction}'::text[]), '(?:中国(?:以外|之外)|(?:不含|不包括|除|非)(?:中国(?:内地|大陆|香港|澳门|台湾)?|香港|澳门|台湾)|\\m(?:outside|excluding|except|not including)\\s+(?:china|hong[ -]kong|maca[ou]|taiwan)\\M)'::text, ' '::text, 'gi'::text) ~* '(?:中国|中华人民共和国|香港|澳门|台湾|\\m(?:china|prc|hong[ -]kong|maca[ou]|taiwan)\\M)'::text)) IS NOT TRUE)","Rows Removed by Filter":2,"Shared Hit Blocks":0,"Shared Read Blocks":0,"Shared Dirtied Blocks":0,"Shared Written Blocks":0,"Local Hit Blocks":0,"Local Read Blocks":0,"Local Dirtied Blocks":0,"Local Written Blocks":0,"Temp Read Blocks":0,"Temp Written Blocks":0}]},{"Node Type":"Index Scan","Parent Relationship":"Inner","Parallel Aware":false,"Async Capable":false,"Scan Direction":"Forward","Index Name":"articles_pkey","Relation Name":"articles","Alias":"market_article","Startup Cost":0.28,"Total Cost":8.3,"Plan Rows":1,"Plan Width":33,"Actual Startup Time":0.008,"Actual Total Time":0.008,"Actual Rows":1,"Actual Loops":2000,"Index Cond":"(id = p.article_id)","Rows Removed by Index Recheck":0,"Shared Hit Blocks":6000,"Shared Read Blocks":0,"Shared Dirtied Blocks":0,"Shared Written Blocks":0,"Local Hit Blocks":0,"Local Read Blocks":0,"Local Dirtied Blocks":0,"Local Written Blocks":0,"Temp Read Blocks":0,"Temp Written Blocks":0}]}]}]}}
+✔ event-market reads stay bounded on an isolated 2000-item audited inventory (1750.649634ms)
+✔ invalid source timestamps remain unknown on inserts and revisions (121.661654ms)
+✔ concurrent changes to one article each get a revision (159.999192ms)
+✔ a material revision resets old processing failures without resetting unchanged material (37.597825ms)
+✔ an imported article's first report records a baseline, not a revision (38.230591ms)
+✔ simultaneous first reports of one URL create one article (74.457686ms)
+✔ another source listing the same article records a discovery, not a revision (90.900195ms)
+✔ an article linking to a tweet is stored separately from the tweet (61.153044ms)
+✔ another source reporting an imported article first does not set its baseline (28.174543ms)
+✔ a return to an earlier version is not a revision (118.745409ms)
+✔ an imported article that returns to its baseline is not revised again (24.271111ms)
+✔ characters lost in transit are no revision, lost or restored (87.357961ms)
+✔ a character written as a reference is the same text, stored either way (40.532266ms)
+✔ stored publication date remains a date in the model input, even at a source timezone boundary (29.346939ms)
+✔ rereading an exact midnight upgrades day precision without a new revision (43.579713ms)
+✔ MCP accepts a JSON body at its byte limit and refuses one byte over before parsing (125.470404ms)
+✔ MCP bounds UTF-8 bytes rather than JavaScript string length (10.568558ms)
+✔ MCP refuses an oversized chunked body without Content-Length (60.618407ms)
+✔ oversized MCP requests preserve JSON-RPC, no-store and the Origin policy (173.617566ms)
+✔ MCP initializes through each of its hosts, with or without a port (189.610338ms)
+✔ MCP refuses malformed or other Host and forwarded authorities (56.379954ms)
+✔ MCP refuses an empty Host and a host named twice (65.989112ms)
+✔ an IPv6 host gets the same Origin answers as IPv4, and GET and DELETE check the Host too (24.764599ms)
+✔ MCP answers preflights for allowed origins only (7.691176ms)
+✔ MCP normalizes only explicitly configured site and extra host authorities, and keeps an IPv6 site's matching Origin (1573.578451ms)
+✔ an MCP client opens no listen stream, and one that asks is refused at once (438.112977ms)
+✔ simultaneous modes share original bytes, preserve dimensions and use their disk caches (187.08411ms)
+✔ failed originals are not retried for every mode (7.269595ms)
+✔ cached oversized SVGs use current renditions without downloading them again (616.17231ms)
+✔ SVG preparation retains compact transfer and intrinsic display size (590.705212ms)
+✔ a retained large SVG still supplies the model's raster thumbnail (58.600337ms)
+✔ site media exposes responsive previews and full lightboxes while RSS retains thumb images (3.185047ms)
+✔ concurrent cold OG and poster requests all succeed with identical cached bytes (1327.847049ms)
+✔ successive responsive candidates reuse the completed original download (164.266093ms)
+✔ responsive URLs and web body candidates retain exact signatures and stable expiry (4.10316ms)
+✔ image HTTP responses keep earlier URLs valid, reject tampering before fetching and do not vary on Accept (384.139833ms)
+✔ image validators save unchanged bytes only after signature verification (118.842252ms)
+✔ image failures are cached for at most a minute and never beyond the signature (7.251118ms)
+✔ pending animations expire at caches, then publish the prepared disk rendition without refetching (276.453568ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":1,"count":0,"jobs":[]}
+✔ binary-labelled real images work, but binary-labelled error pages still return 502 (68.366673ms)
+✔ tracking pixels are omitted from old and new bodies without removing article illustrations (70.744324ms)
+✔ video pages mislabeled as images are excluded across ingestion and public image outputs (101.561173ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":18,"count":0,"jobs":[]}
+✔ unchanged history is accepted, but edits and deletions fail (82.841848ms)
+✔ new module migrations are checked even when untracked or named below the cutoff (59.97471ms)
+✔ online migrations reject writes, blocking indexes and table rewrites before execution (20.503646ms)
+✔ online migrations permit metadata changes and split constraint validation (0.960784ms)
+✔ online vacuum tuning accepts only bounded insert and dead-tuple scale factors (0.813439ms)
+✔ a table nothing uses can be dropped alone, never with its dependents (0.379137ms)
+✔ a column or a constraint nothing uses can be dropped alone, never with its dependents (0.478898ms)
+✔ concurrent indexes have one retriable statement per file, outside a transaction (1.238499ms)
+✔ comments and string literals cannot disguise dangerous statements or split safe defaults (0.510255ms)
+✔ online DDL cannot accumulate strong table locks across several otherwise safe statements (8.941498ms)
+✔ statistics maintenance names one table and its columns without skipping work or evaluating expressions (2.856941ms)
+✔ unsafe later files and duplicate module names fail before any change (43.940619ms)
+✔ an interrupted historical multi-statement transaction never commits its schema or ledger entry (25.815811ms)
+✔ a busy table aborts the migration promptly and leaves the serving schema alone (1035.435375ms)
+waiting for the backup's pg_dump (pid 408864) to finish before 9008_dumped_column.sql
+applied 9008_dumped_column.sql (8ms, transaction)
+applied 9009_dumped_index.sql (9ms, index)
+2 migration(s) applied
+✔ a running backup dump is waited out instead of failing the release, for column and index changes (2060.478251ms)
+waiting for the backup's pg_dump (pid 408981) to finish before 9010_dump_stuck.sql
+✔ a backup dump running past the wait fails the release before touching the schema (2033.325622ms)
+applied 9004_index.sql (3ms, index)
+applied 9005_column.sql (3ms, transaction)
+2 migration(s) applied
+database is up to date
+✔ concurrent module indexes apply and resume safely when only bookkeeping was interrupted (22.628118ms)
+✔ IF NOT EXISTS must not turn an invalid or wrong-table index into a successful migration (19.918243ms)
+✔ a 503 uses the backup and a retry reuses its saved answer after the primary recovers (159.355225ms)
+✔ ten consecutive failures within five minutes stop primary calls across steps and a fresh process, then one probe restores it (826.773652ms)
+✔ a failed recovery probe opens the circuit again without a new batch of primary attempts (322.118774ms)
+✔ a timed-out primary keeps its unknown receipt after the backup succeeds, and nothing asks anyone to release it (220.451242ms)
+✔ a timeout at both providers stops and repeated work cannot buy a third request (110.431164ms)
+✔ input rejection, unusable output and a stopped budget do not switch provider (49.897209ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ 429 account refusals stop at the primary while temporary throttling can use the backup (62.372937ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":12,"count":0,"jobs":[]}
+✔ every step takes a model that reads images; only a step that needs images refuses a text model (83.857385ms)
+✔ article extraction preserves lazy video resources and makes playback manual (63.208059ms)
+✔ video source candidates retain order, types and lazy URLs without opening picture sources (14.702651ms)
+✔ unsafe media cannot survive normalization and empty players keep only safe fallback content (17.826819ms)
+✔ a rejected poster never leaves an empty web or RSS player or hides its fallback link (6.493331ms)
+✔ translation, Markdown and public image outputs retain cleaned video candidates (68.408518ms)
+✔ value output is required and boolean, never a silent approval (36.679111ms)
+✔ same-fact reports remain eligible to replace the representative despite no new information (456.613026ms)
+✔ a same-fact copy cannot revive a low-increment fact without new value (308.292375ms)
+✔ a same-url copy cannot revive a low-increment fact without new value (265.562597ms)
+✔ a same-url report can be the first selected report of an unseen fact (151.945648ms)
+✔ a same-url report can replace a selected representative without a call (122.279249ms)
+✔ a low-increment follow-up stays a distinct fact in all content without a selected slot (181.71524ms)
+✔ a material revision rechecks value in the same batch while keeping its confirmed fact (317.889578ms)
+✔ an older confirmed membership with no value field keeps its existing eligibility (73.407015ms)
+✔ an independent evaluation remains selected as a new fact (130.824142ms)
+✔ a roundup can lose its selected slot while retaining only mention links (146.854874ms)
+✔ a selected composite supplies reading coverage for a retelling without becoming a fact (147.000039ms)
+✔ a selected composite supplies reading coverage for a new result without becoming a fact (206.934256ms)
+✔ reading-only context excludes unselected, nonpublic and old reports (446.193404ms)
+✔ a launch selected before the identity window is still reader coverage for a re-introduction (172.40428ms)
+✔ a selected fact still among the candidates is not repeated as reading context (263.326957ms)
+✔ unselected candidates are not prior selected coverage (128.242731ms)
+✔ value context uses the actually selected report without replacing the identity representative (155.268222ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ a missing value answer remains failed and cannot settle a fact (143.87584ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ outbound direct keeps larger response headers confined to one host (402.074934ms)
+✔ outbound proxy keeps larger response headers confined to one host (397.591078ms)
+✔ outbound direct negotiates HTTP/1.1 and retains TLS identity (352.869344ms)
+✔ outbound proxy negotiates HTTP/1.1 and retains TLS identity (339.213353ms)
+✔ outbound secure-proxy negotiates HTTP/1.1 and retains TLS identity (342.056628ms)
+✔ outbound dns negotiates HTTP/1.1 and retains TLS identity (396.587741ms)
+✔ no code turns certificate verification off (108.218062ms)
+✔ indexing and sitemap require a readable source, while manual archive indexing remains available (246.682862ms)
+✔ every search matches the source name readers see and excludes its internal notes (248.117625ms)
+✔ filtered feeds keep their exact content address but leave indexing to the public landing pages (1209.154404ms)
+✔ ordinary feed pages remain indexable and normalize ignored parameters (105.663682ms)
+✔ daily issue metadata describes its visible lead while the permanent entry keeps its title (75.289866ms)
+✔ weekly issue metadata describes its visible lead while the permanent entry keeps its title (69.629493ms)
+✔ monthly issue metadata describes its visible lead while the permanent entry keeps its title (63.434488ms)
+✔ an issue's date reads as Chinese readers write it, across months and years (0.77834ms)
+✔ a report without an edited lead uses only a still-public visible highlight (0.733353ms)
+✔ the homepage ties the founder to every public profile the site lists (35.579287ms)
+✔ article metadata has a representative image and does not invent an update timestamp (45.672726ms)
+✔ story metadata describes the visible collection, current summary and report list (35.803872ms)
+✔ short and multi-term relevance keep cross-field AND and deterministic score ties (92.613874ms)
+✔ company relevance retains tag-only candidates, boosts and unique totals (28.667515ms)
+✔ relevance retains combined filters and literal LIKE characters (35.984669ms)
+✔ search terms split where Han meets a Latin word, not before digits (0.74667ms)
+✔ public search needs a plain Latin term to start a word in the body (17.218284ms)
+✔ equal relevance ranks a seated selected item, then the higher score, then the newest (22.137114ms)
+✔ an unrelated malformed cookie leaves a real admin session usable without admitting invalid sessions (89.886347ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ ingest skips malformed entries and still accepts and deduplicates the valid entries in their batch (145.774899ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":16,"count":0,"jobs":[]}
+✔ a failed audit rolls back the receipt release and the processing job (174.699261ms)
+✔ an authorized recovery preserves unknown billing instead of claiming no charge (40.824326ms)
+✔ a manual re-evaluation survives extraction, a lost job, and receipt release with the same paid identity (46.587813ms)
+✔ an already released receipt wakes its failed grouping job once, with the original parameters (70.998011ms)
+✖ a temporary provider failure resumes the manual evaluation instead of reinstalling the old verdict (258.340757ms)
+✔ a late refusal for an old revision preserves the new revision's completed processing (106.552453ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✖ historical analysis queues a free identity confirmation behind live news (53.629542ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ the first external discovery uses a paused verified publisher, keeps the real discovery and queues extraction once (203.645333ms)
+✔ a repeated signal discovery adopts a newly registered publisher and resumes editorial processing without revising material (95.93927ms)
+✔ publisher promotion cannot reuse a signal-only grouping as news confirmation (110.72597ms)
+✔ source-mode promotion cannot reuse a signal-only grouping as news confirmation (91.341104ms)
+✔ a T1 channel linking another publisher is still a discovery, not that URL's publisher (20.860485ms)
+✔ attribution reuses an existing current-revision editorial judgement even after the source became a signal (36.381716ms)
+✔ only an observed web-list path supplies implicit ownership; non-T1 and RSS domains never do (24.752943ms)
+✔ a later verified publisher repairs source and author, preserving judgement, content and time (54.726981ms)
+✔ publisher-first discovery remains the publisher, and an unrelated T1 URL cannot take ownership (23.579683ms)
+✔ ambiguous registered publishers do not silently choose a source (10.726999ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ a non-T1 flag cannot enter the first-party channel, and source edits derive the flag from tier (41.633732ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ mutable content never authorizes a reader to reuse stale data beyond the withdrawal window (2125.586921ms)
+✔ a public category takes in the categories the site publishes as it, and only those (201.059465ms)
+✔ the website filters by each of its own categories (35.377826ms)
+✔ HTTP, Agent, MCP and discovery agree on the public categories and returned items (298.102331ms)
+✔ public read-only endpoints reject methods before interpreting their bodies (45.146292ms)
+✔ verified old dates correct publication and its existing date-based sort without rejudging imported history (263.478703ms)
+✔ an independently recorded discovery sort remains unchanged (53.864757ms)
+✔ the request is idempotent and a reused request identity cannot approve a different date (56.415191ms)
+✔ malformed, recent or future dates and stale material metadata are refused (43.23578ms)
+✔ a changed publication decision refuses the whole correction (53.07182ms)
+✔ a recently misdated old article returns to history without new analysis or delivery (130.949374ms)
+✔ archiving a misdated article respects manual grouping and active processing (55.920589ms)
+✔ retracting a misdated article respects manual grouping and active processing (49.088024ms)
+✔ verified stale-on-discovery publication inside the current week still leaves live news (56.837136ms)
+✔ verified recent publication corrects the date without archiving or repeating delivery (81.061506ms)
+✔ recent date correction refuses a later timestamp beyond the discovery tolerance (31.898779ms)
+✔ retracting a proven repost date removes live evidence while retaining material and paid decisions (74.438868ms)
+✔ retraction preserves imported history (22.167466ms)
+✔ a completed blocked judgement can retract its date without starting new work (52.973934ms)
+✔ a completed unknown judgement can retract its date without starting new work (53.070925ms)
+✔ a first import published the day it was found is news: its date is corrected and it stays a first import (64.858246ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ a settled post that never needs grouping can have its date corrected (23.505406ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ the Markdown export names the collection time as such when the publication time is unknown (84.923799ms)
+✔ RSS gives no pubDate for an item without a known publication time (8.512591ms)
+✔ manual score corrections, including no score, survive every public projection and rebuild (238.107726ms)
+✔ Markdown preserves a table's headings, caption, links, alignment and multiline cells in both languages (128.648686ms)
+✔ Markdown retains tables that cannot be represented without changing their meaning (34.641025ms)
+✔ Markdown retains numeric superscripts, subscripts and fenced code while respecting full-text permission (43.232369ms)
+✔ site reading sends one language while exports retain both, including after withdrawal (65.888814ms)
+✔ revoking a source's licence takes its articles off every exit (415.754191ms)
+✔ revoking only redistribution keeps the website body and removes it from full RSS (234.738662ms)
+✔ a withdrawn item leaves every report exit (84.712243ms)
+✔ story changes refresh share images and a withdrawal takes down only the stories citing it (1324.671147ms)
+✔ a withdrawn item leaves the hot board and the hot APIs at once, not at the next ranking (168.073056ms)
+✔ item pages follow one rule: unsummarised editorial items keep one, hot_signal items have none (156.293039ms)
+✔ unresolved selection does not delay a withdrawal or its sync watermark (132.100531ms)
+✔ snapshots answer 304 to their own ETag (6.066538ms)
+✔ historical sync never redistributes withdrawn content, even on a one-entry page (159.971346ms)
+✔ v1 story matches the website's content and fallback ordering (74.364082ms)
+✔ a merged event's old public id answers 308 to the surviving event (20.962182ms)
+✔ event neighbors disappear when their last readable evidence is withdrawn (149.970275ms)
+✔ unchanged republishing preserves freshness, while URL-only changes still reach the projection and ledger (53.237443ms)
+✔ a cached share-image validator never outlives the selected verdict or a withdrawal (1334.061806ms)
+✔ summary-only detail and sharing keep neutral metadata without a selected verdict (159.622713ms)
+✔ minimal sync projection preserves snapshot fields, pagination bindings and ordered changes (144.557363ms)
+✔ a new selected snapshot includes corrections already covered by its watermark (57.259805ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ a correction between snapshot pages arrives through changes after the fixed snapshot (63.511826ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ shared-host ownership requires both the explicit scope and this source's actual discovery (91.414506ms)
+✔ an independent organization on the platform keeps its verified publisher (21.673543ms)
+✔ discovery ownership configuration must be a boolean with an explicit nonempty URL scope (1.098479ms)
+✔ invalid NUL input is a request error: /api/site/timeline?tag=AI%00 (29.462175ms)
+✔ invalid NUL input is a request error: /api/site/pool?q=AI%00 (1.825929ms)
+✔ invalid NUL input is a request error: /api/v1/items?q=AI%00 (3.059494ms)
+✔ invalid NUL input is a request error: /api/v1/agent/search?q=AI%00 (3.257903ms)
+✔ MCP rejects NUL searches as invalid input (111.873734ms)
+✔ ordinary Unicode and literal escape text remain searchable (237.855416ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ a failed first database connection does not poison all later queue requests (143.093619ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ queue drain reports concurrent work and waits without exposing payloads or taking another job (1163.133638ms)
+✔ selected news keeps each fact at its first appearance under its representative (65.519927ms)
+✔ a folded card's other sources are those of the fact its representative reports (280.544028ms)
+✔ a query that names a company also finds the articles about it (196.096637ms)
+✔ bare addresses in post text become safe links (1.481353ms)
+✔ relevance ranks all candidates, caps the public total at 2000 and keeps empty page totals (429.608137ms)
+✔ unfiltered single-term relevance combines direct/body scores and retains one-sided and empty matches (52.03402ms)
+✔ v1 search allows terms to match direct text and body, retaining time cursor order and public scope (31.606113ms)
+✔ RSS summary excludes bodies; full RSS includes only licensed items (19.93863ms)
+✔ report directories skip a withdrawn lead for the next citation, including absent historical ones (36.778001ms)
+✔ unchanged pool and timeline revalidate with 304 while a content change returns a new body (60.782287ms)
+✔ recall preserves window, live-story, membership and latest-analysis evidence (148.649986ms)
+✔ shutdown drains and reuses paid results while refusing new pages and retries before budget reservation (109.07056ms)
+✔ 429 distinguishes documented spending refusals from request and token rate limits (4.97777ms)
+✔ the migrations seed a budget for every paid service (31.17534ms)
+✔ an answer already received is reused instead of bought again (72.789546ms)
+✔ stale recovery waiting on a response transaction preserves its committed answer and attempt (60.10469ms)
+✔ a fully received non-object model response is unusable output, not an unknown paid outcome (29.859332ms)
+✔ an answer cut off at the output limit is a failed paid answer that says so (20.299572ms)
+✔ retries of unusable answers stop at the budget, and every request sent is counted (60.321821ms)
+✔ concurrent distinct requests cannot both spend the last service budget slot (37.181269ms)
+✔ the hour budget independently refuses a paid request until its attempt expires (23.242279ms)
+✔ the day budget independently refuses a paid request until its attempt expires (26.806178ms)
+✔ with the valve off nothing is sent (0.689525ms)
+✔ an unknown outcome is released automatically once, so a lost answer costs at most one repeat (64.105771ms)
+✔ a throttle is not a spent account: only an access or billing refusal stops calls (0.551823ms)
+✔ an access refusal stops new calls until the cooldown, and a real answer releases the stop (31.40666ms)
+✔ a TPM throttle does not stop the service (11.860204ms)
+✔ a resource-level 403 (a private account) stops nothing (8.075206ms)
+✔ one model's spent quota stops that model, not the service's other models (18.56204ms)
+✔ two bridges, one bridge, no bridges, and restoration agree on every public story read (455.135274ms)
+✔ natural ageing and a membership-preserving revision retain the association (229.928978ms)
+✔ a membership-preserving revision does not keep its bridge from linking two stories either (146.543716ms)
+✔ a later explicit judgement invalidates the old bridge until the evidence is restored (156.873901ms)
+✔ an explicitly removed membership no longer supports a related event (121.998679ms)
+✔ correcting a bridge to a composite invalidates it even before republishing (105.499444ms)
+✔ a repeated judgement for one article does not count as two reports (113.726869ms)
+✔ storyline links and historical links without saved bridge judgements are retained (235.380031ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ bridges judged before a story merge follow their fact into the surviving story (446.071074ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ reports assign delayed and boundary releases to the period readers first see them (424.433578ms)
+✔ a release waiting for the article lock uses the time after the cutoff (76.495798ms)
+✔ a release waiting for the fact seat lock uses the time after the cutoff (69.809626ms)
+✔ a release waiting for the report snapshot lock uses the time after the cutoff (66.774967ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ daily composition waits for a pre-cutoff release to commit instead of losing it between issues (76.158264ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ an editors' lead is matched to the item it is written about (2.449569ms)
+✔ a lead that matches no item clearly has no item (0.386534ms)
+✔ without an editors' lead the first highlight leads (3.930433ms)
+✔ a withdrawn highlight never leads the front page (0.720721ms)
+▶ issue numbers count the whole series across the navigation's 400-issue limit
+  ✔ 405 dailies are numbered up to 405 while the navigation keeps 400 (46.235253ms)
+  ✔ the index, detail, navigation, latest page and month answers give the same number (49.765574ms)
+  ✔ new issues and revisions leave older numbers alone (49.238273ms)
+  ✔ weeklies and monthlies are numbered on their own (24.838993ms)
+  ✔ an issue added or deleted before another moves its number (26.897262ms)
+✔ issue numbers count the whole series across the navigation's 400-issue limit (285.876655ms)
+✔ withdrawing a named lead preserves the replacement headline and its own frozen paragraph everywhere (206.009153ms)
+✔ a historical written daily lead follows withdrawal of the citation it describes (86.011206ms)
+▶ daily, weekly and monthly citations share the public list release boundary
+  ✔ daily (74.0978ms)
+  ✔ weekly (67.904877ms)
+  ✔ monthly (63.237438ms)
+✔ daily, weekly and monthly citations share the public list release boundary (207.026214ms)
+✔ a daily citation without a frozen summary, and a flash with an earlier frozen date, read the same in JSON and website (50.149819ms)
+✔ discovery counts exactly the publicly indexed topics it lists (1.187561ms)
+✔ weekly prose drops unavailable evidence after withdrawn (72.50517ms)
+✔ weekly prose drops unavailable evidence after summary-only (49.487481ms)
+✔ weekly prose drops unavailable evidence after ineligible (56.193715ms)
+✔ monthly prose drops unavailable evidence after withdrawn (44.420742ms)
+✔ daily imported citations retain the same original link, source and date as the website (7.103093ms)
+✔ weekly imported citations retain the same original link, source and date as the website (8.622499ms)
+✔ monthly imported citations retain the same original link, source and date as the website (4.601616ms)
+✔ a historical written weekly headline follows withdrawal of its matched citation (43.825227ms)
+✔ a historical written monthly headline follows withdrawal of its matched citation (53.966448ms)
+✔ an unmatched written weekly headline cannot restore an unavailable overview (19.962243ms)
+✔ an unmatched written monthly headline cannot restore an unavailable overview (22.909825ms)
+✔ an expired report index waits for the current withdrawal result (53.873736ms)
+✔ automatic retries preserve all three published issue kinds; explicit corrections keep a revision (324.130451ms)
+✔ report publication and its receipt commit together and recovery reuses the response (102.236199ms)
+{"level":"error","msg":"report failed","report":"daily:2024-01-24","error":{"type":"Error","message":"daily 2024-01-24: nothing judged in its window","stack":"    at Object.composeDaily [as compose] (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:96:80)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async composeDueReports (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:324:13)\n    at async waitForActual (node:assert:646:5)\n    at async strict.rejects (node:assert:769:25)\n    at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/report-recovery.test.ts:98:3)\n    at async Test.run (node:internal/test_runner/test:1409:7)\n    at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)"}}
+{"level":"error","msg":"report failed","report":"daily:2024-01-25","error":{"type":"Error","message":"daily 2024-01-25: nothing judged in its window","stack":"    at Object.composeDaily [as compose] (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:96:80)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async composeDueReports (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:324:13)\n    at async waitForActual (node:assert:646:5)\n    at async strict.rejects (node:assert:769:25)\n    at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/report-recovery.test.ts:98:3)\n    at async Test.run (node:internal/test_runner/test:1409:7)\n    at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)"}}
+{"level":"error","msg":"report failed","report":"daily:2024-01-26","error":{"type":"Error","message":"daily 2024-01-26: nothing judged in its window","stack":"    at Object.composeDaily [as compose] (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:96:80)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async composeDueReports (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:324:13)\n    at async waitForActual (node:assert:646:5)\n    at async strict.rejects (node:assert:769:25)\n    at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/report-recovery.test.ts:98:3)\n    at async Test.run (node:internal/test_runner/test:1409:7)\n    at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)"}}
+{"level":"error","msg":"report failed","report":"daily:2024-01-27","error":{"type":"Error","message":"daily 2024-01-27: nothing judged in its window","stack":"    at Object.composeDaily [as compose] (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:96:80)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async composeDueReports (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:324:13)\n    at async waitForActual (node:assert:646:5)\n    at async strict.rejects (node:assert:769:25)\n    at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/report-recovery.test.ts:98:3)\n    at async Test.run (node:internal/test_runner/test:1409:7)\n    at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)"}}
+{"level":"error","msg":"report failed","report":"daily:2024-01-28","error":{"type":"Error","message":"daily 2024-01-28: nothing judged in its window","stack":"    at Object.composeDaily [as compose] (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:96:80)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async composeDueReports (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:324:13)\n    at async waitForActual (node:assert:646:5)\n    at async strict.rejects (node:assert:769:25)\n    at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/report-recovery.test.ts:98:3)\n    at async Test.run (node:internal/test_runner/test:1409:7)\n    at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)"}}
+{"level":"error","msg":"report failed","report":"daily:2024-01-29","error":{"type":"Error","message":"daily 2024-01-29: nothing judged in its window","stack":"    at Object.composeDaily [as compose] (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:96:80)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async composeDueReports (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:324:13)\n    at async waitForActual (node:assert:646:5)\n    at async strict.rejects (node:assert:769:25)\n    at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/report-recovery.test.ts:98:3)\n    at async Test.run (node:internal/test_runner/test:1409:7)\n    at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)"}}
+{"level":"error","msg":"report failed","report":"daily:2024-01-30","error":{"type":"Error","message":"daily 2024-01-30: nothing judged in its window","stack":"    at Object.composeDaily [as compose] (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:96:80)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async composeDueReports (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:324:13)\n    at async waitForActual (node:assert:646:5)\n    at async strict.rejects (node:assert:769:25)\n    at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/report-recovery.test.ts:98:3)\n    at async Test.run (node:internal/test_runner/test:1409:7)\n    at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)"}}
+{"level":"error","msg":"report failed","report":"daily:2024-01-31","error":{"type":"Error","message":"daily 2024-01-31: nothing judged in its window","stack":"    at Object.composeDaily [as compose] (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:96:80)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async composeDueReports (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:324:13)\n    at async waitForActual (node:assert:646:5)\n    at async strict.rejects (node:assert:769:25)\n    at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/report-recovery.test.ts:98:3)\n    at async Test.run (node:internal/test_runner/test:1409:7)\n    at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)"}}
+{"level":"error","msg":"report failed","report":"daily:2024-02-01","error":{"type":"Error","message":"daily 2024-02-01: nothing judged in its window","stack":"    at Object.composeDaily [as compose] (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:96:80)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async composeDueReports (file:///tmp/insurhot-validation/packages/backend/src/reports/compose.ts:324:13)\n    at async waitForActual (node:assert:646:5)\n    at async strict.rejects (node:assert:769:25)\n    at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/report-recovery.test.ts:98:3)\n    at async Test.run (node:internal/test_runner/test:1409:7)\n    at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)"}}
+✔ empty older gaps cannot starve a later daily, weekly or monthly, and failures remain visible (191.790036ms)
+✔ a week or month that ended before the first daily is not due, so a site started mid-month runs clean (17.957789ms)
+✔ a complete quiet week is skipped on later runs without using the issue limit, and a corrected daily can fill it (313.644725ms)
+✔ a complete quiet month stays successful across retries and does not starve the next month (156.853996ms)
+✔ a weekly with a missing daily still fails instead of appearing quiet (13.475807ms)
+✔ a weekly whose daily entries were withdrawn is not mistaken for an originally quiet period (30.771653ms)
+✔ an explicit weekly correction with no entries fails and preserves the published issue (35.139947ms)
+✔ a monthly with a missing daily still fails instead of appearing quiet (25.61293ms)
+✔ a monthly whose daily entries were withdrawn is not mistaken for an originally quiet period (23.295989ms)
+✔ an explicit monthly correction with no entries fails and preserves the published issue (46.918259ms)
+✔ quiet first periods start at the site's first daily, while later missing days still fail (24.118962ms)
+✔ a weekly writer refused after the stop began leaves catch-up without a failure and the issue unpublished (266.431666ms)
+✔ a late run writes the issue that was due, not today's (3.405621ms)
+✔ a daily with nothing judged in its window is refused, not published as a quiet day (59.971526ms)
+✔ a weekly that froze no summaries shows the articles' public summaries (102.607122ms)
+✔ RSS first backfill, ordinary window, 304, revision and config edits preserve collection behavior (2143.047909ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ Last-Modified works without ETag and changing redirect targets cannot accept an unrelated 304 (108.989158ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":22,"count":0,"jobs":[]}
+✔ Atom article links honor absolute xml:base on feed, entry and link (54.695176ms)
+✔ relative xml:base values compose through feed, entry and link (4.205593ms)
+✔ relative Atom links use the final document URL after redirects (10.776236ms)
+✔ relative RSS item links resolve against the final document URL; absolute ones are kept (8.188465ms)
+✔ absolute alternate links and the first-link fallback keep working (21.178024ms)
+✔ resolved Atom article URLs keep their fragments, which sources of page sections use as identity (4.39439ms)
+✔ Atom update time never substitutes for missing or malformed publication time (5.780112ms)
+✔ Atom HTML and XHTML titles and summaries keep the article and its text in order (56.430477ms)
+✔ Atom XHTML bodies match escaped HTML and CDATA without losing mixed-content order (56.766347ms)
+✔ Atom XHTML still passes through HTML sanitization without decoding escaped markup twice (9.107061ms)
+✔ Atom default text preserves literal markup and entities without creating HTML or media (11.048848ms)
+✔ Atom default text summary is preserved both as an excerpt and an optional body (7.134661ms)
+✔ Atom explicit text preserves literal markup and entities without creating HTML or media (11.452815ms)
+✔ Atom explicit text summary is preserved both as an excerpt and an optional body (9.301421ms)
+✔ China origin uses explicit source scope, independent of content language and relevance (1.161901ms)
+✔ V0.1 analysis persists two independent evidence passes and source snapshot (335.826385ms)
+✔ preview translations preserve originals, deduplicate, and keep absent excerpts absent (377.575935ms)
+✔ known unsent screening failures can resume without repurchasing successful judgements (92.147902ms)
+✔ all seven fixed weight rows compute totals without a model total (32.356585ms)
+✔ all caps retain before/after receipts; cap3 floors to2 and total cap30 is separate (1.603468ms)
+✔ missing, invented, title-only or invalid-anchor evidence is held with no score (12.259874ms)
+✔ two-pass gates cover type, stage, raw-axis disagreement and threshold crossing (1.025645ms)
+✔ original snapshot hash changes with material and does not fabricate fetch times (0.465937ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ retired schedules leave the current overview and execution queues while live jobs and history remain (708.909487ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":19,"count":0,"jobs":[]}
+✔ a burst of identical searches completes without consuming the distinct-search queue (456.239976ms)
+✔ overlapping searches keep their category and explicit clock, and retain overload protection (485.419909ms)
+✔ completed work never hides a withdrawal and rejected work can be retried (47.183182ms)
+✔ unrelated completed or rejected searches cannot displace an unfinished shared read (11.14153ms)
+✔ search carries exactly the existing topic links and five visible hot links, including after a withdrawal (251.369437ms)
+✔ one fact holds one selected seat on v1, RSS and the sync ledger (783.337543ms)
+✔ a broken or empty snapshot page asks for a new snapshot (2.819428ms)
+✔ malformed cursor fields are client errors, never database errors or usable sync state (18.744289ms)
+{"level":50,"time":1793342078915,"pid":409794,"hostname":"LAPTOP-NJLK5DRP","reqId":"6b29cc1b-05d5-4abc-b505-318b6d685b22","method":"GET","path":"/api/v1/selected/changes","err":{"type":"PostgresError","message":"PostgreSQL request failed","code":"42P01","stack":"    at ErrorResponse (file:///tmp/insurhot-validation/node_modules/postgres/src/connection.js:815:30)\n    at handle (file:///tmp/insurhot-validation/node_modules/postgres/src/connection.js:489:6)\n    at Socket.data (file:///tmp/insurhot-validation/node_modules/postgres/src/connection.js:324:9)\n    at Socket.emit (node:events:514:28)\n    at addChunk (node:internal/streams/readable:569:12)\n    at readableAddChunkPushByteMode (node:internal/streams/readable:520:3)\n    at Readable.push (node:internal/streams/readable:400:5)\n    at TCP.onStreamRead (node:internal/stream_base_commons:194:23)\n    at cachedError (file:///tmp/insurhot-validation/node_modules/postgres/src/query.js:170:23)\n    at new Query (file:///tmp/insurhot-validation/node_modules/postgres/src/query.js:36:24)\n    at sql (file:///tmp/insurhot-validation/node_modules/postgres/src/index.js:112:11)\n    at ledgerWatermark (file:///tmp/insurhot-validation/packages/backend/src/publication/v1.ts:111:43)"},"path":"/api/v1/selected/changes","msg":"public api error"}
+✔ a sync database failure is retryable without replacing the client snapshot (29.480996ms)
+▶ conflicting gold for a shared case returns 400 before any report writes
+  ✔ reject (104.051219ms)
+  ✔ either (6.866758ms)
+✔ conflicting gold for a shared case returns 400 before any report writes (113.715657ms)
+▶ every invalid report returns 400 before any report writes
+  ✔ no summaries (10.083387ms)
+  ✔ cases not an array (3.782986ms)
+  ✔ blank caseId (6.443028ms)
+  ✔ duplicate caseId (9.78209ms)
+  ✔ invalid gold (7.328246ms)
+✔ every invalid report returns 400 before any report writes (40.879988ms)
+✔ shared gold keeps model disagreements and correct outcome filters comparable (62.602818ms)
+✔ the title is larger than the summary, followed by the source and Beijing date in grey (365.58919ms)
+✔ without a reason the card goes from the summary straight to the buttons (78.013585ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ markdown characters in the model's words show as written (65.184059ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":19,"count":0,"jobs":[]}
+✔ an unresolved selection never leaks after the old deadline and completion publishes it everywhere (587.872414ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ a confirmed but redundant explanation stays in all, and an editor can explicitly select it (98.862674ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+{"level":"warn","msg":"share image preparation failed","articleId":"upbzszrrxfbo22la1f0mh4lri","err":{"type":"Error","message":"EEXIST: file already exists, mkdir '/tmp/aihot-test-406544-BW8g3g/tmp/share-image-warm-A8GCnT/ogcache'","code":"EEXIST","stack":"    at async mkdir (node:internal/fs/promises:1571:10)\n    at async render (file:///tmp/insurhot-validation/packages/backend/src/media/og.ts:162:3)\n    at async renderOg (file:///tmp/insurhot-validation/packages/backend/src/media/og.ts:176:17)\n    at async warmShareImage (file:///tmp/insurhot-validation/packages/backend/src/media/prepare.ts:49:5)\n    at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/share-image-warm.test.ts:61:16)\n    at async Test.run (node:internal/test_runner/test:1409:7)\n    at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)"}}
+✔ the worker warms the API's current public PNG without an HTTP server (1301.577381ms)
+✔ recognizes the sign-in paths common sites use (1.771858ms)
+✔ a redirect that lands on one of those is a sign-in redirect (0.252494ms)
+✔ still reads a page that merely carries an auth word as content (0.179121ms)
+✔ a discussion post that came before any report is grouped again when a report founds its fact (627.027103ms)
+✔ history waits behind live work and founds no event; a new source's post from today is news (179.243539ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ a discussion post that quotes a post not yet collected joins its story when the original arrives (340.48941ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ ordinary collector replacement retains source, history and admission boundaries and resets only collector validators (230.094945ms)
+✔ collector replacement refuses incomplete, incompatible, duplicate or special-kind inputs atomically (34.447525ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ publisher attribution changes queue re-derivation for role, URL ownership and discovery evidence (34.281722ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ ordinary listing sources accept an exact UTC publication boundary (3.053321ms)
+✔ a publication boundary rejects missing zones, incomplete and impossible dates, and non-string values (0.520691ms)
+✔ channels that do not apply the publication boundary refuse it instead of ignoring it (0.438046ms)
+✔ RSS can name the timezone of a date-only feed entry (0.167676ms)
+✔ a listing uses the visible date when its tooltip is not a publication date (16.307403ms)
+✔ a detail date selector reads meta content and an invalid tooltip does not mask visible text (71.454865ms)
+✔ generic detail metadata does not promote modified or unlabelled time elements to publication (27.006926ms)
+✔ a date and time without a zone is in the source's offset, not the server's (7.567041ms)
+✔ a bare date is midnight in the source's offset, including ISO date-only text (0.975054ms)
+✔ a date that carries its zone keeps it (0.333164ms)
+✔ no date at all is null (0.135292ms)
+✔ "at" between the date and the time joins them like a space (1.117352ms)
+✔ an abbreviated month may end with a period (0.272067ms)
+✔ English wall-clock dates are not shifted by the host's daylight-saving gap (24.866596ms)
+✔ English times with explicit zones retain their zone on every host (1.136137ms)
+✔ CST, which Chinese pages print for China time, is read in the source's offset (0.378957ms)
+✔ an article page's publication time without a zone is the same moment across host zones (126.30088ms)
+✔ an article page's publication metadata is read one way, original publication first (35.21965ms)
+✔ all date-only formats retain the source calendar day and use its offset (1.099318ms)
+✔ real midnight keeps its precision; date-only and missing source precision never invent it (0.494724ms)
+✔ grouping distinguishes a publication day from an exact instant (0.60963ms)
+✔ legacy JSON and RSS formats keep their source date and zone (0.940681ms)
+✔ a date rule's element that prints an age counts back from the moment it is read (3.051264ms)
+✔ an age inside other text is no date (0.991888ms)
+✔ a date rule's element that prints today's or a recent day's time reads it on that day in the source's offset (0.598082ms)
+✔ a byline ahead of the date in the same element is no part of it (0.504789ms)
+✔ an age in short English units reads like the long ones (0.284754ms)
+✔ today's time inside other text, or no real time, is no date (0.278546ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ stable external IDs revise the first material after URL changes without merging sources or deleting legacy duplicates (618.176245ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":19,"count":0,"jobs":[]}
+✔ hot-signal activity does not hide editorial collection stopping (325.895657ms)
+✔ daily follow-ups retain chronic failures after a successful run, separately by use (95.848798ms)
+✔ each failing source is a follow-up of its own, closed when that source recovers (72.276329ms)
+✔ weekly totals count every silent source and include successful attributed discoveries (96.727853ms)
+✔ quality follow-ups count undated editorial articles and edits without judging signal bodies (101.456154ms)
+✔ detail pages that keep failing are a follow-up, an occasional timeout among hundreds of reads is not (113.932631ms)
+✔ a low-frequency source quiet for a week is not late, while a daily one is (105.789189ms)
+✔ a source without enough history to have a rhythm stays visible instead of being called fine (107.21222ms)
+✔ one first import is one output day, not one day per publication date (29.721885ms)
+✔ output older than the rhythm window is not comparable history (15.202418ms)
+✔ the first rhythm day includes scheduled publications and attributed discoveries from early that day (230.85344ms)
+✔ an attributed discovery is the collector's output even without articles of its own (27.749355ms)
+✔ collection failures stay reported on their own, also when the source is past its rhythm (49.185528ms)
+✔ a source follow-up closed as not to be fixed leaves the digest until it is restored or goes away (339.878079ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ a source closure covers its observed history, not new failures under the same key (35.569729ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ dates require a real complete calendar day, never a product version or an impossible day (3.175408ms)
+✔ Intercom daily sections have independent URLs, dates and complete bodies without month headings or empty days (99.936702ms)
+✔ inserting a new help-center section does not change older identities or material hashes (67.491435ms)
+✔ rss applies the fixed publication window in preview, on the first and all subsequent runs (459.746599ms)
+✔ web_list applies the fixed publication window in preview, on the first and all subsequent runs (207.634335ms)
+✔ json_list applies the fixed publication window in preview, on the first and all subsequent runs (107.57937ms)
+✔ previews keep exactly what collection stores, under the source's URL, category and noise rules (49.255763ms)
+✔ undated listing applies its boundary after original article dates in both preview and storage (316.481796ms)
+✔ authoritative listing applies its boundary after original article dates in both preview and storage (278.906949ms)
+✔ source admission rechecks detail publication dates without discarding known material (127.019231ms)
+✔ initial import does not admit archives outside its month limit after detail enrichment (111.20491ms)
+✔ an entry the detail page dated out of admission is read once, and the budget moves on (124.816472ms)
+✔ an RSS listing keeps its dated-out entries across a 304 (87.524517ms)
+✔ a listed entry another source owns is not read for details (80.631879ms)
+✔ a preview reads detail pages under the same rules as collection (38.975182ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ a detail date rule wins over the page's generic publication metadata (50.403542ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":15,"count":0,"jobs":[]}
+✔ complete day-month-year dates accept the publisher's punctuation (5.623712ms)
+✔ compact publication timestamps retain wall-clock seconds without accepting version numbers or invalid dates (0.370627ms)
+✔ a config entry the collector does not implement fails the fetch instead of being ignored (67.738579ms)
+✔ feed entries outside the source's URL rules are skipped (279.607814ms)
+✔ detail rules fill what the listing lacks, and a detail title survives the next listing (173.207556ms)
+✔ a Jina listing is read on every fetch, and buys a detail rendering only where a regex rule needs it (207.057871ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ detail HTML supplies the ordinary extracted body once, while short pages keep extraction pending (6.93639ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":31,"count":0,"jobs":[]}
+✔ Jina card links become posts with their own titles (5.784715ms)
+✔ anchors into the listing page itself are navigation, not posts (17.207764ms)
+✔ posts addressed by a query on the listing's path are posts, its pages and filters are not (14.472439ms)
+✔ promotions a feed rotates inside its posts are left out of the body (17.207624ms)
+✔ a listing that links other articles in its teasers takes only the links that begin a line (1.906754ms)
+✔ feed text that only teases the article is a summary: the page is fetched before judging (106.522689ms)
+✔ a source that declares its feed summary the body keeps a short one, in RSS and Atom; a teaser is still a summary (31.293132ms)
+✔ hidden page parts are dropped whole, and a news page's closing blocks are trimmed (35.071178ms)
+✔ noise words match whatever their case (1.736162ms)
+✔ a time without a zone is read in the source's offset, in JSON lists and in detail page metadata (39.034746ms)
+✔ posts embedded in a flight payload keep their own arrays and brackets inside strings (3.048865ms)
+✔ dates in yyyymmdd and in JSON-LD are read (10.179259ms)
+✔ a source's language reaches its listing, detail page and article body, which stay in that language (56.832644ms)
+✔ a source's language is an Accept-Language value, refused by kinds that read no pages (0.851351ms)
+✔ a case exported from an event reaches the model exactly as the site's own digest request (2505.464523ms)
+✔ nothing is sent when the calls exceed the limit or the candidate cannot be compared (1629.033068ms)
+✔ completed streamed content replaces the fallback at its boundary (61.921528ms)
+✔ nested completed segments preserve article order and leave unrelated hidden text hidden (26.122423ms)
+✔ the inline runtime definition may end with a completion call (5.847715ms)
+✔ incomplete boundaries and calls inside data, strings, comments or examples do not expose hidden text (79.162635ms)
+✔ stripTags ignores > inside quoted HTML attributes (4.645729ms)
+✔ stripTags does not pair quotes inside unquoted attribute values (0.381247ms)
+✔ stripTags keeps existing comment handling without swallowing following text (0.228478ms)
+✔ stripTags preserves existing spacing, entities, and hidden-content handling (0.475165ms)
+✔ stripTags keeps existing handling of incomplete tags and unclosed attribute quotes (0.232437ms)
+✔ stripTags decodes character references, also when a feed escaped them twice (0.380531ms)
+✔ writing and public reading agree about Chinese, including Japanese with kanji (0.861754ms)
+✔ day counts retain exact Beijing midnight, leap-day and year boundaries (2.800116ms)
+✔ deterministic varied timelines match the full-scan reference (65.049116ms)
+✔ real grouped timeline pagination keeps whole-day counts across midnight (258.619421ms)
+✔ timeline grouping preserves evidence scope and filter-local anchors (176.429631ms)
+✔ topic directory and pool counts stop reusing a withdrawn entry after one minute (93.580807ms)
+✔ topic lists and pool counts share the exact membership predicate (129.94572ms)
+✔ a topic page is a collection at its own address (4.170113ms)
+✔ a list the page shows keeps its ordered entry names and public story links (3.665272ms)
+✔ a withdrawn report leaves the topic page and the index while the topic index is still cached (375.91272ms)
+✔ a correction refreshes named content and its topic membership before the index expires (156.629287ms)
+✔ a company topic takes the articles about it, not the ones that only mention it (561.290324ms)
+✔ a story page names the topics of its reports (62.878829ms)
+✔ withdrawn articles stay out of lists and counts (76.787258ms)
+✔ every topic has a page; unknown topics and pages past the end have none (19.282691ms)
+✔ SIGTERM finishes the sent normal batch and resumes from its receipt (2115.527979ms)
+✔ SIGTERM finishes the sent misaligned batch and resumes from its receipt (2100.10319ms)
+✔ a batch the provider refuses after SIGTERM is an interruption, not a translation attempt (1215.604382ms)
+✔ Japanese bodies with kanji are translated with or without a language hint (351.529367ms)
+✔ a presentation-only source update repairs original and translated bodies without new analysis or translation (141.396488ms)
+✔ a layout refresh follows image identity when translated text moved its pictures (28.458747ms)
+✔ a translation finishing during a layout refresh cannot restore the missing image (66.607783ms)
+✔ a text corrected while its translation was running is translated again, and the old translation is not shown (323.280456ms)
+✔ links and images inside a paragraph survive the translation, or the paragraph stays in the original (92.529734ms)
+✔ the post a selected X post quotes is translated once and shown with the item (59.278081ms)
+✔ an unusable X translation gets a bounded fresh attempt instead of terminal skipped (80.6121ms)
+✔ fully unusable body translations stop after three recorded attempts (120.624875ms)
+✔ a received alignment retry survives a failed translation commit without paying again (87.166642ms)
+✔ an overloaded provider and a timed-out request use up no attempts: after the release the text is translated (136.626494ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ account 429 pauses translation without spending the article attempts (70.272255ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":15,"count":0,"jobs":[]}
+✔ X and Twitter status URL variants keep the same material identity (2.371555ms)
+✔ other sites containing a tweet URL keep their own material identity (6.261643ms)
+✔ only a complete status id at the expected path identifies a tweet (0.340597ms)
+✔ invalid and non-HTTP URLs cannot acquire a tweet identity (1.03288ms)
+✔ internal and reserved addresses are blocked in every spelling (3.777636ms)
+✔ URL literals that embed a loopback address are refused before any request (4.313589ms)
+✔ benchmark literals are refused without a local-debug override (1.550972ms)
+✔ blocked DNS names keep their boundary with a trailing root dot (4.912987ms)
+✔ the connection guard refuses private, mixed, reserved and empty DNS answers, including a changed answer (81.668446ms)
+✔ a listed private feed host may resolve to private service addresses, never to link-local or metadata (7.149692ms)
+✔ only the listing fetch of a listed host reaches a private service, directly, with every hop and connection checked (94.38528ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ RSS and web entries that point to videos skip body extraction even when full text was requested (203.870561ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ Atom and RSS Media descriptions survive as excerpts without pretending to be video body text (42.609366ms)
+✔ actual textual feed content stays usable, while a video summary never becomes a transcript (38.430193ms)
+✔ known video pages cannot pass the generic body reader or page-fetch policy (25.701897ms)
+✔ manual extraction makes no video request, and an ordinary link redirected to a player cannot save its controls (7.170981ms)
+✔ one alert when the worker stops, none while it stays stopped, one recovery when it is back (136.287464ms)
+✔ a failed send is tried again at the next check (25.116126ms)
+✔ with an alert webhook, alerts go to the group bot alone and need no message app (618.252789ms)
+✔ the alert webhook keeps within the custom bot's limits: 20 KB a request, 100 requests a minute (4202.263079ms)
+✔ expected route refusals and cancelled requests stay quiet; real errors keep request and stack (10.727267ms)
+✔ SSR fetch timeouts keep the upstream path and stack before the existing 503 mapping (1.71201ms)
+✔ SSR keeps ordinary upstream misses and caller cancellations quiet (4.517974ms)
+✔ an old document render failure checks fresh health and reloads its exact URL once (7.339727ms)
+✔ current releases and unsuccessful health checks keep the error page (18.760141ms)
+✔ route responses, admin and unversioned documents never probe health (4.622444ms)
+✔ blocked storage never risks an automatic reload loop (13.221972ms)
+✔ navigation while the version check is pending never reloads another page (3.12627ms)
+✔ withdrawn primary yields to an active report and does not count as evidence (144.181021ms)
+✔ all-withdrawn facts leave future recall and return when restored (34.816249ms)
+✔ summary-only and reports without publication retain existing recall eligibility (55.506124ms)
+✔ same URL cannot route directly through a withdrawn report (8.726811ms)
+✔ X reply and quote cannot boost a withdrawn report (19.196656ms)
+✔ a withdrawn-only earlier fact does not claim the root of an active candidate (50.355708ms)
+✔ withdrawn similarity hits do not consume a valid top candidate slot (44.906289ms)
+✔ later story comparison uses an active root report instead of its withdrawn primary (147.638595ms)
+✔ an all-withdrawn story supplies no material for a new paid story comparison (62.942744ms)
+✔ withdrawn bridge reports cannot create a new related link, while saved links remain (46.718361ms)
+✔ a post that links an X Article waits for extraction, which brings the article in as a new revision (633.902092ms)
+✔ extracting the same article again (an admin re-run) neither repeats it nor makes a revision (42.57767ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ an article that cannot be fetched is flagged to the model, not passed off as a complete body (26.033014ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":21,"count":0,"jobs":[]}
+✔ R01: X detail and original omit unlicensed text, translations, quotes and media (306.780487ms)
+✔ R02: Markdown exports only the licensed summary (78.817545ms)
+✔ R02: an unlicensed X post without a summary cannot enable Markdown (97.436812ms)
+✔ R03: every list projection retains the item without unlicensed X content (125.87458ms)
+✔ R04: revoking only site fulltext keeps editorial summaries after republishing (539.259877ms)
+✔ R05: revoking only syndication preserves licensed site reading and Markdown (177.009423ms)
+✔ R06/R07: x_search licence matrix site=false, syndicate=false (121.467012ms)
+✔ R06/R07: x_search licence matrix site=false, syndicate=true (133.832009ms)
+✔ R06/R07: x_search licence matrix site=true, syndicate=false (110.458174ms)
+✔ R06/R07: x_search licence matrix site=true, syndicate=true (85.622413ms)
+✔ R06/R07: rss licence matrix site=false, syndicate=false (79.538937ms)
+✔ R06/R07: rss licence matrix site=false, syndicate=true (63.539814ms)
+✔ R06/R07: rss licence matrix site=true, syndicate=false (134.127934ms)
+✔ R06/R07: rss licence matrix site=true, syndicate=true (104.100739ms)
+✔ R08: an unlicensed missing X structure does not restore content (53.507782ms)
+✔ R08: an unlicensed quote-only X structure does not restore content (79.873587ms)
+✔ R08: site permission does not override body status unconfirmed (45.33076ms)
+✔ R08: site permission does not override body status none (42.753681ms)
+✔ R09: missing translations retain existing licensed behavior and never bypass revocation (98.573795ms)
+✔ R09: stale translations retain existing licensed behavior and never bypass revocation (115.207188ms)
+✔ R09: same translations retain existing licensed behavior and never bypass revocation (114.191259ms)
+✔ R10: summary-only and withdrawn visibility retain stricter detail and export rules (61.933224ms)
+✔ R10: hot_signal sources keep detail and Markdown unavailable (34.346762ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":1,"count":0,"jobs":[]}
+✔ R10: isolated sources keep detail and Markdown unavailable (45.806201ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":20,"count":0,"jobs":[]}
+✖ empty and link-only posts preserve originals without calling either writer, even above the selection threshold (363.298027ms)
+✔ rebuilding an image-only post replaces historical model replies across public outputs and preserves its image and address (225.987693ms)
+✖ real text containing links and a fetched X Article keep their normal writing path (82.832098ms)
+✔ a quiet account under a new handle is followed, and its posts since the newest stored one are read (835.969339ms)
+✔ accounts that still post, keep their handle in another case, lost their posts or are paused stay as they are (387.63063ms)
+✔ a quiet account is looked up again the next day, not answered from the day before (759.513526ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ other permission refusals and provider failures still fail the rename check (118.056872ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":13,"count":0,"jobs":[]}
+✔ shards keep to the query length and account limits, per participation mode (65.32418ms)
+✔ one search reads a shard; each account gets its own posts, run and watermark (407.473577ms)
+✔ a page failing after the first keeps what was read and goes on from there next run (299.851828ms)
+✔ a quiet account's old newest post does not drag the shard's search back: its last check does (35.983729ms)
+✔ a post in the ten minutes before a check leaves the next search those ten minutes back (180.877341ms)
+✔ a failed search fails every account of the shard and moves no watermark (38.981712ms)
+✔ due accounts are scheduled by shard, not one by one (22.227233ms)
+✔ verified publishers include self-thread announcements in both single and shared searches (107.546445ms)
+✔ a shard storage failure closes all runs without advancing its coverage (158.922702ms)
+✔ paid search receipts and coverage commit together for single sources and shards (309.905312ms)
+{"level":"info","msg":"queue drain","phase":"start","elapsedMs":0,"count":0,"jobs":[]}
+✔ an account takes the avatar on its own latest post, whatever its name shows (14.541246ms)
+{"level":"info","msg":"queue drain","phase":"complete","elapsedMs":22,"count":0,"jobs":[]}
+✔ post text decodes the provider's three HTML escapes exactly once without stripping code (1.560792ms)
+✔ the post title, body and quote share decoding while expanded links and media stay intact (1.463714ms)
+ℹ tests 985
+ℹ suites 0
+ℹ pass 958
+ℹ fail 26
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 135200.50108
+
+✖ failing tests:
+
+test at tests/analyze-consistency.test.ts:38:1
+✖ a late successful analysis preserves newer input awaiting processing (319.248358ms)
+  AssertionError [ERR_ASSERTION]: the obsolete result is retained only against its original input
+  + actual - expected
+
+  + []
+  - [
+  -   1
+  - ]
+
+      at TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-consistency.test.ts:58:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 1 ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/analyze-consistency.test.ts:62:1
+✖ a failed analysis commit rolls back its judgement and receipt completion; retry reuses the saved responses (102.047155ms)
+  AssertionError [ERR_ASSERTION]: receipt completion rolls back with the judgement
+      at TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-consistency.test.ts:77:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/analyze-kill.test.ts:165:1
+✖ SIGKILL after responses are saved but before the business commit reuses all receipts on restart (15084.926362ms)
+  AssertionError [ERR_ASSERTION]: timeout waiting for all paid responses persisted
+      at until (file:///tmp/insurhot-validation/tests/analyze-kill.test.ts:76:39)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-kill.test.ts:181:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'fail',
+    diff: 'simple'
+  }
+
+test at tests/analyze-missing-evidence.test.ts:49:72
+✖ {"bodyText":"来源确认模型发布。"} (230.020979ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:missing-mvulj5kmjoz15@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-missing-evidence.test.ts:51:35)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-missing-evidence.test.ts:49:64)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    receiptId: 3
+  }
+
+test at tests/analyze-missing-evidence.test.ts:49:72
+✖ {"excerpt":"来源确认模型发布。"} (110.498409ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:missing-mvulj5r14jykp@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-missing-evidence.test.ts:51:35)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-missing-evidence.test.ts:49:64)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    receiptId: 5
+  }
+
+test at tests/analyze-missing-evidence.test.ts:49:72
+✖ {"xPost":{"text":"支持","quoted":{"text":"来源确认模型发布。"}}} (50.479468ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:missing-mvulj5u45a04s@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-missing-evidence.test.ts:51:35)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-missing-evidence.test.ts:49:64)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    receiptId: 8
+  }
+
+test at tests/analyze-missing-evidence.test.ts:61:66
+✖ media-only (52.021749ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:missing-mvulj5vltyaii@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-missing-evidence.test.ts:63:17)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-missing-evidence.test.ts:61:58)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    receiptId: 12
+  }
+
+test at tests/analyze-missing-evidence.test.ts:61:66
+✖ https://example.org/launch (44.694805ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:missing-mvulj5x12ycqs@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-missing-evidence.test.ts:63:17)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-missing-evidence.test.ts:61:58)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    receiptId: 15
+  }
+
+test at tests/analyze-missing-evidence.test.ts:74:1
+✖ a later material revision can be scored after the title-only revision waits (40.824049ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:missing-mvulj5ybscfyl@2: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-missing-evidence.test.ts:79:33)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    receiptId: 18
+  }
+
+test at tests/analyze-shutdown.test.ts:92:1
+✖ SIGTERM during the final paid writing call still commits the complete analysis and publication (120027.481301ms)
+  'test timed out after 120000ms'
+
+test at tests/analyze-shutdown.test.ts:116:40
+✖ SIGTERM during successful first score drains slower structure and leaves a retryable job (1408.749573ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+    [
+      [
+        'prefilter_article',
+        'received'
+      ],
+      [
+        'score_article',
+  +     'failed'
+  -     'received'
+      ],
+      [
+        'structure_article',
+        'received'
+      ]
+
+      at TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-shutdown.test.ts:142:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ [ 'prefilter_article', 'received' ], [ 'score_article', 'failed' ], [ 'structure_article', 'received' ] ],
+    expected: [ [ 'prefilter_article', 'received' ], [ 'score_article', 'received' ], [ 'structure_article', 'received' ] ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/analyze-shutdown.test.ts:116:40
+✖ SIGTERM during failed first score drains slower structure and leaves a retryable job (1995.948564ms)
+  AssertionError [ERR_ASSERTION]: two ordered successful scores, only a rejected request repeats
+
+  2 !== 3
+
+      at TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze-shutdown.test.ts:149:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 3,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/analyze.test.ts:89:1
+✖ a selected item: prefilter, two scores, the content understanding and the structure (163.141068ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:u3qzaakmkb5c56iqt3gtu132i@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async analyzeArticle (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:566:15)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze.test.ts:92:15)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    receiptId: 3
+  }
+
+test at tests/analyze.test.ts:107:1
+✖ a word the site keeps from readers goes back once to be changed; copy without one is not sent (98.224392ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:wofet4x1570a4qav1jsnkwayd@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async analyzeArticle (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:566:15)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze.test.ts:112:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    receiptId: 5
+  }
+
+test at tests/analyze.test.ts:124:1
+✖ the first copy stands when the provider refuses the mend, the mend changes a number or leaves as many such words (80.15241ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:bqokzcc1syh1lhh378ot5fm18@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async analyzeArticle (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:566:15)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze.test.ts:129:7)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    receiptId: 9
+  }
+
+test at tests/analyze.test.ts:175:1
+✖ a near-selected item is written like a selected one; below the floor it is translated (71.18439ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:mbq1uvju45mezj5hldg1zqvcg@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async analyzeArticle (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:566:15)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze.test.ts:176:16)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    receiptId: 12
+  }
+
+test at tests/analyze.test.ts:185:1
+✖ the prefilter's BLOCK stops everything; UNKNOWN with material goes on like PASS (144.913039ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:fw0ulm8601vky7v8gweessanj@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async analyzeArticle (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:566:15)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze.test.ts:191:17)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    receiptId: 15
+  }
+
+test at tests/analyze.test.ts:200:1
+✖ a feed summary alone: the article page is fetched first, then the whole article is judged (290.944656ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:yyr7os662l0fjk1fawhbecquq@2: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async analyzeArticle (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:566:15)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze.test.ts:213:18)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    receiptId: 18
+  }
+
+test at tests/analyze.test.ts:217:1
+✖ a short post in Chinese is its own copy; a content-filter refusal is translated instead (128.181753ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:eoztcj2eo1bfppvm9yq71h4dt@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async analyzeArticle (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:566:15)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze.test.ts:224:16)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    receiptId: 22
+  }
+
+test at tests/analyze.test.ts:252:1
+✖ analysing the same revision again reuses every paid answer (66.663673ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:pl95troef13iphgmp3ij5lkit@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async analyzeArticle (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:566:15)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/analyze.test.ts:255:17)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    receiptId: 25
+  }
+
+test at tests/default-model.test.ts:45:1
+✖ one model runs the prefilter, both scores, the writing and the structure (262.034717ms)
+  Error: Model default returned unusable output for article:cjtkduylg25qman03b3k6nfy0@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async analyzeArticle (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:566:15)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/default-model.test.ts:50:15)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    receiptId: 3
+  }
+
+test at tests/processing-recovery.test.ts:165:1
+✖ a temporary provider failure resumes the manual evaluation instead of reinstalling the old verdict (258.340757ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  'new' !== 'analyzed'
+
+      at TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/processing-recovery.test.ts:178:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'new',
+    expected: 'analyzed',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/processing-recovery.test.ts:214:1
+✖ historical analysis queues a free identity confirmation behind live news (53.629542ms)
+  AssertionError [ERR_ASSERTION]: history must receive a completed identity decision too
+      at TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/processing-recovery.test.ts:221:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/x-original-posts.test.ts:46:1
+✖ empty and link-only posts preserve originals without calling either writer, even above the selection threshold (363.298027ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:nm0arso0vgaxo23st06pne5mm@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async analyzeArticle (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:566:15)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/x-original-posts.test.ts:53:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    receiptId: 3
+  }
+
+test at tests/x-original-posts.test.ts:105:1
+✖ real text containing links and a fetched X Article keep their normal writing path (82.832098ms)
+  Error: Model glm-5.3-flash-selection returned unusable output for article:arou05485her0wnf0cie2z13x@1: [
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "event"
+      ],
+      "message": "Invalid input: expected object, received undefined"
+    },
+    {
+      "expected": "object",
+      "code": "invalid_type",
+      "path": [
+        "axes"
+      ],
+      "message": "Invalid input: expected
+      at chatOnce (file:///tmp/insurhot-validation/packages/backend/src/providers/llm.ts:240:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async runScores (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:292:21)
+      at async runAnalysis (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:495:20)
+      at async analyzeArticle (file:///tmp/insurhot-validation/packages/backend/src/editorial/analyze.ts:566:15)
+      at async TestContext.<anonymous> (file:///tmp/insurhot-validation/tests/x-original-posts.test.ts:113:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    receiptId: 5
+  }

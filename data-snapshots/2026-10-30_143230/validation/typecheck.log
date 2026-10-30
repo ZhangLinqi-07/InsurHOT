@@ -1,0 +1,7 @@
+
+> typecheck
+> tsc -p packages/contracts && tsc -p packages/backend && tsc -p apps/api && tsc -p apps/worker && tsc -p tests && tsc -p modules && npm run typecheck -w @aihot/web
+
+
+> typecheck
+> react-router typegen && tsc -p .
