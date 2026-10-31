@@ -207,7 +207,7 @@ export async function contentChain(id: string): Promise<Chain | null> {
     sql<Chain["revisions"]>`SELECT revision, title, content_hash, created_at FROM article_revisions WHERE article_id = ${id} ORDER BY revision DESC LIMIT 10`,
     sql<Chain["analyses"]>`
       SELECT an.id, an.origin, an.model, an.prompt_version, an.input_revision, an.relevance, an.category, an.score, an.selected, an.title_zh, an.reason_zh,
-             an.created_at,
+             an.created_at, an.output,
              (SELECT coalesce(jsonb_agg(jsonb_build_object('id', r.id, 'status', r.status, 'service', r.service, 'model', r.model, 'cost', r.cost, 'at', r.created_at) ORDER BY r.id), '[]'::jsonb)
                 FROM receipts r WHERE r.id = ANY(an.receipt_ids)) AS receipts
       FROM analyses an WHERE an.article_id = ${id} ORDER BY an.created_at DESC LIMIT 10`,
@@ -315,7 +315,7 @@ export async function overrideFields(id: string, input: { fields: unknown; clear
     if (published?.changed) {
       await emit("articleChanged", { id, kind: "content", reduced: published.reduced, reason: "manual correction" }, tx);
       const changedFields = new Set([...Object.keys(fields), ...(input.clear ?? [])]);
-      if (changedFields.has("category") || changedFields.has("tags")) await correctReportClassification(tx, id, input.reason);
+      if (["category", "tags", "title", "summary"].some(field => changedFields.has(field))) await correctReportClassification(tx, id, input.reason);
       const [st] = await tx<{ story_id: number | null }[]>`SELECT story_id FROM publications WHERE article_id = ${id}`;
       if (st?.story_id && [...changedFields].some(k => k !== "category" && k !== "tags")) {
         await enqueue(QUEUES.digest, { storyId: st.story_id }, { singletonKey: `story:${st.story_id}` }, tx);

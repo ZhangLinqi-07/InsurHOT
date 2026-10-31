@@ -6,6 +6,7 @@ import {once} from 'node:events';
 import {setTimeout as delay} from 'node:timers/promises';
 import {createConnection} from 'node:net';
 import {startCollector} from './collector-service.mjs';
+import {startWorkflow} from './workflow-service.mjs';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const stateFile=resolve(root,'.data/local-services.json');
@@ -49,4 +50,5 @@ for(let n=0;n<40;n++){
 }
 if(!ready)throw new Error('InsurHOT did not become ready. Inspect .data/api.err.log and .data/web.err.log.');
 await startCollector();
-console.log('InsurHOT ready at http://localhost:3000; free source collection is running, model processing remains off.');
+const workflow=await startWorkflow();
+console.log(`InsurHOT ready at http://localhost:3000; free collection is running; new-news workflow ${workflow?'running':'disabled'}.`);

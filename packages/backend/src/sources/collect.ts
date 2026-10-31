@@ -137,7 +137,7 @@ function detailNeed(c: CollectionCandidate, stored: StoredDetail | undefined, so
     date: d.publishedAtAuthoritative === true || !(stored?.published_at || c.publishedAt) || d.upgradeDatePrecision === true,
     title: !!(d.titleSelector || d.titleRegex) && (d.titleAuthoritative === true || (!storedHeadline && needsTitle(c.title))),
     summary: !!d.summarySelector && !(stored?.excerpt || c.excerpt),
-    body: source.participation_mode === "editorial" && stored?.body_status !== "ok" && !c.bodyText && (!c.bodyStatus || c.bodyStatus === "pending"),
+    body: source.config.fetchPublicContent !== false && source.participation_mode === "editorial" && stored?.body_status !== "ok" && !c.bodyText && (!c.bodyStatus || c.bodyStatus === "pending"),
   };
   return need.date || need.title || need.summary ? need : null;
 }

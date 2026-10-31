@@ -15,6 +15,8 @@ export interface NavItem {
   end?: boolean;
   /** Shows the unread dot while the changelog has news. */
   changelog?: boolean;
+  /** A module entry may precede this sidebar address; other entries keep their order. */
+  before?: string;
 }
 
 const SECTIONS: Array<{ title: string; items: NavItem[] }> = [
@@ -69,7 +71,11 @@ export function sidebar(): Array<{ title: string; items: NavItem[] }> {
   for (const m of webModules()) {
     if (!m.sidebar) continue;
     const section = sections.find((s) => s.title === m.sidebar!.section);
-    if (section) section.items.push(...m.sidebar.items);
+    if (section) for (const item of m.sidebar.items) {
+      const index = item.before ? section.items.findIndex((entry) => entry.to === item.before) : -1;
+      if (index < 0) section.items.push(item);
+      else section.items.splice(index, 0, item);
+    }
     else sections.push({ title: m.sidebar.section, items: [...m.sidebar.items] });
   }
   return [...sections, more];

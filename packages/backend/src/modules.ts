@@ -5,11 +5,36 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import type { WorkOptions } from "pg-boss";
 import type { z } from "zod";
-import type { Brand } from "@aihot/contracts/site";
+import type { Brand, ReportDivision } from "@aihot/contracts/site";
 import type { Db } from "./db.ts";
 import type { QueueOptions } from "./jobs/queue.ts";
 import type { Finding } from "./notify/feishu.ts";
 import type { Topic, TopicMember } from "./publication/topics.ts";
+import type { CategoryKey } from "@aihot/contracts/taxonomy";
+
+/** Classification uses the finished headline and summary, independently of factual extraction. */
+export interface ArticleClassification {
+  category: CategoryKey;
+  evidence: Record<string, unknown>;
+}
+
+export interface ClassificationInput {
+  title: string;
+  originalTitle: string | null;
+  summary: string | null;
+}
+
+export interface PublicationScoreInput {
+  articleId: string;
+  title: string;
+  summary: string | null;
+  category: string | null;
+}
+
+export interface StoredPublicationScore {
+  score: number;
+  evidence: Record<string, unknown>;
+}
 
 /** A cron schedule (Asia/Shanghai), recorded in job_runs like the engine's (apps/worker/src/schedules.ts). */
 export interface Scheduled {
@@ -182,10 +207,23 @@ export interface RequestNotices {
 export interface ServerModule {
   /** Its folder under modules/. */
   name: string;
+  /** This site admits material with program checks and does not run an LLM relevance gate. */
+  articlePrefilter?: false;
+  /** First provider supplies the final category (editorial/analyze.ts and publication/publish.ts). */
+  classifyArticle?: (input: ClassificationInput) => ArticleClassification;
+  /** Stored, independent scoring of already classified copy (publication/publish.ts); never calls a model. */
+  publicationScore?: (input: PublicationScoreInput, db: Db) => Promise<StoredPublicationScore | null>;
   /** Admit current relevance-only results as original-title/excerpt cards, without scoring or selection (publication/publish.ts). */
   screenedPublication?: { screeningPrefix: string; from: string };
+  /** Collected editorial material enters the public pool immediately, without a model judgement. */
+  materialPublication?: true;
   /** Sources whose selected articles keep independent cards/seats without changing admission or event identity (publication/rules.ts, scope.ts). */
   independentSelectedSources?: readonly string[];
+  /** Report divisions and evidence-based assignments (reports/compose.ts). The first provider owns the edition. */
+  reportDivisions?: {
+    divisions: readonly (Pick<ReportDivision, "key" | "label"> & { keepEmpty?: boolean })[];
+    assign: (articleIds: string[]) => Promise<Map<string, string>>;
+  };
   /** Its HTTP routes, and hooks on the app such as what to flush when it closes, registered before the engine's v1 fallbacks (apps/api/src/app.ts). */
   http?: (app: FastifyInstance) => void;
   agent?: {
@@ -274,6 +312,23 @@ export function installModules(modules: readonly ServerModule[]): void {
 
 export function serverModules(): readonly ServerModule[] {
   return installed;
+}
+
+export function articlePrefilterEnabled(): boolean {
+  return !installed.some(module => module.articlePrefilter === false);
+}
+
+export function classifyArticle(input: ClassificationInput): ArticleClassification | null {
+  const provider = installed.find(m => m.classifyArticle)?.classifyArticle;
+  return provider ? provider(input) : null;
+}
+
+export async function storedPublicationScore(input: PublicationScoreInput, db: Db): Promise<StoredPublicationScore | null> {
+  for (const module of installed) {
+    const score = await module.publicationScore?.(input, db);
+    if (score) return score;
+  }
+  return null;
 }
 
 /** The first installed module's reminder for the person behind this request, at this exit. */

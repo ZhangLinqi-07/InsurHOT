@@ -5,6 +5,15 @@ import { useEffect, useRef, useState } from "react";
 /** Whether the reader asked for reduced motion: still drawings, no animations, instant jumps. */
 export const reducedMotion = (): boolean => matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+/** Observe preference changes while a reader keeps an animated page open. */
+export function observeReducedMotion(listener: (reduced: boolean) => void): () => void {
+  const media = matchMedia("(prefers-reduced-motion: reduce)");
+  const update = () => listener(media.matches);
+  update();
+  media.addEventListener("change", update);
+  return () => media.removeEventListener("change", update);
+}
+
 /** How the page scrolls for the reader: smoothly, or at once under reduced motion. */
 export const scrollBehavior = (): ScrollBehavior => (reducedMotion() ? "auto" : "smooth");
 

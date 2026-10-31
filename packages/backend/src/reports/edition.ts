@@ -13,6 +13,7 @@ import { currentSignals } from "../events/hot.ts";
 import { pickRepresentative, representativePriority, REPRESENTATIVE_COLUMNS, type RepresentativeIdentity } from "../publication/representative.ts";
 import { factSources } from "../publication/coverage.ts";
 import { evidenceCondition, listedCondition, ownFactEvidenceCondition } from "../publication/scope.ts";
+import { balancedEntries } from "./divisions.ts";
 
 /** Each category's section; several categories may share one, in the order the pack lists them. */
 export const SECTION_OF: Record<string, string> = Object.fromEntries(CATEGORIES.map((c) => [c.key, c.section]));
@@ -100,7 +101,7 @@ const REPORT_FIELDS = sql`p.article_id AS id, p.title, p.summary, p.url, p.categ
  * issue, never to one already out). A report that arrived more than a day before the period began and
  * was released only within it is old news there.
  */
-export async function periodReports(start: Date, end: Date): Promise<ReportRow[]> {
+export async function periodReports(start: Date, end: Date, basis: "arrival" | "publication" = "arrival"): Promise<ReportRow[]> {
   return sql.begin("isolation level read committed", async (tx) => {
     // Wait for in-flight releases and keep later ones outside this snapshot. The following SELECT
     // gets a fresh READ COMMITTED snapshot; model calls and report writes happen after the lock ends.
@@ -111,12 +112,12 @@ export async function periodReports(start: Date, end: Date): Promise<ReportRow[]
       LEFT JOIN facts f ON f.id = p.fact_id AND ${ownFactEvidenceCondition()}
       LEFT JOIN stories st ON st.id = f.story_id
       -- Attribute each item by the later of arrival and release; either range can use its index.
-      WHERE p.visibility = 'public' AND p.selected AND NOT p.backfill
-        AND (
+      WHERE p.visibility = 'public' AND p.selected
+        AND ${basis === "publication" ? sql`(${listedCondition(new Date())}) AND p.published_at >= ${start} AND p.published_at < ${end}` : sql`NOT p.backfill AND (
           (p.visible_after <= p.timeline_at AND p.timeline_at >= ${start} AND p.timeline_at < ${end})
           OR (p.visible_after > p.timeline_at AND p.visible_after >= ${start} AND p.visible_after < ${end})
         )
-        AND p.timeline_at >= ${start}::timestamptz - interval '24 hours'`;
+        AND p.timeline_at >= ${start}::timestamptz - interval '24 hours'`}`;
   });
 }
 
@@ -296,8 +297,8 @@ interface Fact { key: string; rows: ReportRow[]; selected: boolean; sources: str
  * The daily's events for the window [start, end), most important first, before the editors' pass:
  * selected reports and missed facts, minus what the week's issues already carried, one entry per event.
  */
-export async function dailyEdition(date: string, start: Date, end: Date): Promise<{ entries: EditionEntry[]; stats: Record<string, number> }> {
-  const [memory, selected, missed, judged] = await Promise.all([dailyMemory(date), periodReports(start, end), missedFacts(start, end), judgedReports(start, end)]);
+export async function dailyEdition(date: string, start: Date, end: Date, basis: "arrival" | "publication" = "arrival"): Promise<{ entries: EditionEntry[]; stats: Record<string, number> }> {
+  const [memory, selected, missed, judged] = await Promise.all([dailyMemory(date), periodReports(start, end, basis), missedFacts(start, end), judgedReports(start, end)]);
   const raw = [
     ...[...groupBy(selected, factKeyOf)].map(([key, rows]) => ({ key, rows, selected: true })),
     ...missed.map((m) => ({ ...m, selected: false })),
@@ -376,7 +377,7 @@ export async function dailyEdition(date: string, start: Date, end: Date): Promis
  * then the most important entries in full, at most two per source, and the next ones as flashes. The
  * first entry leads the issue and the next three are its highlights.
  */
-export function arrangeDaily(entries: EditionEntry[]): { main: EditionEntry[]; flashes: EditionEntry[]; stats: Record<string, number> } {
+export function arrangeDaily(entries: EditionEntry[], division?: (entry: EditionEntry) => string): { main: EditionEntry[]; flashes: EditionEntry[]; stats: Record<string, number> } {
   const byStory = new Map(entries.filter((e) => e.storyId !== null).map((e) => [e.storyId!, e]));
   const under = new Map<EditionEntry, EditionEntry[]>();
   for (const e of entries) {
@@ -399,13 +400,15 @@ export function arrangeDaily(entries: EditionEntry[]): { main: EditionEntry[]; f
   const main: EditionEntry[] = [];
   const rest: EditionEntry[] = [];
   const perSource = new Map<string, number>();
-  for (const e of live) {
+  for (const e of division ? balancedEntries(live, division) : live) {
     const n = perSource.get(e.entry.sourceId) ?? 0;
     if (main.length < MAIN_ENTRIES && n < PER_SOURCE && full(e)) {
       main.push(e);
       perSource.set(e.entry.sourceId, n + 1);
     } else rest.push(e);
   }
+  // Keep the original importance order for the issue's headline after balancing admission.
+  main.sort((a, b) => live.indexOf(a) - live.indexOf(b));
   const flashes = rest.slice(0, FLASH_ENTRIES);
   return { main, flashes, stats: { roundupsFolded: folded.size, followUpsAsFlashes: live.filter((e) => !full(e)).length, left: rest.length - flashes.length } };
 }

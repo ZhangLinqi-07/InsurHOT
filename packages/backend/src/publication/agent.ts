@@ -152,6 +152,8 @@ export function storyAnswer(s: Story, limit: number, via: Via): string {
 type Links = { aihot: string | null; original: string };
 /** The v1 daily report (its sections are read from stored JSON, so v1Daily leaves them untyped). */
 export interface DailyReport {
+  editorialNote?: string;
+  divisions?: Array<{ label: string; summary: string | null }>;
   date: string;
   windowStart: string;
   windowEnd: string;
@@ -172,6 +174,8 @@ function noteLines(note: DailyNote | undefined): string[] {
 
 export function dailyAnswer(r: DailyReport, via: Via, notes: Map<string, DailyNote> = new Map()): string {
   const data: string[] = [];
+  if (r.editorialNote) data.push(r.editorialNote, "");
+  for (const d of r.divisions ?? []) data.push(`【${d.label}导读】`, d.summary ?? "本期暂无符合入选条件的新增事件。", "");
   // The lead is the issue's first entry in its own words: name it, not its summary twice.
   const own = r.sections.some((s) => s.items.some((it) => it.title === r.lead?.title && it.summary === r.lead?.leadParagraph));
   if (r.lead) data.push(own ? `头条：${r.lead.title}` : `导语：${r.lead.title}`, ...(own ? [] : [r.lead.leadParagraph]), "");
@@ -204,6 +208,7 @@ export function dailyAnswer(r: DailyReport, via: Via, notes: Map<string, DailyNo
 
 /** A v1 weekly or monthly report (read from stored JSON by v1Period). */
 export interface PeriodReport {
+  divisions?: Array<{ label: string; summary: string | null }>;
   week?: string;
   month?: string;
   periodStart: string | null;
@@ -221,6 +226,7 @@ export function periodAnswer(r: PeriodReport, kind: "weekly" | "monthly", via: V
   const data: string[] = [];
   if (r.headline) data.push(`头条：${r.headline}`);
   if (r.overview) data.push(`总述：${r.overview}`);
+  for (const d of r.divisions ?? []) data.push(`【${d.label}导读】`, d.summary ?? "本期暂无符合入选条件的事件。");
   if (data.length) data.push("");
   for (const s of r.sections) {
     data.push(`【${s.label}】`, ...(s.summary ? [`导读：${s.summary}`] : []));

@@ -39,3 +39,34 @@ test("a failed NFRA body advances the database rotation to unattempted articles"
   assert.equal(saved.value.status, "failed");
   assert.ok(saved.value.attemptedAt);
 });
+
+test("NFRA uses the known JSON article body for short notices, rejects corrupt text and footer-only extraction", () => {
+  const text = "据有关部门消息，原监管机构有关负责人涉嫌严重违纪违法，目前正接受纪律审查和监察调查。";
+  const result = parseNfraBody(url, { rptCode: 200, data: { docId: 123, docClob: '<html><head><meta charset="gb2312"></head><body><p>' + text + '</p></body></html>' } });
+  assert.equal(result.text, text);
+  assert.throws(() => parseNfraBody(url, { rptCode: 200, data: { docId: 123, docClob: '<p>' + text + '�</p>' } }), /confirmed/);
+  assert.throws(() => parseNfraBody(url, { rptCode: 200, data: { docId: 123, docClob: '<p>版权与免责声明' + text.repeat(3) + '</p>' } }), /confirmed/);
+});
+
+
+test("NFRA access refusals stay out of rotation until explicitly cleared while ordinary failures remain eligible", async () => {
+  const sourceId = `nfra-403-test-${Date.now()}`;
+  await sql`INSERT INTO sources (id,name,kind,config,tier,enabled) VALUES (${sourceId},'NFRA access refusal test','json_list','{}'::jsonb,'T1',true)`;
+  const denied = await upsertMaterial({ sourceId, title: "Article whose publisher refused access", url: url.replace("docId=123", "docId=987654323"), via: "import" });
+  const ordinary = await upsertMaterial({ sourceId, title: "Article awaiting readable body", url: url.replace("docId=123", "docId=987654324"), via: "import" });
+  const unattempted = await upsertMaterial({ sourceId, title: "Article not yet attempted", url: url.replace("docId=123", "docId=987654325"), via: "import" });
+  await recordNfraAttempt(denied.articleId, "failed", "HTTP 403 for NFRA article JSON");
+  await recordNfraAttempt(ordinary.articleId, "failed", "Article has no readable body");
+  for (let poll = 0; poll < 2; poll++) {
+    const pending = await pendingNfraArticles(100);
+    assert.ok(!pending.some(article => article.id === denied.articleId));
+    assert.ok(pending.some(article => article.id === ordinary.articleId));
+    assert.ok(pending.some(article => article.id === unattempted.articleId));
+  }
+  const [saved] = await sql`SELECT value FROM settings WHERE key=${'insurance.nfra-body.' + denied.articleId}`;
+  assert.equal(saved.value.status, "failed");
+  assert.equal(saved.value.error, "HTTP 403 for NFRA article JSON");
+  // An operator may explicitly clear the refusal after publisher access is restored.
+  await sql`DELETE FROM settings WHERE key=${'insurance.nfra-body.' + denied.articleId}`;
+  assert.ok((await pendingNfraArticles(100)).some(article => article.id === denied.articleId));
+});

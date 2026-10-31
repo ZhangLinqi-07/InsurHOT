@@ -65,7 +65,7 @@ test("a correction refreshes named content and its topic membership before the i
   assert.equal(retitled?.topic.latest?.title, title, "the page headline");
   assert.equal((await listTopicSummaries()).topics.find((t) => t.slug === "scor")?.latest?.title, title, "the directory headline");
 
-  await overrideFields(corrected, { fields: { category: "opinion" }, version: 1, reason: "实际是教程" }, "test-topics");
+  await overrideFields(corrected, { fields: { category: "claims" }, version: 1, reason: "实际是教程" }, "test-topics");
   const reclassified = await loadTopicPage("scor", 1);
   assert.equal(reclassified?.items[0]?.id, corrected, "it remains a selected report");
 

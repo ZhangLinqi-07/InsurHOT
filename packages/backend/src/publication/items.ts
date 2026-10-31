@@ -13,6 +13,7 @@ import { foldableSelectionCondition, seatedCondition } from "./scope.ts";
 
 export interface ItemRow {
   prefiltered?: boolean;
+  source_excerpt_translated?: boolean;
   id: string;
   title: string;
   original_title: string | null;
@@ -53,6 +54,7 @@ export const ITEM_COLUMNS = sql`
   p.article_id AS id, p.title, p.original_title, p.summary, p.reason, p.category, p.tags, p.score,
   p.selected, p.seat, p.channel, p.url, p.published_at, p.discovered_at, p.timeline_at, p.visibility,
   (p.analysis_id IS NULL AND p.eligible) AS prefiltered,
+  EXISTS(SELECT 1 FROM preview_translations pt WHERE pt.article_id=a.id AND pt.revision=a.revision AND pt.original_title=a.title AND pt.title_zh=p.title AND pt.excerpt_zh=p.summary) AS source_excerpt_translated,
   p.body_mode, p.indexable, p.fact_id, s.name AS source_name, s.participation_mode AS source_mode,
   a.x_post, a.author, a.language,
   CASE WHEN s.kind = 'x_search' AND ${sourceOwnsPost(sql`s.config`, sql`a.x_post->>'handle'`)} THEN s.icon_url END AS author_avatar_url,
@@ -91,7 +93,8 @@ export function categoryCondition(category: CategoryKey | null | undefined) {
 /** The public API's, RSS's and MCP's filter: every category the site publishes as this one (PUBLIC_CATEGORIES). */
 export function publicCategoryCondition(category: PublicApiCategoryKey | null | undefined) {
   if (!category) return sql``;
-  return sql`AND p.category IN ${sql(CATEGORY_KEYS.filter((k) => toPublicApiCategory(k) === category))}`;
+  const keys = CATEGORY_KEYS.filter((k) => toPublicApiCategory(k) === category);
+  return sql`AND p.category IN ${sql(keys.length ? keys : [category])}`;
 }
 
 export function tagCondition(tag: string | null | undefined) {
@@ -155,6 +158,7 @@ export function showsPost(row: { channel: string; body_mode: string }): boolean 
 export function toItemSummary(row: ItemRow): ItemSummary {
   return {
     ...(row.prefiltered ? { prefiltered: true as const } : {}),
+    ...(row.source_excerpt_translated ? { sourceExcerptTranslated: true as const } : {}),
     id: row.id,
     title: row.title,
     originalTitle: row.original_title,
@@ -181,6 +185,7 @@ export function toFeedItemSummary(row: ItemRow): FeedItemSummary {
   return {
     id: item.id, title: item.title, summary: item.summary ?? (x?.text || null), reason: item.reason,
     ...(item.prefiltered ? { prefiltered: true as const } : {}),
+    ...(item.sourceExcerptTranslated ? { sourceExcerptTranslated: true as const } : {}),
     source: item.source, publishedAt: item.publishedAt, timelineAt: item.timelineAt,
     category: item.category, tags: item.tags, score: item.score, selected: item.selected, channel: item.channel,
     x: x ? {

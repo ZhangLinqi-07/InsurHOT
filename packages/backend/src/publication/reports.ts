@@ -1,6 +1,6 @@
 // Reports through the public read layer: website DTOs and the v1 shapes. Only real reports are
 // listed; a missing date is a 404, never another day. Withdrawn citations are marked, not shown.
-import type { ReportCitation, ReportDetail, ReportIndexEntry, ReportNavigationEntry, ReportKind } from "@aihot/contracts/site";
+import type { ReportCitation, ReportDetail, ReportDivision, ReportIndexEntry, ReportNavigationEntry, ReportKind } from "@aihot/contracts/site";
 import { REPORTS, SITE, withSubject } from "@aihot/site";
 import { sql } from "../db.ts";
 import { cached, type Cached } from "../lib/cache.ts";
@@ -253,7 +253,7 @@ function citedSources(content: Record<string, any>, kind: "daily" | "periodic", 
  * event, the event's other developments listed under it (titles only), and the earlier daily it follows.
  */
 function entryCitation(raw: Record<string, any>, avail: Map<string, Availability>): ReportCitation {
-  const citation = citationFrom(raw, avail);
+  const citation = { ...citationFrom(raw, avail), ...(typeof raw.division === "string" ? { division: raw.division } : {}) };
   if (!citation.available) return citation;
   const related: ReportCitation[] = (raw.related ?? []).map((r: Record<string, any>) => ({ ...citationFrom(r, avail), summary: null }));
   return {
@@ -262,6 +262,18 @@ function entryCitation(raw: Record<string, any>, avail: Map<string, Availability
     ...(related.length ? { related } : {}),
     ...(typeof raw.followUp === "string" ? { followUp: raw.followUp } : {}),
   };
+}
+
+function divisionViews(content: Record<string, any>, avail: Map<string, Availability>): ReportDivision[] | undefined {
+  return content.divisions?.map((d: Record<string, any>) => ({
+    key: String(d.key), label: String(d.label),
+    summary: (d.itemIds ?? []).some((id: string) => avail.get(id)?.available === false) ? null : d.summary ?? null,
+  }));
+}
+
+function sectionLabel(content: Record<string, any>, section: Record<string, any>, label: string): string {
+  const division = content.divisions?.find((d: Record<string, any>) => d.key === section.division);
+  return division ? `${division.label} · ${label}` : label;
 }
 
 const bigrams = (text: string) => {
@@ -324,8 +336,8 @@ async function neighbors(kind: ReportKind, key: string): Promise<{ prev: string 
 
 export async function loadReport(kind: ReportKind, key: string): Promise<ReportDetail | null> {
   // Its number counts every issue of the kind up to it, as the index numbers them (reportIndexRows).
-  const [r] = await sql<(Pick<ReportRow, "content" | "generated_at"> & { issue_number: number })[]>`
-    SELECT r.content, r.generated_at, (SELECT count(*)::int FROM reports earlier WHERE earlier.kind = r.kind AND earlier.key <= r.key) AS issue_number
+  const [r] = await sql<(Pick<ReportRow, "content" | "generated_at" | "window_start" | "window_end"> & { issue_number: number })[]>`
+    SELECT r.content, r.generated_at, r.window_start, r.window_end, (SELECT count(*)::int FROM reports earlier WHERE earlier.kind = r.kind AND earlier.key <= r.key) AS issue_number
     FROM reports r WHERE r.kind = ${kind} AND r.key = ${key}`;
   if (!r) return null;
   const c = r.content;
@@ -339,8 +351,8 @@ export async function loadReport(kind: ReportKind, key: string): Promise<ReportD
   const cite = (raw: Record<string, any>) => entryCitation(raw, avail);
 
   const sections: ReportDetail["sections"] = kind === "daily"
-    ? (c.sections ?? []).map((s: any) => ({ label: String(s.label), summary: null, items: (s.items ?? []).map(cite) }))
-    : (c.themes ?? []).map((t: any) => ({ label: String(t.heading), summary: sectionSummary(t, avail), items: (t.storyRefs ?? []).map(cite) }));
+    ? (c.sections ?? []).map((s: any) => ({ label: String(s.label), summary: null, items: (s.items ?? []).map(cite), ...(s.division ? { division: String(s.division) } : {}) }))
+    : (c.themes ?? []).map((t: any) => ({ label: String(t.heading), summary: sectionSummary(t, avail), items: (t.storyRefs ?? []).map(cite), ...(t.division ? { division: String(t.division) } : {}) }));
   const all = sections.flatMap((s) => s.items);
   const highlightIds: string[] = c.highlights ?? [];
   const highlights = highlightIds.length
@@ -368,6 +380,8 @@ export async function loadReport(kind: ReportKind, key: string): Promise<ReportD
     issueNumber: r.issue_number,
     title,
     generatedAt: r.generated_at.toISOString(),
+    windowStart: r.window_start.toISOString(),
+    windowEnd: r.window_end.toISOString(),
     lead: hasCitedLead
       ? (named ? { title: named.title, leadParagraph: (kind === "daily" ? named.leadParagraph : overview) ?? "" } : null)
       : kind === "daily" ? c.lead ?? null
@@ -376,6 +390,8 @@ export async function loadReport(kind: ReportKind, key: string): Promise<ReportD
     overview,
     highlights,
     sections,
+    ...(c.divisions ? { divisions: divisionViews(c, avail) } : {}),
+    ...(typeof c.editorialNote === "string" ? { editorialNote: c.editorialNote } : {}),
     flashes: (c.flashes ?? []).map(cite),
     cover,
     metrics: {
@@ -485,8 +501,10 @@ export async function dailyWithNotes(date: string | "latest") {
       links: { aihot: url },
       attribution: attribution(url),
       lead: lead ? { title: lead.title, leadParagraph: lead.leadParagraph ?? "" } : null,
+      ...(c.divisions ? { divisions: divisionViews(c, avail) } : {}),
+      ...(typeof c.editorialNote === "string" ? { editorialNote: c.editorialNote } : {}),
       sections: (c.sections ?? []).map((s: any) => ({
-        label: String(s.label),
+        label: sectionLabel(c, s, String(s.label)),
         items: (s.items ?? []).filter(ok).map((i: any) => ({
           title: String(i.title),
           summary: String(metadata(i).summary ?? ""),
@@ -528,8 +546,8 @@ export async function feedIssues(kind: ReportKind, limit: number): Promise<FeedI
   const rows = kind === "daily"
     ? await sql<{ key: string; generated_at: Date; content: Record<string, any> }[]>`
       SELECT key, generated_at, jsonb_build_object(
-        'lead', content->'lead', 'leadItemId', content->'leadItemId', 'highlights', content->'highlights',
-        'sections', (SELECT coalesce(jsonb_agg(jsonb_build_object('label', s->'label', 'items',
+        'lead', content->'lead', 'leadItemId', content->'leadItemId', 'highlights', content->'highlights', 'divisions', content->'divisions',
+        'sections', (SELECT coalesce(jsonb_agg(jsonb_build_object('label', s->'label', 'division', s->'division', 'items',
           (SELECT coalesce(jsonb_agg(jsonb_build_object('itemId', i->'itemId', 'title', i->'title') ORDER BY ord), '[]'::jsonb)
            FROM jsonb_array_elements(coalesce(s->'items', '[]'::jsonb)) WITH ORDINALITY AS e(i, ord))) ORDER BY sord), '[]'::jsonb)
           FROM jsonb_array_elements(coalesce(content->'sections', '[]'::jsonb)) WITH ORDINALITY AS x(s, sord))) AS content
@@ -537,8 +555,8 @@ export async function feedIssues(kind: ReportKind, limit: number): Promise<FeedI
     : await sql<{ key: string; generated_at: Date; content: Record<string, any> }[]>`
       SELECT key, generated_at, jsonb_build_object(
         'headline', content->'headline', 'title', content->'title', 'overview', content->'overview',
-        'leadItemId', content->'leadItemId', 'highlights', content->'highlights',
-        'themes', (SELECT coalesce(jsonb_agg(jsonb_build_object('heading', t->'heading', 'storyRefs',
+        'leadItemId', content->'leadItemId', 'highlights', content->'highlights', 'divisions', content->'divisions',
+        'themes', (SELECT coalesce(jsonb_agg(jsonb_build_object('heading', t->'heading', 'division', t->'division', 'storyRefs',
           (SELECT coalesce(jsonb_agg(jsonb_build_object('itemId', i->'itemId', 'title', i->'title') ORDER BY ord), '[]'::jsonb)
            FROM jsonb_array_elements(coalesce(t->'storyRefs', '[]'::jsonb)) WITH ORDINALITY AS e(i, ord))) ORDER BY tord), '[]'::jsonb)
           FROM jsonb_array_elements(coalesce(content->'themes', '[]'::jsonb)) WITH ORDINALITY AS x(t, tord))) AS content
@@ -549,8 +567,8 @@ export async function feedIssues(kind: ReportKind, limit: number): Promise<FeedI
   return rows.map((r) => {
     const lead = leads ? leads.get(r.key) : issueLead(r.content, shape, gone);
     const groups: Array<{ label: unknown; items?: Array<Record<string, any>> }> = kind === "daily"
-      ? (r.content.sections ?? []).map((s: any) => ({ label: s.label, items: s.items }))
-      : (r.content.themes ?? []).map((t: any) => ({ label: t.heading, items: t.storyRefs }));
+      ? (r.content.sections ?? []).map((s: any) => ({ label: sectionLabel(r.content, s, String(s.label)), items: s.items }))
+      : (r.content.themes ?? []).map((t: any) => ({ label: sectionLabel(r.content, t, String(t.heading)), items: t.storyRefs }));
     return {
       key: r.key,
       generatedAt: r.generated_at,
@@ -621,8 +639,9 @@ export async function v1Period(kind: PeriodKind, key: string | "latest") {
       attribution: attribution(url),
       headline: issueLead(c, "periodic", gone)?.title ?? null,
       overview: periodOverview(c, kind, gone),
+      ...(c.divisions ? { divisions: divisionViews(c, avail) } : {}),
       sections: (c.themes ?? []).map((t: any) => ({
-        label: String(t.heading),
+        label: sectionLabel(c, t, String(t.heading)),
         summary: sectionSummary(t, avail),
         items: (t.storyRefs ?? []).filter(ok).map((i: any) => {
           const metadata = citationMetadata(i, avail.get(i.itemId));

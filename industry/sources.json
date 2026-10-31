@@ -3126,6 +3126,976 @@
       },
       "site_fulltext": false,
       "syndicate_fulltext": false
+    },
+    {
+      "id": "supplement-0024",
+      "name": "爱沙尼亚｜Estonian Financial Supervision Authority：官方机构入口",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.fi.ee/et/uudised/rss",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:fi.ee"
+    },
+    {
+      "id": "supplement-0302",
+      "name": "埃及｜Daily News Egypt：Daily News Egypt：FRA保险监管报道",
+      "kind": "json_list",
+      "config": {
+        "url": "https://www.dailynewsegypt.com/wp-json/wp/v2/posts?per_page=10&search=insurance",
+        "mode": "json_api",
+        "titlePaths": [
+          "title.rendered"
+        ],
+        "urlTemplate": "{raw:link}",
+        "summaryPaths": [
+          "content.rendered"
+        ],
+        "summaryIsBody": true,
+        "publishedAtPath": "date_gmt",
+        "publishedAtUtcOffset": "+00:00",
+        "externalIdPath": "id",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:dailynewsegypt.com"
+    },
+    {
+      "id": "supplement-0436",
+      "name": "American Banker（保险与金融机构报道）",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.americanbanker.com/feed?rss=true",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:americanbanker.com"
+    },
+    {
+      "id": "supplement-0444",
+      "name": "The Royal Gazette（百慕大）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.royalgazette.com/",
+        "parseMode": "html",
+        "itemSelector": "a[href]",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "allowUrlPrefixes": [
+          "https://www.royalgazette.com/reinsurance/business/article/",
+          "https://www.royalgazette.com/international-business/business/article/"
+        ],
+        "detail": {
+          "maxFetches": 3
+        },
+        "publishedAtUtcOffset": "-03:00",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:royalgazette.com"
+    },
+    {
+      "id": "supplement-0196",
+      "name": "中国内地｜中国人民财产保险股份有限公司：公司官网",
+      "kind": "web_list",
+      "config": {
+        "url": "https://property.picc.com.cn/",
+        "parseMode": "html",
+        "itemSelector": "li.info-list-item",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "allowUrlPrefixes": [
+          "https://property.picc.com.cn/cx_gywm/zxzx/xwsd/"
+        ],
+        "detail": {
+          "maxFetches": 3
+        },
+        "publishedAtUtcOffset": "+08:00",
+        "publishedAtSelector": "div.info-list-time",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:property.picc.com.cn"
+    },
+    {
+      "id": "supplement-0210",
+      "name": "中国内地｜友邦人寿保险有限公司：公司官网",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.aia.com.cn/zh-cn/index",
+        "parseMode": "html",
+        "itemSelector": "div.cmp-contentcard.cmp-contentcard__high.cmp-contentcard__image-hidden",
+        "linkSelector": "a",
+        "titleSelector": ".cmp-contentcard__description",
+        "allowUrlPrefixes": [
+          "https://www.aia.com.cn/zh-cn/aia/media/news/"
+        ],
+        "detail": {
+          "maxFetches": 3
+        },
+        "publishedAtUtcOffset": "+08:00",
+        "publishedAtSelector": "div.cmp-contentcard__title",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:aia.com.cn"
+    },
+    {
+      "id": "supplement-0272",
+      "name": "中国内地｜中国经济网：中国经济网（保险滚动）",
+      "kind": "web_list",
+      "config": {
+        "url": "http://finance.ce.cn/insurance1/scrollnews/",
+        "parseMode": "html",
+        "itemSelector": "tr",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "allowUrlPrefixes": [
+          "http://finance.ce.cn/insurance1/scrollnews/"
+        ],
+        "publishedAtUtcOffset": "+08:00",
+        "publishedAtSelector": "span.rq1",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        },
+        "fetchPublicContent": false
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:finance.ce.cn"
+    },
+    {
+      "id": "supplement-0294",
+      "name": "沙特阿拉伯／巴林／阿曼｜Middle East Insurance Review：沙特监管报道：Middle East Insurance Review：沙特监管报道",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.meinsurancereview.com/",
+        "parseMode": "html",
+        "itemSelector": "article.margin-bot",
+        "linkSelector": "h2 a,h3 a,h4 a",
+        "titleSelector": "h2 a,h3 a,h4 a",
+        "allowUrlPrefixes": [
+          "https://www.meinsurancereview.com/News/"
+        ],
+        "detail": {
+          "maxFetches": 3
+        },
+        "publishedAtUtcOffset": "+08:00",
+        "publishedAtSelector": "time.teaser_time",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        },
+        "fetchPublicContent": false
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:meinsurancereview.com"
+    },
+    {
+      "id": "supplement-0420",
+      "name": "Hamilton Insurance Group（百慕大）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.hamiltongroup.com/",
+        "parseMode": "html",
+        "itemSelector": "li",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "allowUrlPrefixes": [
+          "https://www.hamiltongroup.com/press-release/"
+        ],
+        "detail": {
+          "maxFetches": 3,
+          "publishedAtUtcOffset": "-03:00",
+          "titleSelector": "h1",
+          "titleAuthoritative": true
+        },
+        "publishedAtUtcOffset": "-03:00",
+        "publishedAtSelector": "span.post-date",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        },
+        "fetchPublicContent": false
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:hamiltongroup.com"
+    },
+    {
+      "id": "supplement-0427",
+      "name": "SCOR（法国/全球）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.scor.com/en/press-releases-and-news",
+        "parseMode": "html",
+        "itemSelector": ".node--type-press-release",
+        "linkSelector": ".field--name-node-title a",
+        "titleSelector": ".field--name-node-title a",
+        "allowUrlPrefixes": [
+          "https://www.scor.com/en/press-release/"
+        ],
+        "detail": {
+          "maxFetches": 3
+        },
+        "publishedAtUtcOffset": "+00:00",
+        "publishedAtSelector": "time.datetime",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:scor.com"
+    },
+    {
+      "id": "supplement-0428",
+      "name": "Generali（意大利/全球）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.generali.com/media/press-releases/all",
+        "parseMode": "html",
+        "itemSelector": "li",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "allowUrlPrefixes": [
+          "https://www.generali.com/media/press-releases/all/"
+        ],
+        "detail": {
+          "maxFetches": 3,
+          "publishedAtRegex": "([0-3]?\\d\\s+[A-Za-z]+\\s+20\\d{2})\\s*-\\s*\\d{1,2}:",
+          "publishedAtAuthoritative": true,
+          "publishedAtUtcOffset": "+01:00"
+        },
+        "publishedAtUtcOffset": "+01:00",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:generali.com"
+    },
+    {
+      "id": "supplement-0032",
+      "name": "日本｜Financial Services Agency (FSA)：官方机构入口",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.fsa.go.jp/fsaNewsListAll_rss2.xml",
+        "publishedAtUtcOffset": "+09:00",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:fsa.go.jp"
+    },
+    {
+      "id": "supplement-0020",
+      "name": "捷克｜Czech National Bank, Insurance Companies Regulation and Supervision Department：官方机构入口",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.cnb.cz/en/.content/rss-feed/rss-feed_tz.xml",
+        "publishedAtUtcOffset": "+01:00",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:cnb.cz"
+    },
+    {
+      "id": "supplement-0191",
+      "name": "跨国共享｜Financial Stability Board (FSB)：金融稳定与保险恢复处置相关发布门户",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.fsb.org/feed/",
+        "publishedAtUtcOffset": "+00:00",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:fsb.org"
+    },
+    {
+      "id": "supplement-0074",
+      "name": "阿拉伯联合酋长国｜Dubai Financial Services Authority (DFSA)：官方机构入口",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.dfsa.ae/rss",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        },
+        "fetchPublicContent": false
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:dfsa.ae"
+    },
+    {
+      "id": "supplement-0065",
+      "name": "斯里兰卡｜Insurance Regulatory Commission of Sri Lanka：官方机构入口",
+      "kind": "json_list",
+      "config": {
+        "url": "https://ircsl.gov.lk/wp-json/wp/v2/news?per_page=10",
+        "mode": "json_api",
+        "titlePaths": [
+          "title.rendered"
+        ],
+        "urlTemplate": "{raw:link}",
+        "summaryPaths": [
+          "content.rendered"
+        ],
+        "summaryIsBody": true,
+        "publishedAtPath": "date_gmt",
+        "publishedAtUtcOffset": "+00:00",
+        "externalIdPath": "id",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:ircsl.gov.lk"
+    },
+    {
+      "id": "supplement-0082",
+      "name": "日本｜日本金融厅：保险监管公告及监测报告：日本金融厅：保险监管公告及监测报告",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.fsa.go.jp/fsaEnNewsList_rss2.xml",
+        "publishedAtUtcOffset": "+09:00",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:fsa.go.jp"
+    },
+    {
+      "id": "supplement-0393",
+      "name": "Insurance Bureau of Canada（IBC）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.ibc.ca/",
+        "parseMode": "html",
+        "itemSelector": "a[href]",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "allowUrlPrefixes": [
+          "https://www.ibc.ca/news-insights/news/"
+        ],
+        "publishedAtUtcOffset": "+00:00",
+        "detail": {
+          "maxFetches": 4,
+          "publishedAtSelector": "div.text-xs.text-grey-500:not(.max-h-full)",
+          "publishedAtAuthoritative": true,
+          "publishedAtUtcOffset": "+00:00"
+        },
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:ibc.ca"
+    },
+    {
+      "id": "supplement-0005",
+      "name": "巴林｜Central Bank of Bahrain：官方机构入口",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.cbb.gov.bh/feed/?post_type=media",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:cbb.gov.bh"
+    },
+    {
+      "id": "supplement-0002",
+      "name": "阿根廷｜Superintendencia de Seguros de la Nacion Argentina：官方机构入口",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.argentina.gob.ar/superintendencia-de-seguros/noticias",
+        "parseMode": "html",
+        "itemSelector": "div.col-xs-12.col-sm-3",
+        "linkSelector": "a[href]",
+        "titleSelector": "h3",
+        "publishedAtSelector": "time",
+        "publishedAtUtcOffset": "-03:00",
+        "allowUrlPrefixes": [
+          "https://www.argentina.gob.ar/noticias/"
+        ],
+        "detail": {
+          "maxFetches": 3
+        },
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:argentina.gob.ar"
+    },
+    {
+      "id": "supplement-0030",
+      "name": "印度尼西亚｜Indonesia Financial Services Authority (Otoritas Jasa Keuangan/OJK)：官方机构入口",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.ojk.go.id/en/berita-dan-kegiatan/siaran-pers/Default.aspx",
+        "parseMode": "html",
+        "itemSelector": "div.col-lg-10.col-md-10.col-sm-10",
+        "linkSelector": "a[href]",
+        "titleSelector": "a[href]",
+        "publishedAtSelector": "div.date",
+        "publishedAtUtcOffset": "+07:00",
+        "allowUrlPrefixes": [
+          "https://www.ojk.go.id/en/berita-dan-kegiatan/siaran-pers/Pages/"
+        ],
+        "detail": {
+          "maxFetches": 3
+        },
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:ojk.go.id"
+    },
+    {
+      "id": "supplement-0071",
+      "name": "乌克兰｜National Bank of Ukraine：官方机构入口",
+      "kind": "web_list",
+      "config": {
+        "url": "https://bank.gov.ua/en/news",
+        "parseMode": "html",
+        "itemSelector": "div.content",
+        "linkSelector": "h2 a[href],h3 a[href],h4 a[href]",
+        "titleSelector": "h2 a[href],h3 a[href],h4 a[href]",
+        "publishedAtUtcOffset": "+02:00",
+        "allowUrlPrefixes": [
+          "https://bank.gov.ua/en/news/all/"
+        ],
+        "detail": {
+          "maxFetches": 3
+        },
+        "publishedAtRegex": "(\\d{1,2}\\s+[A-Za-z]+\\s+20\\d{2})",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:bank.gov.ua"
+    },
+    {
+      "id": "supplement-0027",
+      "name": "匈牙利｜Magyar Nemzeti Bank：官方机构入口",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.mnb.hu/en/pressroom",
+        "parseMode": "html",
+        "itemSelector": "li.news-list-item",
+        "linkSelector": "a[href]",
+        "titleSelector": "a[href]",
+        "publishedAtSelector": "p.news-list-item-date",
+        "publishedAtUtcOffset": "+01:00",
+        "allowUrlPrefixes": [
+          "https://www.mnb.hu/en/pressroom/"
+        ],
+        "detail": {
+          "maxFetches": 3
+        },
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:mnb.hu"
+    },
+    {
+      "id": "supplement-0312",
+      "name": "美国纽约州 DFS",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.dfs.ny.gov/Newsroom",
+        "parseMode": "html",
+        "itemSelector": "div.listing-view__card-content",
+        "linkSelector": "h2 a[href],h3 a[href],h4 a[href]",
+        "titleSelector": "h2 a[href],h3 a[href],h4 a[href]",
+        "publishedAtSelector": "div.listing-view__card-date.results-date",
+        "publishedAtUtcOffset": "+00:00",
+        "allowUrlPrefixes": [
+          "https://www.dfs.ny.gov/reports_and_publications/press_releases/"
+        ],
+        "detail": {
+          "maxFetches": 3
+        },
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:dfs.ny.gov"
+    },
+    {
+      "id": "supplement-0337",
+      "name": "阿鲁巴中央银行",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.cbaruba.org/press-releases/",
+        "parseMode": "html",
+        "itemSelector": "div.details-wrap",
+        "linkSelector": "h2 a[href],h3 a[href],h4 a[href]",
+        "titleSelector": "h2 a[href],h3 a[href],h4 a[href]",
+        "publishedAtSelector": "span.em-item.publishDate.dt-published",
+        "publishedAtUtcOffset": "+00:00",
+        "allowUrlPrefixes": [
+          "https://www.cbaruba.org/article/id/",
+          "https://www.cbaruba.org/news/"
+        ],
+        "detail": {
+          "maxFetches": 3
+        },
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:cbaruba.org"
+    },
+    {
+      "id": "supplement-0354",
+      "name": "塞舌尔 FSA",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://fsaseychelles.sc/media-corner/press-releases?format=feed&type=rss",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:fsaseychelles.sc"
+    },
+    {
+      "id": "supplement-0362",
+      "name": "法国 AMF（RSS 订阅目录）",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.amf-france.org/en/flux-rss/display/30",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:amf-france.org"
+    },
+    {
+      "id": "supplement-0367",
+      "name": "荷兰 AFM",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.afm.nl/en/rss-feed/nieuws-professionals",
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:afm.nl"
+    },
+    {
+      "id": "supplement-0431",
+      "name": "Legal & General（英国）",
+      "kind": "web_list",
+      "config": {
+        "url": "https://group.legalandgeneral.com/newsroom/press-releases/",
+        "parseMode": "html",
+        "itemSelector": "div.article-card-container",
+        "linkSelector": "a[href]",
+        "titleSelector": "h3,h2",
+        "publishedAtSelector": "div.article-card__timestamp",
+        "publishedAtUtcOffset": "+00:00",
+        "allowUrlPrefixes": [
+          "https://group.legalandgeneral.com/newsroom/press-releases/"
+        ],
+        "detail": {
+          "maxFetches": 3
+        },
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1_5",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:group.legalandgeneral.com"
+    },
+    {
+      "id": "supplement-0246",
+      "name": "中国内地｜财新传媒：金融频道保险监管主题",
+      "kind": "web_list",
+      "config": {
+        "url": "https://finance.caixin.com/news",
+        "parseMode": "html",
+        "itemSelector": "a[href*=\"finance.caixin.com/20\"]",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "allowUrlPrefixes": [
+          "https://finance.caixin.com/"
+        ],
+        "publishedAtUtcOffset": "+08:00",
+        "detail": {
+          "maxFetches": 4,
+          "publishedAtSelector": "#pubtime_baidu",
+          "publishedAtAuthoritative": true
+        },
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        },
+        "fetchPublicContent": false
+      },
+      "tier": "T2",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:finance.caixin.com"
+    },
+    {
+      "id": "supplement-0088",
+      "name": "亚美尼亚｜Central Bank of Armenia（亚美尼亚央行）：亚美尼亚央行：保险监管线索",
+      "kind": "web_list",
+      "config": {
+        "url": "https://www.cba.am/en/press-releases/",
+        "parseMode": "html",
+        "itemSelector": ".static-content > a",
+        "linkSelector": "a",
+        "titleSelector": "a",
+        "allowUrlPrefixes": [
+          "https://www.cba.am/en/press-releases/"
+        ],
+        "publishedAtUtcOffset": "+04:00",
+        "detail": {
+          "maxFetches": 4,
+          "publishedAtSelector": ".main-content__date",
+          "publishedAtAuthoritative": true,
+          "publishedAtUtcOffset": "+04:00"
+        },
+        "publishedAfter": "2024-10-28T15:59:59.999Z",
+        "_aihot": {
+          "initialBackfillLimit": 3,
+          "initialBackfillMonths": 24
+        }
+      },
+      "tier": "T1",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "enabled": true,
+      "tags": [
+        "保险"
+      ],
+      "signal_group_id": "insurance-publisher:cba.am"
     }
   ]
 }

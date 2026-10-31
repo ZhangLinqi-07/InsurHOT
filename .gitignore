@@ -7,6 +7,12 @@ dist/
 .DS_Store
 .data/
 
+# Local generated media, Python caches and design reference archives
+/outputs/
+__pycache__/
+*.py[cod]
+/INSURE-HOT-V8-Reference-*.zip
+
 # Web production build
 apps/web/build/
 apps/web/.react-router/

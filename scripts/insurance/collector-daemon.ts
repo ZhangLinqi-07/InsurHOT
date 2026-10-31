@@ -5,7 +5,6 @@ import { archiveSlice } from "../../modules/insurance/backend/archive.ts";
 import { closeDb } from "@aihot/backend/db";
 import { stopBoss } from "@aihot/backend/jobs/queue";
 import { installModules } from "@aihot/backend/modules";
-import { republishScreenedArticles } from "@aihot/backend/publication/publish";
 import { SERVER_MODULES } from "@aihot/site/modules/server";
 
 if (process.env.MODEL_CALLS_ENABLED !== "false" || process.env.COLLECT_ENABLED !== "true") throw new Error("Use local-node.mjs --collect-only for the free collector");
@@ -18,7 +17,6 @@ process.on("SIGINT", () => { stopping = true; });
 const stopped = () => stopping || existsSync(`${dir}/stop`);
 let rounds = 0;
 try {
-  console.log(JSON.stringify({ screeningsPublished: await republishScreenedArticles(), modelsEnabled: false }));
   do {
     const started = new Date().toISOString();
     const round: Record<string, unknown> = { startedAt: started, modelsEnabled: false };

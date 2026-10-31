@@ -10,7 +10,7 @@ import { closeDb, sql } from "@aihot/backend/db";
 import { itemFeed } from "@aihot/backend/publication/feeds";
 import { loadTimeline } from "@aihot/backend/publication/timeline";
 import { v1Items } from "@aihot/backend/publication/v1";
-import { CATEGORY_KEYS, PUBLIC_API_CATEGORY_KEYS, toPublicApiCategory } from "@aihot/contracts/taxonomy";
+import { CATEGORY_KEYS, PUBLIC_API_CATEGORY_KEYS, PUBLIC_API_FILTER_CATEGORY_KEYS, toPublicApiCategory } from "@aihot/contracts/taxonomy";
 import { Client, StreamableHTTPClientTransport } from "@modelcontextprotocol/client";
 import { MCP_TOOL_NAMES } from "@aihot/contracts/mcp";
 import { buildApp } from "../apps/api/src/app.ts";
@@ -67,7 +67,7 @@ test("HTTP, Agent, MCP and discovery agree on the public categories and returned
   const tools = await client.listTools();
   for (const name of [MCP_TOOL_NAMES.latest, MCP_TOOL_NAMES.search]) {
     const schema = tools.tools.find((tool) => tool.name === name)?.inputSchema.properties?.category as { enum: string[] };
-    assert.deepEqual(schema.enum, [...PUBLIC_API_CATEGORY_KEYS], name);
+    assert.deepEqual(schema.enum, [...PUBLIC_API_FILTER_CATEGORY_KEYS], name);
   }
   for (const key of PUBLIC_API_CATEGORY_KEYS) {
     const want = CATEGORY_KEYS.filter((k) => toPublicApiCategory(k) === key).map(title).sort();

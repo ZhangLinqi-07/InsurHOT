@@ -12,8 +12,12 @@ import { describePublicationTime } from "../sources/dates.ts";
 //      copy that uses a word the site keeps from readers (industry/wording.ts) goes back once to change only those.
 // Material with only a title or a feed summary has its article page fetched before it is judged.
 import { z } from "zod";
+import { activeRubric, RUBRIC_VERSION } from "@aihot/industry/rubric";
+import { rubricMaterial, rubricInput, RubricSchema, validateRubric, rubricDecision, type RubricPass } from "./rubric.ts";
+const USE_AUDITABLE_RUBRIC = activeRubric(process.env.SCORE_RUBRIC_VERSION);
 import { CATEGORY_KEYS } from "@aihot/contracts/taxonomy";
 import { CATEGORIES } from "@aihot/industry/taxonomy";
+import { articlePrefilterEnabled, classifyArticle, type ArticleClassification } from "../modules.ts";
 import { SELECTION } from "@aihot/industry/selection";
 import { ITEM_COPY } from "@aihot/site";
 import { sql } from "../db.ts";
@@ -38,7 +42,7 @@ export { buildMaterial, loadAnalyzeInput, type AnalyzeInputArticle };
 
 export const PROMPT_VERSIONS = {
   prefilter: promptVersion("prefilter"),
-  score: promptVersion("selection-score"),
+  score: promptVersion(USE_AUDITABLE_RUBRIC ? "selection-score-auditable" : "selection-score"),
   understand: promptVersion("understand"),
   summarize: promptVersion("summarize-article", "summarize-article-empty", "summarize-short-post", "summarize-short-post-quoted", "summarize-long-post", "summarize-long-post-quoted", "identity-context"),
   structure: promptVersion("structure"),
@@ -47,6 +51,15 @@ export const PROMPT_VERSIONS = {
 /** Every step's prompt, as stored on each judgement. */
 export const SELECTION_PROMPT_VERSION = [PROMPT_VERSIONS.prefilter, PROMPT_VERSIONS.score].join("+");
 export const ANALYZE_PROMPT_VERSION = Object.values(PROMPT_VERSIONS).join("+");
+
+export function selectionPromptVersion(): string {
+  return articlePrefilterEnabled() ? SELECTION_PROMPT_VERSION : `rules-only+${PROMPT_VERSIONS.score}`;
+}
+
+export function analysisPromptVersion(): string {
+  return articlePrefilterEnabled() ? ANALYZE_PROMPT_VERSION
+    : ["rules-only", ...Object.entries(PROMPT_VERSIONS).filter(([key]) => key !== "prefilter").map(([, version]) => version)].join("+");
+}
 
 // Scoring
 
@@ -65,10 +78,10 @@ export function tierThreshold(tier: string): number | null {
 export const UNDERSTAND_FLOOR = SELECTION.understandFloor;
 
 /** Call parameters of the score step, unless the model sets its own (the site's preset, `scoreCall`). */
-const scoreCall = (model: string) => MODELS[model]?.scoreCall ?? { temperature: 0.2, maxTokens: 1024, timeoutMs: 120_000 };
+const scoreCall = (model: string) => MODELS[model]?.scoreCall ?? { temperature: 0.2, maxTokens: USE_AUDITABLE_RUBRIC ? 6000 : 1024, timeoutMs: 120_000 };
 
 /** The score prompt: the industry's taste (industry/prompts/selection-score.md). */
-export const SCORE_SYSTEM = promptText("selection-score");
+export const SCORE_SYSTEM = promptText(USE_AUDITABLE_RUBRIC ? "selection-score-auditable" : "selection-score");
 
 export const ScoreSchema = z.object({ attentionScore: z.coerce.number().int().min(0).max(100) });
 
@@ -189,13 +202,14 @@ export function normalizeStructure(data: z.infer<typeof StructureSchema>, a: Ana
 }
 
 export interface AnalysisRun {
+  classification?: ArticleClassification | null;
   /** Absent when there is nothing to judge yet: only a title, and no displayable original post. */
   prefilter: { label: "PASS" | "BLOCK" | "UNKNOWN"; reason: string; model: string; receiptId: number; reused: boolean } | null;
   /**
    * The independent score calls and the tier threshold they are held against; absent when the material
    * is not scored. `refused`: the model's content filter declined it, so it is not selected.
    */
-  scores: { model: string; threshold: number; values: number[]; receiptIds: number[]; reused: boolean; refused?: boolean } | null;
+  scores: { model: string; threshold: number; values: number[]; receiptIds: number[]; reused: boolean; refused?: boolean; rubric?: { version: string; material: ReturnType<typeof rubricMaterial>; passes: RubricPass[]; reviewReasons: string[]; reviewRequired: boolean; provisionalThresholds: boolean; decisionPolicy?: string; decision?: string } } | null;
   /** The reader-facing copy: `understand` (selected, near-selected), `summarize`, `verbatim` (a Chinese short post), `none`. */
   writing: {
     kind: "understand" | "summarize" | "verbatim" | "none";
@@ -219,7 +233,7 @@ export function waitsForPage(a: AnalyzeInputArticle): boolean {
   return a.bodyStatus === "pending" && !a.bodyText && !a.xPost && pageFetchable(a.url, a.source.kind);
 }
 
-type StepOpts = { attemptTag?: string; scoreModel?: string };
+type StepOpts = { attemptTag?: string; scoreModel?: string; parallelStructure?: boolean };
 type ReceiptObserver = (receiptId: number) => void;
 
 /** A stopping worker finishes the stage it is in, never starts the next. */
@@ -254,6 +268,7 @@ export async function runSelectionPrefilter(
   opts: StepOpts = {},
   onReceipt?: ReceiptObserver,
 ): Promise<NonNullable<AnalysisRun["prefilter"]>> {
+  if (!articlePrefilterEnabled()) throw new Error("LLM relevance screening is disabled for this site");
   try {
     const result = await runPrefilter(a, opts);
     onReceipt?.(result.receiptId);
@@ -273,7 +288,9 @@ async function runScores(
 ): Promise<NonNullable<AnalysisRun["scores"]>> {
   const model = opts.scoreModel ?? (await modelFor("score"));
   const call = scoreCall(model);
-  const input = buildScoreInput(a);
+  const material = rubricMaterial(a);
+  const input = USE_AUDITABLE_RUBRIC ? rubricInput(a, material) : buildScoreInput(a);
+  const passes: RubricPass[] = [];
   const values: number[] = [];
   const receiptIds: number[] = [];
   let reused = true;
@@ -281,16 +298,18 @@ async function runScores(
   for (let i = 0; i < SCORE_CALLS; i++) {
     checkAnalysisRunning();
     try {
-      const res = await chatJson({
-        model, purpose: "score_article", subject: subjectOf(a), promptVersion: PROMPT_VERSIONS.score, system: SCORE_SYSTEM, user: input,
-        schema: ScoreSchema, temperature: call.temperature, maxTokens: call.maxTokens, timeoutMs: call.timeoutMs,
-        // Each call is its own paid request; an explicit re-evaluation gets new ones.
-        attemptTag: tagged(opts.attemptTag, `score-${i + 1}`),
-      });
-      onReceipt?.(res.receiptId);
-      values.push(res.data.attentionScore);
-      receiptIds.push(res.receiptId);
-      reused &&= res.reused;
+      const options = { model, purpose: "score_article", subject: subjectOf(a), promptVersion: PROMPT_VERSIONS.score, system: SCORE_SYSTEM, user: input,
+        temperature: call.temperature, maxTokens: call.maxTokens, timeoutMs: call.timeoutMs, attemptTag: tagged(opts.attemptTag, `score-${i + 1}`) };
+      if (USE_AUDITABLE_RUBRIC) {
+        const res = await chatJson({ ...options, schema: RubricSchema });
+        const pass = { ...validateRubric(res.data, material), receiptId: res.receiptId, model: MODELS[res.model]?.model ?? res.model, promptVersion: PROMPT_VERSIONS.score };
+        passes.push(pass);
+        if (pass.score !== null) values.push(pass.score);
+        onReceipt?.(res.receiptId); receiptIds.push(res.receiptId); reused &&= res.reused;
+      } else {
+        const res = await chatJson({ ...options, schema: ScoreSchema });
+        onReceipt?.(res.receiptId); values.push(res.data.attentionScore); receiptIds.push(res.receiptId); reused &&= res.reused;
+      }
     } catch (error) {
       const receiptId = failedReceiptId(error);
       if (receiptId !== null) onReceipt?.(receiptId);
@@ -299,7 +318,7 @@ async function runScores(
       throw error;
     }
   }
-  return { model, threshold, values, receiptIds, reused };
+  return { model, threshold, values, receiptIds, reused, ...(USE_AUDITABLE_RUBRIC ? { rubric: { version: RUBRIC_VERSION, material, passes, ...rubricDecision(passes, threshold), provisionalThresholds: true } } : {}) };
 }
 
 /** The production score step; its threshold stays case-specific even when an evaluator shares model output. */
@@ -470,7 +489,7 @@ export function shownScore(scores: AnalysisRun["scores"]): number | null {
  */
 export function scoresSelect(scores: AnalysisRun["scores"], threshold = scores?.threshold ?? null): boolean {
   const sum = scoreSum(scores);
-  return sum !== null && threshold !== null && sum >= threshold * SCORE_CALLS;
+  return !scores?.rubric?.reviewRequired && sum !== null && threshold !== null && sum >= threshold * SCORE_CALLS;
 }
 
 /** Runs the steps on the material as it is (or reuses their receipts) without writing business results. */
@@ -478,21 +497,22 @@ export async function runAnalysis(a: AnalyzeInputArticle, opts: StepOpts = {}): 
   checkAnalysisRunning();
   // Missing article text waits for a later revision, before any paid step; displayable original posts keep their judgement.
   if (awaitsMaterial(a)) return { prefilter: null, scores: null, writing: null, structure: null };
-  const prefilter = await runSelectionPrefilter(a, opts);
-  if (prefilter.label === "BLOCK") return { prefilter, scores: null, writing: null, structure: null };
+  const prefilter = articlePrefilterEnabled() ? await runSelectionPrefilter(a, opts) : null;
+  if (prefilter?.label === "BLOCK") return { prefilter, scores: null, writing: null, structure: null };
   const original = originalPostCopy(a.xPost, a.url);
   // The structure step needs nothing from the scores: it runs beside them.
-  const structure = runStructure(a, opts).then((value) => ({ value }), (error: unknown) => ({ error }));
+  const structure = opts.parallelStructure === false ? null : runStructure(a, opts).then((value) => ({ value }), (error: unknown) => ({ error }));
   try {
     const scores = await runSelectionScores(a, opts);
     const sum = scoreSum(scores);
     const near = scoresSelect(scores) || (sum !== null && sum > UNDERSTAND_FLOOR * SCORE_CALLS);
-    const s = await structure;
+    const s = structure ? await structure : { value: await runStructure(a, opts) };
     if ("error" in s) throw s.error;
     const writing: NonNullable<AnalysisRun["writing"]> = original
       ? { kind: "verbatim", model: null, titleZh: original.title, summaryZh: original.summary ?? "", reasonZh: null, receiptIds: [], reused: true }
       : await mendWording(a, (near ? await runUnderstand(a, opts) : null) ?? (await runSummarize(a, opts)), opts);
-    return { prefilter, scores, writing, structure: s.value };
+    const classification = classifyArticle({ title: writing.titleZh ?? a.title, originalTitle: a.title, summary: writing.summaryZh ?? null });
+    return { prefilter, scores, writing, structure: s.value, classification };
   } finally {
     // A score/writing error or deploy must not let the job finish while a paid structure request
     // still owns a response. It settles and stores its receipt before shutdown can close the DB.
@@ -525,7 +545,7 @@ export function normalizeAnalysis(run: AnalysisRun) {
     scoreModel: run.scores?.model ?? null,
     scoreRefused: run.scores?.refused ?? false,
     threshold,
-    category: run.structure?.category ?? null,
+    category: run.classification?.category ?? run.structure?.category ?? null,
     tags,
     subjects,
     titleZh,
@@ -567,7 +587,8 @@ export async function analyzeArticle(articleId: string, opts: StepOpts = {}): Pr
     scores: out.scores, scoreModel: out.scoreModel, threshold: out.threshold, ...(out.scoreRefused ? { scoreRefused: true } : {}),
     ...(w ? { writer: w.kind, writerModel: w.model, itemType: w.itemType ?? null, authorRole: w.authorRole ?? null } : {}),
     ...(w?.identityGuard?.outcome === "fallback" ? { identityGuard: w.identityGuard } : {}),
-    scope: out.scope, fact: out.fact,
+    scope: out.scope, fact: out.fact, ...(run.classification ? { classification: run.classification.evidence } : {}),
+    ...(run.scores?.rubric ? { rubric: run.scores.rubric } : {}),
   };
   const committed = await sql.begin(async (tx) => {
     const [current] = await tx<{ revision: number }[]>`SELECT revision FROM articles WHERE id = ${articleId} FOR UPDATE`;
@@ -575,7 +596,7 @@ export async function analyzeArticle(articleId: string, opts: StepOpts = {}): Pr
     const [row] = await tx<{ id: number }[]>`
       INSERT INTO analyses (article_id, input_revision, origin, model, prompt_version, receipt_ids, relevance, category, tags,
         subjects, title_zh, summary_zh, reason_zh, score, selected, output)
-      VALUES (${articleId}, ${input.revision}, 'model', ${w?.model ?? run.prefilter?.model ?? null}, ${ANALYZE_PROMPT_VERSION}, ${receiptIds},
+      VALUES (${articleId}, ${input.revision}, 'model', ${w?.model ?? run.prefilter?.model ?? null}, ${analysisPromptVersion()}, ${receiptIds},
         ${out.relevance}, ${out.category}, ${out.tags}, ${out.subjects}, ${out.titleZh}, ${out.summaryZh}, ${out.reasonZh},
         ${out.score}, ${out.selected}, ${tx.json(detail as never)})
       RETURNING id`;

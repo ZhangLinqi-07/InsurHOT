@@ -1,4 +1,4 @@
-// Stored, version-bound relevance decisions. Reading or publishing one never calls a model.
+// A site's stored relevance decisions. No model calls.
 import type { Tx } from "../db.ts";
 import { serverModules } from "../modules.ts";
 

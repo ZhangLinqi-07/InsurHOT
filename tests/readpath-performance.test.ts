@@ -1,4 +1,4 @@
-// Search ranking, capped totals, public scope, licensed RSS bodies, report fallback headlines and
+// Search ranking, complete totals, public scope, licensed RSS bodies, report fallback headlines and
 // conditional reads, on a disposable database through the real HTTP handlers and SQL.
 import { tag } from './setup.ts';
 import assert from 'node:assert/strict';
@@ -11,7 +11,7 @@ import { listReports } from '@aihot/backend/publication/reports';
 import { buildApp } from '../apps/api/src/app.ts';
 
 const T = `readperf${tag()}`;
-const SOURCE = `test-${T}`;
+const SOURCE = "nfra-917";
 const now = new Date();
 const id = (n: number) => `${T}-${String(n).padStart(4, '0')}`;
 const filters = { channel: 'all' as const, category: null, tag: T, now };
@@ -41,23 +41,47 @@ after(async () => {
   await closeDb();
 });
 
-test('relevance ranks all candidates, caps the public total at 2000 and keeps empty page totals', async () => {
+test('relevance ranks all candidates, counts the full inventory and clamps to its real last page', async () => {
   const first = await loadPool({ ...filters, q: `${T} needle`, tab: 'relevance' });
-  assert.equal(first.total, 2000);
-  assert.equal(first.pageCount, 50);
+  assert.equal(first.total, 2106);
+  assert.equal(first.pageCount, 53);
   assert.equal(first.items.length, 40);
   assert.equal(first.items[0]!.id, id(1), 'title match outranks more recent body/direct matches');
   assert.equal(first.items[1]!.id, id(2107), 'ties use timeline then id descending');
   const last = await loadPool({ ...filters, q: `${T} needle`, tab: 'relevance', page: 500 });
-  assert.equal(last.page, 50);
-  assert.equal(last.items.length, 40);
-  assert.equal(last.total, 2000);
+  assert.equal(last.page, 53);
+  assert.equal(last.items.length, 26);
+  assert.equal(last.total, 2106);
   const sparse = await loadPool({ ...filters, q: `${T} general`, tab: 'relevance', page: 2 });
   assert.deepEqual([sparse.total, sparse.items.length], [0, 0]);
   const beyond = await loadPool({ ...filters, q: `${T} bodyonly`, tab: 'relevance', page: 50 });
-  assert.deepEqual([beyond.total, beyond.items.length, beyond.pageCount], [1052, 0, 27], 'an empty deep page still has the capped total');
+  assert.deepEqual([beyond.total, beyond.items.length, beyond.pageCount], [1052, 12, 27], 'a deep page clamps to the actual final matching page');
   const empty = await loadPool({ ...filters, q: 'absent-needle-xyz', tab: 'relevance', page: 50 });
   assert.deepEqual([empty.total, empty.items.length, empty.pageCount], [0, 0, 1]);
+});
+
+test('every public page after 2000 remains reachable without gaps or duplicates', async () => {
+  await sql`UPDATE publications SET tags = tags || ${['中国内地']}::text[], category = 'industry' WHERE source_id = ${SOURCE}`;
+  const base = { ...filters, market: 'domestic' as const, category: 'industry' as const };
+  for (const extra of [{}, { q: T, tab: 'time' as const }, { q: T, tab: 'relevance' as const }]) {
+    const page51 = await loadPool({ ...base, ...extra, page: 51 });
+    const page52 = await loadPool({ ...base, ...extra, page: 52 });
+    const last = await loadPool({ ...base, ...extra, page: Number.MAX_SAFE_INTEGER });
+    assert.deepEqual([page51.total, page51.pageCount, page51.page, page51.items.length], [2106, 53, 51, 40]);
+    assert.deepEqual([page52.page, page52.items.length, last.page, last.items.length], [52, 40, 53, 26]);
+    assert.equal(new Set([...page51.items, ...page52.items, ...last.items].map(i => i.id)).size, 106);
+  }
+  const ids: string[] = [];
+  for (let page = 1; page <= 53; page++) ids.push(...(await loadPool({ ...base, page })).items.map(i => i.id));
+  assert.equal(ids.length, 2106);
+  assert.equal(new Set(ids).size, 2106);
+  assert.ok(!ids.includes(id(2106)) && !ids.includes(id(2108)), 'private/ineligible records remain excluded');
+  for (const invalid of ['0', '-1', '1.5', 'nope', '9007199254740992']) {
+    assert.equal((await app.inject({ method: 'GET', url: '/api/site/pool?page=' + invalid })).statusCode, 400);
+  }
+  const actualLast = await app.inject({ method: 'GET', url: '/api/site/pool?tag=' + T + '&page=' + Number.MAX_SAFE_INTEGER });
+  assert.equal(actualLast.statusCode, 200);
+  assert.equal(actualLast.json().page, 53);
 });
 
 test('unfiltered single-term relevance combines direct/body scores and retains one-sided and empty matches', async () => {
@@ -79,7 +103,7 @@ test('unfiltered single-term relevance combines direct/body scores and retains o
     assert.equal(side.total, 1);
   }
   const beyond = await loadPool({ ...query, q: shared, page: 50 });
-  assert.deepEqual([beyond.items, beyond.total, beyond.pageCount], [[], 3, 1]);
+  assert.deepEqual([beyond.items, beyond.total, beyond.pageCount], [result.items, 3, 1]);
   const empty = await loadPool({ ...query, q: `missing${tag()}` });
   assert.deepEqual([empty.items, empty.total], [[], 0]);
 });

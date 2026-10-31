@@ -465,7 +465,7 @@ export async function extractArticleBody(articleId: string): Promise<"ok" | "unc
   const [a] = await sql<{ id: string; url: string; body_status: string; revision: number; x_post: { tweetId?: string } | null; config: SourceRow["config"] }[]>`
     SELECT a.id, a.url, a.body_status, a.revision, a.x_post, s.config
     FROM articles a JOIN sources s ON s.id = a.source_id WHERE a.id = ${articleId}`;
-  if (!a || a.body_status === "ok") return "skipped";
+  if (!a || a.body_status === "ok" || a.config.fetchPublicContent === false) return "skipped";
   if (a.x_post?.tweetId) return extractXArticle(a.id, a.x_post.tweetId, a.revision);
   const got = await extractFromUrl(a.url, `article:${a.id}`, pageRules(a.config));
   if (!got) {

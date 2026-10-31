@@ -41,6 +41,7 @@ export interface StoryRef {
 export interface ItemSummary {
   /** Relevance-only publication with the original title and a source excerpt. */
   prefiltered?: true;
+  sourceExcerptTranslated?: true;
   id: string;
   title: string;
   originalTitle: string | null;
@@ -60,7 +61,7 @@ export interface ItemSummary {
 }
 
 /** The fields rendered by a site feed card; full original text lives in the item detail. */
-export interface FeedItemSummary extends Pick<ItemSummary, "id" | "title" | "summary" | "reason" | "source" | "publishedAt" | "timelineAt" | "category" | "tags" | "score" | "selected" | "channel" | "prefiltered"> {
+export interface FeedItemSummary extends Pick<ItemSummary, "id" | "title" | "summary" | "reason" | "source" | "publishedAt" | "timelineAt" | "category" | "tags" | "score" | "selected" | "channel" | "prefiltered" | "sourceExcerptTranslated"> {
   x: (Pick<XPostView, "authorName" | "handle" | "avatarUrl" | "avatarSrcSet" | "media"> & {
     quoted: Omit<NonNullable<XPostView["quoted"]>, "url"> | null;
   }) | null;
@@ -102,7 +103,13 @@ export interface HotStripEntry {
   participantCount: number;
 }
 
+export const MARKET_FILTERS = ["all", "domestic", "foreign"] as const;
+export type MarketFilter = typeof MARKET_FILTERS[number];
+export const isMarketFilter = (value: string): value is MarketFilter => (MARKET_FILTERS as readonly string[]).includes(value);
+
 export interface TimelineFilters {
+    /** Publisher location; domestic and foreign partition the complete news list. */
+  market?: MarketFilter;
   channel: ChannelKey;
   category: CategoryKey | null;
   tag: string | null;
@@ -283,6 +290,7 @@ export function reportDateLabel(kind: ReportKind, key: string): string {
 }
 
 export interface ReportCitation {
+  division?: string;
   itemId: string | null;
   title: string;
   summary: string | null;
@@ -303,6 +311,12 @@ export interface ReportCitation {
   followUp?: string;
 }
 
+export interface ReportDivision {
+  key: string;
+  label: string;
+  summary: string | null;
+}
+
 export interface ReportDetail {
   kind: ReportKind;
   key: string;
@@ -311,12 +325,18 @@ export interface ReportDetail {
   title: string;
   generatedAt: string;
   lead: { title: string; leadParagraph: string } | null;
+  windowStart?: string;
+  windowEnd?: string;
   /** The still-public item the front page leads with (its headline links there). */
   leadItemId: string | null;
   overview: string | null;
   highlights: ReportCitation[];
   /** As edited: daily categories, weekly and monthly themes. */
-  sections: Array<{ label: string; summary: string | null; items: ReportCitation[] }>;
+  sections: Array<{ label: string; summary: string | null; items: ReportCitation[]; division?: string }>;
+  /** Independently edited parts of an issue, before its subject columns. */
+  divisions?: ReportDivision[];
+  /** How an explicitly compiled first edition selected its time window. */
+  editorialNote?: string;
   flashes: ReportCitation[];
   /**
    * The front page's picture: from the lead item (a daily's lead, a weekly or monthly's first highlight),

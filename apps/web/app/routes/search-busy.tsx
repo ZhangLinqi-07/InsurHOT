@@ -15,7 +15,7 @@ export function headers() {
 }
 
 const RETRY_AFTER_SECONDS = 5;
-const SEARCH_PARAMS = ["q", "tag", "channel", "category", "page", "tab"];
+const SEARCH_PARAMS = ["q", "tag", "channel", "category", "market", "page", "tab"];
 
 /** The busy page after an overloaded search: the same search can be tried again after a few seconds. */
 export default function SearchBusy() {

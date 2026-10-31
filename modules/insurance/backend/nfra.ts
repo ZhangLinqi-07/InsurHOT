@@ -1,12 +1,13 @@
 // NFRA publishes its article bodies through the same public JSON endpoint used by its website.
 // Keep the original human-readable URL and pass revisions through the shared material entrance.
 import { sql } from "@aihot/backend/db";
-import { readable } from "@aihot/backend/content/extract";
+import { parseHTML } from "linkedom";
+import { sanitizeBody } from "@aihot/backend/content/sanitize";
 import { upsertMaterial } from "@aihot/backend/content/materials";
 import { queueProcessing } from "@aihot/backend/jobs/content";
 import { guardedFetch, requireOk } from "@aihot/backend/lib/http-fetch";
 import { readPublicationDate } from "@aihot/backend/sources/dates";
-import { escapeXml } from "@aihot/backend/lib/text";
+import { stripTags } from "@aihot/backend/lib/text";
 
 export interface NfraEnrichmentResult {
   articleId: string;
@@ -28,9 +29,15 @@ export function nfraDocId(url: string): string {
 export function parseNfraBody(url: string, result: { rptCode?: number; data?: { docId?: number | string; docClob?: unknown; docTitle?: unknown; publishDate?: unknown } }) {
   const docId = nfraDocId(url);
   if (result.rptCode !== 200 || String(result.data?.docId) !== docId || typeof result.data?.docClob !== "string") throw new Error("NFRA response has no matching article body");
-  const body = readable(`<html><head><title>${escapeXml(String(result.data.docTitle ?? ""))}</title></head><body><article>${result.data.docClob}</article></body></html>`, url);
-  if (!body || body.text.trim().length < 200) throw new Error("NFRA article body could not be confirmed");
-  return { ...body, ...readPublicationDate(typeof result.data.publishDate === "string" ? result.data.publishDate : null, "+08:00") };
+  // docClob is the publisher's article container, including short official notices and tables.
+  // Page readability can otherwise select a longer copyright footer instead of the real article.
+  const { document } = parseHTML(result.data.docClob);
+  const article = document.querySelector("body");
+  const html = sanitizeBody(article?.innerHTML ?? result.data.docClob, url);
+  const text = stripTags(html).trim();
+  if (text.length < 40 || text.includes("\uFFFD") || /^版权与免责声明/.test(text)) throw new Error("NFRA article body could not be confirmed");
+  const images = [...html.matchAll(/<img\b[^>]*\bsrc="([^"]+)"[^>]*>/gi)].slice(0, 12).map(match => ({ kind: "image" as const, url: match[1]!.replace(/&amp;/g, "&"), width: null, height: null }));
+  return { html, text, images, ...readPublicationDate(typeof result.data.publishDate === "string" ? result.data.publishDate : null, "+08:00") };
 }
 
 export async function fetchNfraBody(url: string) {
@@ -48,6 +55,8 @@ export async function pendingNfraArticles(limit = 10) {
     LEFT JOIN settings progress ON progress.key = 'insurance.nfra-body.' || a.id
     WHERE s.enabled AND a.source_id LIKE 'nfra-%' AND a.body_status != 'ok'
       AND a.url LIKE 'https://www.nfra.gov.cn/cn/view/pages/ItemDetail.html%'
+      AND NOT (coalesce(progress.value->>'status','') = 'failed'
+        AND coalesce(progress.value->>'error','') LIKE '%HTTP 403%')
     ORDER BY progress.value->>'attemptedAt' ASC NULLS FIRST, a.discovered_at DESC, a.id LIMIT ${bounded}`;
 }
 

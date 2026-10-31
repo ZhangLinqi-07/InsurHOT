@@ -42,3 +42,12 @@ test("NUL is handled after decoding a declared non-UTF8 charset", async () => {
 test("a quoted charset in Content-Type is honoured", async () => {
   assert.equal((await read("/quoted", Buffer.from([0xd6, 0xd0, 0xce, 0xc4]), 'text/html; charset="gb2312"')).text(), "中文");
 });
+
+test("JSON strings containing an old HTML charset cannot change UTF-8 response decoding", async () => {
+  const original = JSON.stringify({ docClob: '<html><head><meta charset="gb2312"></head><body>监管总局依法开展保险监管。</body></html>' });
+  for (const contentType of ["application/json", "application/problem+json"]) {
+    const response = await read("/json-" + contentType.length, Buffer.from(original), contentType);
+    assert.equal(response.text(), original);
+    assert.deepEqual(response.body, Buffer.from(original));
+  }
+});

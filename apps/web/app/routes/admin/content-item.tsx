@@ -156,6 +156,8 @@ export default function ContentItem({ loaderData }: Route.ComponentProps) {
                       </div>
                       {an.title_zh && <div className="mt-2 font-medium text-ink">{an.title_zh}</div>}
                       {an.reason_zh && <div className="mt-1 text-[12.5px] leading-relaxed text-ink-3">{an.reason_zh}</div>}
+                      {!!an.output?.classification && <details className="mt-3 text-[12px]"><summary className="cursor-pointer font-medium text-accent">关键词分类依据</summary><pre className="max-h-[480px] overflow-auto whitespace-pre-wrap break-words rounded-control bg-surface p-3">{JSON.stringify(an.output.classification, null, 2)}</pre></details>}
+                      {!!an.output?.rubric && <details className="mt-3 text-[12px]"><summary className="cursor-pointer font-medium text-accent">V0.1 逐轴评分、引文与复核记录</summary><p className="my-2 text-ink-3">包含两次独立评分、原文版本、程序计算和压分回执。门槛暂未校准，人工更正保留在下方操作历史。</p><pre className="max-h-[480px] overflow-auto whitespace-pre-wrap break-words rounded-control bg-surface p-3">{JSON.stringify(an.output.rubric, null, 2)}</pre></details>}
                       {an.receipts.length > 0 && (
                         <div className="mt-2 flex flex-wrap gap-1.5 text-[11.5px]">
                           {an.receipts.map((r) => (
@@ -173,6 +175,8 @@ export default function ContentItem({ loaderData }: Route.ComponentProps) {
               )}
             </Step>
             <Step title="公开" tone={p ? (p.visibility === "withdrawn" ? "bad" : "accent") : "muted"} meta={p ? `更新于 ${bj(p.updated_at, true)}` : undefined}>
+              {!!p?.score_evidence && <details className="mb-3 text-[12px]"><summary className="cursor-pointer font-medium text-accent">分类后的阅读价值评分</summary><p className="my-2 text-ink-3">影响力、信息量和实用性分别计分，两次独立总分取平均后向下取整。仅使用保存的标题与摘要。</p><pre className="max-h-[480px] overflow-auto whitespace-pre-wrap break-words rounded-control bg-surface p-3">{JSON.stringify(p.score_evidence, null, 2)}</pre></details>}
+              {!!p?.classification && <details className="mb-3 text-[12px]"><summary className="cursor-pointer font-medium text-accent">关键词分类依据</summary><p className="my-2 text-ink-3">显示规则版本、各类得分与命中位置。人工指定栏目优先于规则建议。</p><pre className="max-h-[480px] overflow-auto whitespace-pre-wrap break-words rounded-control bg-surface p-3">{JSON.stringify(p.classification, null, 2)}</pre></details>}
               {p ? (
                 <KV
                   items={[

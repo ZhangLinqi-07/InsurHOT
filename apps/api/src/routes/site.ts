@@ -2,6 +2,7 @@
 // Reads through the same public read layer as v1; no cookies are read or set.
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { isCategoryKey, isChannelKey, type CategoryKey, type ChannelKey } from "@aihot/contracts/taxonomy";
+import { isMarketFilter, type MarketFilter } from "@aihot/contracts/site";
 import type { ReportIndexResponse, ReportLatestPage, ReportNavigationResponse, SearchSuggestions, SiteContact } from "@aihot/contracts/site";
 import { InvalidCursorError } from "@aihot/backend/lib/cursor";
 import { exportMarkdown, loadItemDetail } from "@aihot/backend/publication/detail";
@@ -42,18 +43,21 @@ export function siteHandler(fn: Handler): Handler {
 }
 
 export interface FilterParams {
+  market: MarketFilter;
   channel: ChannelKey;
   category: CategoryKey | null;
   tag: string | null;
 }
 
 export function parseFilters(q: Record<string, string>): FilterParams {
+  const market = q.market ?? "all";
+  if (!isMarketFilter(market)) throw new BadRequest("invalid market");
   const channel = q.channel ?? "all";
   if (!isChannelKey(channel)) throw new BadRequest("invalid channel");
   const category = q.category ?? null;
   if (category !== null && !isCategoryKey(category)) throw new BadRequest("invalid category");
   const tag = q.tag?.trim() ? q.tag.trim().slice(0, 60) : null;
-  return { channel, category: category as CategoryKey | null, tag };
+  return { channel, category: category as CategoryKey | null, tag, market };
 }
 
 export function registerSite(app: FastifyInstance) {
@@ -65,7 +69,7 @@ export function registerSite(app: FastifyInstance) {
     const q = looseQuery(req);
     const filters = parseFilters(q);
     const limit = Math.min(Math.max(Number(q.limit) || 20, 1), 40);
-    const unfiltered = filters.channel === "all" && !filters.category && !filters.tag && !q.cursor;
+    const unfiltered = filters.market === "all" && filters.channel === "all" && !filters.category && !filters.tag && !q.cursor;
     const [data, hot] = await Promise.all([
       loadTimeline({ ...filters, cursor: q.cursor || null, limit }),
       unfiltered ? loadHotStrip() : null,
@@ -78,7 +82,8 @@ export function registerSite(app: FastifyInstance) {
   app.get("/api/site/pool", siteHandler(async (req, reply) => {
     const q = looseQuery(req);
     const filters = parseFilters(q);
-    const page = Math.min(Math.max(Number(q.page) || 1, 1), 50);
+    const page = q.page === undefined ? 1 : Number(q.page);
+    if (!Number.isSafeInteger(page) || page < 1) throw new BadRequest("invalid page");
     const search = q.q?.trim() ? q.q.trim().slice(0, 200) : null;
     const tab = q.tab === "relevance" ? "relevance" : "time";
     return sendJsonWithEtag(req, reply, await loadPool({ ...filters, q: search, tab, page }), { etagPrefix: "pool", cacheControl: "public, max-age=60, s-maxage=60" });

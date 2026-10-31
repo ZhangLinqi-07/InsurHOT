@@ -15,6 +15,16 @@ const args=process.argv.slice(2);
 while(args[0]?.startsWith('--')){
   const flag=args.shift();
   if(flag==='--models')process.env.MODEL_CALLS_ENABLED='true';
+  else if(flag==='--workflow'){
+    process.env.MODEL_CALLS_ENABLED='true';
+    process.env.DATABASE_POOL_MAX ??= '32';
+    process.env.COLLECT_ENABLED='false';
+    // This service owns news processing only. Collection runs in the existing free service.
+    for(const key of Object.keys(process.env)){
+      if(/^(?:EMBEDDING_|DASHSCOPE_|SOCIALDATA_)/.test(key)||['JINA_API_KEY','DAJIALA_KEY'].includes(key))delete process.env[key];
+      if(/^FEISHU_.*_ENABLED$/.test(key)||key==='INDEXNOW_SUBMIT_ENABLED')process.env[key]='false';
+    }
+  }
   else if(flag==='--collect')process.env.COLLECT_ENABLED='true';
   else if(flag==='--collect-only'){
     process.env.COLLECT_ENABLED='true';
@@ -27,7 +37,7 @@ while(args[0]?.startsWith('--')){
   }
   else throw new Error(`Unknown local launcher option ${flag}`);
 }
-if(!args.length)throw new Error('Pass a Node script after optional --models / --collect');
+if(!args.length)throw new Error('Pass a Node script after optional --models / --collect / --workflow');
 const target=resolve(process.cwd(),args.shift());
 process.argv=[process.execPath,target,...args];
 await import(pathToFileURL(target).href);

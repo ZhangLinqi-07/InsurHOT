@@ -49,8 +49,8 @@ export function parseLooseDate(value: string | null | undefined, utcOffset = "+0
     if (!Number.isFinite(month) || !calendarDay(english[3]!, new Date(month).getUTCMonth() + 1, english[2]!)) return null;
   }
   if (!numeric && !english) return null;
-  const text = v.replace(/(\d)(st|nd|rd|th)\b/gi, "$1");
-  if (EXPLICIT_ZONE.test(v)) {
+  const text = v.replace(/(\d)(st|nd|rd|th)\b/gi, "$1").replace(/\bJST\b/g, "+0900");
+  if (EXPLICIT_ZONE.test(text)) {
     const direct = Date.parse(text);
     if (Number.isFinite(direct)) return new Date(direct);
     if (!numeric) return null;

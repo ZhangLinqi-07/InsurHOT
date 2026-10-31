@@ -3,6 +3,7 @@
 // issue older than the index losing its number; the calendar marking that issue as not published; the
 // daily archive counting 400 issues beside a masthead that numbers 405.
 import assert from "node:assert/strict";
+import * as cheerio from "cheerio";
 import { after, before, test } from "node:test";
 import type { ReportDetail, ReportKind, ReportNavigationEntry } from "@aihot/contracts/site";
 import { isoWeekLabel } from "@aihot/contracts/time";
@@ -18,9 +19,17 @@ const keys = Object.fromEntries(kinds.map((kind) => [kind, Array.from({ length: 
 /** The navigation as the api sends it: the newest 400 issues, each with its number in the whole series. */
 const index = (kind: ReportKind): ReportNavigationEntry[] => keys[kind].map((key, i) => ({ key, issueNumber: i + 1, title: `第${i + 1}期` })).reverse().slice(0, 400);
 function report(kind: ReportKind, key: string): ReportDetail {
+  const divided = key === keys[kind][3] || key === keys[kind][4];
+  const citation = (itemId: string, title: string) => ({ itemId, title, summary: "核验后的保险事件摘要。", available: true, sourceName: "报告信源", sourceUrl: "https://example.org/report", sourceIconUrl: null, firstParty: true, publishedAt: "2020-01-02T00:00:00Z" });
   return {
     kind, key, issueNumber: keys[kind].indexOf(key) + 1, title: "测试刊物", generatedAt: "2020-01-02T00:00:00Z",
     lead: null, leadItemId: null, overview: null, highlights: [], sections: [], flashes: [], cover: null, metrics: {}, readingMinutes: 1, prev: null, next: null,
+    ...(divided ? {
+      divisions: [{ key: "domestic", label: "国内动态", summary: "国内监管规则取得进展。" }, { key: "foreign", label: "国际动态", summary: key === keys[kind][3] ? "国际风险保障出现进展。" : null }],
+      sections: [{ label: "监管与规则", division: "domestic", summary: null, items: [citation("domestic", "国内保险事件")] },
+        ...(key === keys[kind][3] ? [{ label: "监管与规则", division: "foreign", summary: null, items: [citation("foreign", "国际保险事件")] }] : [])],
+      editorialNote: "首期按原文时间整理。",
+    } : {}),
   };
 }
 let web: WebServer;
@@ -39,6 +48,28 @@ const api = fakeApi((url) => {
 
 before(async () => { web = await startWebServer(api); });
 after(() => web.stop());
+
+for (const kind of kinds) {
+  test(`${kind} displays separate domestic and international sections without repeating events`, async () => {
+    const response = await fetch(`${web.origin}/${kind}/${keys[kind][3]}`);
+    assert.equal(response.status, 200, web.logs());
+    const $ = cheerio.load(await response.text());
+    assert.match($("#d-domestic").text(), /国内保险事件/);
+    assert.doesNotMatch($("#d-domestic").text(), /国际保险事件/);
+    assert.match($("#d-foreign").text(), /国际保险事件/);
+    assert.equal($("article#r-domestic").length, 1);
+    assert.equal($("article#r-foreign").length, 1);
+    assert.equal($("a[href='#d-domestic']").length, 1);
+  });
+  test(`${kind} retains an honest empty international section`, async () => {
+    const response = await fetch(`${web.origin}/${kind}/${keys[kind][4]}`);
+    assert.equal(response.status, 200, web.logs());
+    const $ = cheerio.load(await response.text());
+    assert.match($("#d-foreign").text(), /本期暂无符合入选条件的新增事件/);
+    assert.equal($("#d-foreign article").length, 0);
+    assert.match($("article").first().text(), /首期按原文时间整理/);
+  });
+}
 
 /** The masthead's visible text (the archive's has the same frame). */
 function masthead(html: string): string {

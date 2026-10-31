@@ -1,6 +1,6 @@
 // A classification correction moves the same frozen entry; it never composes another issue or pays
 // a writer. The override, publication, report revisions and audit commit in the caller's transaction.
-import { RELEASE } from "@aihot/industry/taxonomy";
+import { LEGACY_SECTION_LABELS, RELEASE } from "@aihot/industry/taxonomy";
 import type { Tx } from "../db.ts";
 import { isRelease } from "../editorial/vocabulary.ts";
 import { emit } from "../modules.ts";
@@ -28,17 +28,19 @@ export async function correctReportClassification(tx: Tx, articleId: string, rea
     const entriesKey = daily ? "items" : "storyRefs";
     const from = groups.find(g => g[entriesKey]?.some(e => e.itemId === articleId));
     // Older, hand-written theme headings are not taxonomy columns; do not reinterpret their prose.
-    if (!from || !SECTION_ORDER.includes(from[labelKey] ?? "")) continue;
+    if (!from || ![...SECTION_ORDER, ...LEGACY_SECTION_LABELS].includes(from[labelKey] ?? "")) continue;
     const label = sectionOf(item.category);
     if (from[labelKey] !== label) {
       const moving = from[entriesKey]!.filter(e => e.itemId === articleId);
       from[entriesKey] = from[entriesKey]!.filter(e => e.itemId !== articleId);
-      let target = groups.find(g => g[labelKey] === label);
-      if (!target) { target = { [labelKey]: label, [entriesKey]: [] }; groups.push(target); }
+      let target = groups.find(g => g[labelKey] === label && g.division === from.division);
+      if (!target) { target = { [labelKey]: label, ...(from.division ? { division: from.division } : {}), [entriesKey]: [] }; groups.push(target); }
       target[entriesKey]!.push(...moving);
       if (!daily) { from.summary = null; target.summary = null; }
     }
-    const arranged = groups.filter(g => g[entriesKey]?.length).sort((a, b) => SECTION_ORDER.indexOf(a[labelKey]!) - SECTION_ORDER.indexOf(b[labelKey]!));
+    const divisions = (content.divisions as Array<{ key: string }> | undefined)?.map(d => d.key) ?? [];
+    const arranged = groups.filter(g => g[entriesKey]?.length).sort((a, b) =>
+      divisions.indexOf(String(a.division)) - divisions.indexOf(String(b.division)) || SECTION_ORDER.indexOf(a[labelKey]!) - SECTION_ORDER.indexOf(b[labelKey]!));
     if (daily) {
       content.sections = arranged;
       // The release figure (dailyMetrics) follows the new classification; without a RELEASE kind there is none.

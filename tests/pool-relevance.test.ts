@@ -46,7 +46,7 @@ test("short and multi-term relevance keep cross-field AND and deterministic scor
   const single = await loadPool(query("zx"));
   assert.deepEqual(single.items.map(item => item.id), ["title", "partial", "cross-z", "cross-a", "body"].map(id));
   const beyond = await loadPool({ ...query("zx qy"), page: 2 });
-  assert.deepEqual([beyond.items, beyond.total, beyond.pageCount], [[], 4, 1]);
+  assert.deepEqual([beyond.items, beyond.total, beyond.pageCount], [multi.items, 4, 1]);
 });
 
 test("company relevance retains tag-only candidates, boosts and unique totals", async () => {

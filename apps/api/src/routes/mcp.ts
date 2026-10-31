@@ -9,7 +9,7 @@ import { z } from "zod";
 import { POLICY, SITE } from "@aihot/site";
 import { PUBLIC_INTERFACE_VERSION } from "@aihot/contracts/http-policy";
 import { MCP_TOOL_NAMES as T, mcpToolName } from "@aihot/contracts/mcp";
-import { PUBLIC_API_CATEGORY_KEYS } from "@aihot/contracts/taxonomy";
+import { PUBLIC_API_CATEGORY_KEYS, PUBLIC_API_FILTER_CATEGORY_KEYS } from "@aihot/contracts/taxonomy";
 import { isValidDate } from "@aihot/contracts/time";
 import { config } from "@aihot/backend/config";
 import { cachedByKey } from "@aihot/backend/lib/cache";
@@ -71,7 +71,7 @@ function safe<A>(tool: string, run: (args: A) => Promise<ReturnType<typeof ok> |
   };
 }
 
-const category = z.enum(PUBLIC_API_CATEGORY_KEYS).optional().describe(`Optional category: ${PUBLIC_API_CATEGORY_KEYS.join(", ")}.`);
+const category = z.enum(PUBLIC_API_FILTER_CATEGORY_KEYS).optional().describe(`Optional category: ${PUBLIC_API_CATEGORY_KEYS.join(", ")}.`);
 
 // Tool inputs are built once; each request's server instance registers the same schemas.
 const LATEST_INPUT = z.strictObject({

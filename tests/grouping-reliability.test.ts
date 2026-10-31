@@ -332,3 +332,25 @@ for (const change of ["revision", "regroup"] as const) test(`${change} withdraws
   const [current] = await sql`SELECT a.grouping_status,p.selected FROM articles a JOIN publications p ON p.article_id=a.id WHERE a.id=${id}`;
   assert.deepEqual({ ...current }, { grouping_status: "pending", selected: false });
 });
+
+// A one-off imported judge still goes through native identity/value and publication gates.
+test("per-run grouping judges preserve normal value gates and omitted hooks keep the provider", async () => {
+  const id = await report("per-run-imported-judge");
+  const beforeCalls = provider.hits();
+  let calls = 0;
+  const [receipt] = await sql`INSERT INTO receipts(logical_key,service,model,purpose,status,request,response,attempts,origin,received_at)
+    VALUES (${'group-hook-' + id},'codex-oneoff','test-import','group_article','received','{}','{}',0,'imported',now()) RETURNING id`;
+  await groupArticle(id, { batchJudge: async (_articleId, _query, candidates) => {
+    calls += 1;
+    return { verdicts: new Map(candidates.map(candidate => [candidate.factId, { relation: "UNRELATED" as const, confidence: 1, note: "separate occurrence" }])),
+      selection: { addsValue: false, reason: "fixture already covers this information" }, receiptId: Number(receipt!.id) };
+  } });
+  assert.equal(calls, 1);
+  assert.equal(provider.hits(), beforeCalls);
+  assert.equal((await sql`SELECT selection_adds_value FROM articles WHERE id=${id}`)[0]!.selection_adds_value, false);
+  assert.equal((await sql`SELECT selected FROM publications WHERE article_id=${id}`)[0]!.selected, false);
+  assert.equal((await sql`SELECT status FROM receipts WHERE id=${receipt!.id}`)[0]!.status, "completed");
+  const ordinary = await report("per-run-omitted-hook");
+  await groupArticle(ordinary);
+  assert.ok(provider.hits() > beforeCalls);
+});

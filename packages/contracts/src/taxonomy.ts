@@ -1,16 +1,16 @@
 // Public vocabularies shared by the website, the API and the worker. The categories themselves belong to
 // the industry pack (industry/taxonomy.ts); their keys are external identities (URLs, API, RSS) and never change.
 // How the public API, RSS and MCP differ from the website is the site's (site/site.ts PUBLIC_CATEGORIES).
-import { CATEGORIES } from "@aihot/industry/taxonomy";
+import { CATEGORIES, LEGACY_CATEGORIES } from "@aihot/industry/taxonomy";
 import { PUBLIC_CATEGORIES } from "@aihot/site";
 
 type Category = (typeof CATEGORIES)[number];
 
-export type CategoryKey = Category["key"];
+export type CategoryKey = Category["key"] | (typeof LEGACY_CATEGORIES)[number]["key"];
 export const CATEGORY_KEYS = CATEGORIES.map((c) => c.key) as unknown as readonly [CategoryKey, ...CategoryKey[]];
 
 /** Website tab labels. */
-export const CATEGORY_LABELS = Object.fromEntries(CATEGORIES.map((c) => [c.key, c.label])) as Record<CategoryKey, string>;
+export const CATEGORY_LABELS = Object.fromEntries([...CATEGORIES, ...LEGACY_CATEGORIES].map((c) => [c.key, c.label])) as Record<CategoryKey, string>;
 
 const MERGE: Partial<Record<string, string>> = PUBLIC_CATEGORIES.merge;
 const FEED_LABELS: Partial<Record<string, string>> = PUBLIC_CATEGORIES.feedLabels;
@@ -18,21 +18,23 @@ const FEED_LABELS: Partial<Record<string, string>> = PUBLIC_CATEGORIES.feedLabel
 /** The categories the public API, RSS and MCP know: a merged category is published as the one it joins. */
 export type PublicApiCategoryKey = Exclude<CategoryKey, keyof typeof PUBLIC_CATEGORIES.merge>;
 export const PUBLIC_API_CATEGORY_KEYS = CATEGORIES.filter((c) => !Object.hasOwn(MERGE, c.key)).map((c) => c.key) as unknown as readonly [PublicApiCategoryKey, ...PublicApiCategoryKey[]];
+/** Retired keys remain valid for saved API queries and subscriptions, without being new navigation choices. */
+export const PUBLIC_API_FILTER_CATEGORY_KEYS = [...PUBLIC_API_CATEGORY_KEYS, ...LEGACY_CATEGORIES.map(c => c.key)] as const;
 
 export function toPublicApiCategory(category: string | null): PublicApiCategoryKey | null {
-  const c = CATEGORIES.find((x) => x.key === category);
+  const c = [...CATEGORIES, ...LEGACY_CATEGORIES].find((x) => x.key === category);
   if (!c) return null;
   return (MERGE[c.key] ?? c.key) as PublicApiCategoryKey;
 }
 
 /** A public category's name in feeds (<category>, a category feed's title): the site's, else the pack's feed label, else its website label. */
 export function feedCategoryLabel(key: PublicApiCategoryKey): string {
-  const c: { label: string; feedLabel?: string } = CATEGORIES.find((x) => x.key === key)!;
+  const c: { label: string; feedLabel?: string } = [...CATEGORIES, ...LEGACY_CATEGORIES].find((x) => x.key === key)!;
   return FEED_LABELS[key] ?? c.feedLabel ?? c.label;
 }
 
 export function isCategoryKey(value: unknown): value is CategoryKey {
-  return typeof value === "string" && (CATEGORY_KEYS as readonly string[]).includes(value);
+  return typeof value === "string" && ((CATEGORY_KEYS as readonly string[]).includes(value) || LEGACY_CATEGORIES.some(c => c.key === value));
 }
 
 export const CHANNEL_KEYS = ["all", "news", "x", "firstParty"] as const;

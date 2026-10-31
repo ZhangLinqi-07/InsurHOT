@@ -48,21 +48,23 @@ export function listPath(path: string, params: Record<string, string | number | 
 export function readFilters(params: URLSearchParams): TimelineFilters {
   const channel = params.get("channel") ?? "all";
   const category = params.get("category");
+  const market = params.get("market");
   return {
     channel: isChannelKey(channel) ? channel : "all",
     category: category && isCategoryKey(category) ? category : null,
     tag: params.get("tag")?.trim() || null,
+    market: market === "domestic" || market === "foreign" ? market : "all",
   };
 }
 
 /** Feed filters as list address parameters: the default channel and unset filters are left out. */
 export function filterParams(f: TimelineFilters) {
-  return { channel: f.channel === "all" ? null : f.channel, category: f.category, tag: f.tag };
+  return { channel: f.channel === "all" ? null : f.channel, category: f.category, tag: f.tag, market: f.market && f.market !== "all" ? f.market : null };
 }
 
 /** Filter combinations are browsing views; the unfiltered feed and its archive pages remain indexable. */
 export function hasFeedFilters(filters: TimelineFilters | undefined): boolean {
-  return !!filters && (filters.channel !== "all" || !!filters.category || !!filters.tag);
+  return !!filters && (filters.channel !== "all" || !!filters.category || !!filters.tag || (!!filters.market && filters.market !== "all"));
 }
 
 /** "Title · Site". */

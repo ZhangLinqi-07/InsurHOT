@@ -43,16 +43,21 @@ const api=fakeApi((url,res,req)=>{
   if(p==='/api/site/timeline'){
     res.setHeader('X-Accel-Expires','@'+(Math.floor(Date.now()/1000)+ttl));
     const category=url.searchParams.get('category');
-    const shown={...item,title:category?'分类 '+category:'性能检查文章'};
+    const market=url.searchParams.get('market')==='domestic'?'domestic':url.searchParams.get('market')==='foreign'?'foreign':'all';
+    const prefix=market==='domestic'?'国内 ':market==='foreign'?'国外 ':'';
+    const shown={...item,title:prefix+(category?'分类 '+category:'性能检查文章')};
     if(url.searchParams.get('tag')==='long-reading'){
       const cards=Array.from({length:180},(_,i)=>({key:'long-'+i,anchorAt:i<60?at:'2026-10-03T08:00:00.000Z',item:{...item,id:'long-'+i,title:'长列表文章 '+i,summary:'用于核实深处阅读返回的固定摘要。'.repeat(3)},group:null}));
       return {filters:{channel:'all',category:null,tag:'long-reading'},cards,nextCursor:null,hot:null,dayCounts:{'2026-10-04':60,'2026-10-03':120}};
     }
-    return {filters:{channel:'all',category,tag:null},cards:[{key:shown.id,anchorAt:at,item:shown,group:null}],nextCursor:null,hot:null,dayCounts:{'2026-10-04':1}};
+    return {filters:{channel:url.searchParams.get('channel')??'all',category,tag:url.searchParams.get('tag'),market},cards:[{key:shown.id,anchorAt:at,item:shown,group:null}],nextCursor:null,hot:null,dayCounts:{'2026-10-04':1}};
   }
   if(p==='/api/site/pool'){
-    const page=Number(url.searchParams.get('page')||1);
-    return {filters:{channel:'all',category:null,tag:null,q:null,tab:'time'},items:[{...item,title:'全部第 '+page+' 页'}],page,pageCount:3,total:3,todayCount:1,freshness:at};
+    const pageCount=url.searchParams.get('tag')==='deep-paging'?52:3;
+    const page=Math.min(Number(url.searchParams.get('page')||1),pageCount);
+    const market=url.searchParams.get('market')==='domestic'?'domestic':url.searchParams.get('market')==='foreign'?'foreign':'all';
+    const prefix=market==='domestic'?'国内 ':market==='foreign'?'国外 ':'';
+    return {filters:{channel:url.searchParams.get('channel')??'all',category:url.searchParams.get('category'),tag:url.searchParams.get('tag'),market,q:url.searchParams.get('q'),tab:url.searchParams.get('tab')==='relevance'?'relevance':'time'},items:[{...item,title:prefix+'全部第 '+page+' 页'}],page,pageCount,total:pageCount===52?2080:3,todayCount:1,freshness:at};
   }
   if(p==='/api/site/items/navigation-fixture')return detail;
   if(p==='/api/site/items/navigation-fixture/original')return {...detail,body:{zh:null,original:'<p>Original fixture</p>',zhKind:null,complete:true},bodyLanguage:'original'};
@@ -296,4 +301,100 @@ test('deep reading returns to its anchor, including folded dates',async()=>{
     await expect.poll(()=>page.locator(`[data-card-key="${before.key}"]`).evaluate((e,top)=>Math.abs(e.getBoundingClientRect().top-top),before.top)).toBeLessThan(2);
     await expect(page.getByRole('button',{name:'展开10月4日',exact:true})).toBeVisible();
   }finally{await context.close();}
+});
+
+
+test('market filters stay independent on featured and all news, including mobile search and pagination',async()=>{
+  for(const viewport of [{width:1440,height:1000},{width:320,height:760}]){
+    const context=await chrome.newContext({viewport});const page=await context.newPage();
+    try{
+      const initial=new URLSearchParams({channel:'firstParty',category:'regulation',tag:'market-fixture',q:'保险',tab:'relevance',page:'2'});
+      await visit(page,origin+'/all?'+initial);
+      const markets=page.getByRole('navigation',{name:'市场范围'});
+      await markets.getByRole('link',{name:'国内',exact:true}).click();
+      await expect(page.getByRole('link',{name:'国内 全部第 1 页',exact:true})).toBeVisible();
+      await expect(markets.getByRole('link',{name:'国内',exact:true})).toHaveAttribute('aria-current','page');
+      let query=new URL(page.url()).searchParams;
+      for(const [key,value] of initial)if(key!=='page')assert.equal(query.get(key),value,key);
+      assert.equal(query.get('market'),'domestic');assert.equal(query.has('page'),false);
+      await page.getByRole('link',{name:'下一页',exact:true}).click();
+      await expect(page.getByRole('link',{name:'国内 全部第 2 页',exact:true})).toBeVisible();
+      assert.equal(new URL(page.url()).searchParams.get('market'),'domestic');
+      if(viewport.width<961){
+        await page.getByRole('button',{name:'保险',exact:true}).click();
+        const dialog=page.getByRole('dialog',{name:'搜索',exact:true});
+        await dialog.getByRole('searchbox').fill('保障');await dialog.getByRole('searchbox').press('Enter');
+      }else{
+        await page.getByLabel('搜索标题、摘要与正文').fill('保障');await page.getByLabel('搜索标题、摘要与正文').press('Enter');
+      }
+      await expect(page).toHaveURL(/q=.*market=|market=.*q=/);
+      await expect(page.getByRole('link',{name:'国内 全部第 1 页',exact:true})).toBeVisible();
+      query=new URL(page.url()).searchParams;
+      assert.equal(query.get('q'),'保障');assert.equal(query.get('market'),'domestic');assert.equal(query.get('tag'),'market-fixture');
+      assert.equal(query.get('category'),'regulation');assert.equal(query.get('channel'),'firstParty');assert.equal(query.has('page'),false);
+      await markets.getByRole('link',{name:'全部',exact:true}).click();
+      await expect(page.getByRole('link',{name:'全部第 1 页',exact:true})).toBeVisible();
+      assert.equal(new URL(page.url()).searchParams.has('market'),false);assert.equal(new URL(page.url()).searchParams.get('q'),'保障');
+
+      await visit(page,origin+'/?market=foreign&category=regulation&tag=market-fixture&cursor=obsolete');
+      await expect(page.getByRole('link',{name:'国外 分类 regulation',exact:true})).toBeVisible();
+      await markets.getByRole('link',{name:'国内',exact:true}).click();
+      await expect(page.getByRole('link',{name:'国内 分类 regulation',exact:true})).toBeVisible();
+      assert.equal(new URL(page.url()).searchParams.has('cursor'),false);
+      if(viewport.width<961){await page.getByRole('button',{name:/^筛选/}).click();await page.getByRole('link',{name:'产品',exact:true}).click();}
+      else await page.getByRole('navigation',{name:'筛选',exact:true}).getByRole('link',{name:'产品',exact:true}).click();
+      await expect(page.getByRole('link',{name:'国内 分类 products',exact:true})).toBeVisible();
+      query=new URL(page.url()).searchParams;assert.equal(query.get('market'),'domestic');assert.equal(query.get('tag'),'market-fixture');assert.equal(query.get('category'),'products');
+      assert.ok(hits.some(hit=>hit.startsWith('/api/site/timeline?')&&hit.includes('market=domestic')&&hit.includes('category=products')));
+      assert.ok(hits.some(hit=>hit.startsWith('/api/site/pool?')&&hit.includes('market=domestic')&&hit.includes('page=2')));
+      if(viewport.width<961){
+        await visit(page,origin+'/all?market=foreign&category=products&tag=market-fixture&q=保障');
+        await page.getByRole('button',{name:'全部',exact:true}).click();
+        await expect(page).not.toHaveURL(/[?&]q=/);
+        await expect(page.getByRole('link',{name:'国外 全部第 1 页',exact:true})).toBeVisible();
+        query=new URL(page.url()).searchParams;assert.equal(query.get('market'),'foreign');assert.equal(query.get('category'),'products');assert.equal(query.get('tag'),'market-fixture');assert.equal(query.has('q'),false);
+      }
+      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth));
+    }finally{await context.close();}
+  }
+});
+
+
+test('all published news stays reachable beyond page fifty with filters and a real final page',async()=>{
+  for(const viewport of [{width:1440,height:1000},{width:320,height:760}]){
+    const context=await chrome.newContext({viewport});const page=await context.newPage();
+    try{
+      const query=new URLSearchParams({market:'domestic',category:'regulation',channel:'firstParty',tag:'deep-paging',q:'保险',tab:'relevance',page:'50'});
+      const kept=()=>{const current=new URL(page.url()).searchParams;for(const [key,value] of query)if(key!=='page')assert.equal(current.get(key),value,key);return current;};
+      await visit(page,origin+'/all?'+query);
+      await expect(page.getByRole('link',{name:'国内 全部第 50 页',exact:true})).toBeVisible();
+      await expect(page.getByText('找到',{exact:false})).toContainText('2080');
+      await page.getByRole('link',{name:'下一页',exact:true}).click();
+      await expect(page.getByRole('link',{name:'国内 全部第 51 页',exact:true})).toBeVisible();
+      assert.equal(kept().get('page'),'51');
+      await page.getByRole('link',{name:'下一页',exact:true}).click();
+      await expect(page.getByRole('link',{name:'国内 全部第 52 页',exact:true})).toBeVisible();
+      assert.equal(kept().get('page'),'52');
+      await expect(page.getByRole('link',{name:'下一页',exact:true})).toHaveCount(0);
+      await expect(page.getByText(/最多提供 50 页/)).toHaveCount(0);
+      if(viewport.width<961)await expect(page.getByRole('navigation',{name:'分页'})).toContainText('52 / 52');
+      else await expect(page.getByRole('navigation',{name:'分页'}).getByRole('link',{name:'52',exact:true})).toHaveAttribute('aria-current','page');
+      await page.getByRole('link',{name:'上一页',exact:true}).click();
+      await expect(page.getByRole('link',{name:'国内 全部第 51 页',exact:true})).toBeVisible();
+      assert.equal(kept().get('page'),'51');
+      query.set('page',String(Number.MAX_SAFE_INTEGER));
+      await visit(page,origin+'/all?'+query);
+      await expect(page.getByRole('link',{name:'国内 全部第 52 页',exact:true})).toBeVisible();
+      assert.equal(kept().get('page'),'52');
+      assert.equal(new URL(await page.locator('link[rel=canonical]').getAttribute('href')??origin).searchParams.get('page'),'52');
+      assert.ok(hits.some(hit=>hit.startsWith('/api/site/pool?')&&hit.includes('page=51')&&hit.includes('market=domestic')));
+      await page.getByRole('spinbutton',{name:'跳转页码'}).fill('50');
+      await page.getByRole('button',{name:'跳转',exact:true}).click();
+      await expect(page.getByRole('link',{name:'国内 全部第 50 页',exact:true})).toBeVisible();
+      assert.equal(kept().get('page'),'50');
+      await page.getByRole('link',{name:'清除全部筛选',exact:true}).click();
+      await expect(page).toHaveURL(origin+'/all');
+      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth));
+    }finally{await context.close();}
+  }
 });

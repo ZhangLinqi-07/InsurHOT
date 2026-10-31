@@ -19,6 +19,7 @@ import { Halftone } from "./Halftone";
 import { Nameplate } from "./Nameplate";
 import { IssueDots } from "./IssueDots";
 import { monthDay } from "../../lib/format.ts";
+import { beijingDate, beijingTime } from "@aihot/contracts/time";
 import { EDITION, MOTTO, dateLine, dateMark, headline, metricItems, neighbourLabel, reportPath, shortDay } from "./format";
 
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -199,6 +200,7 @@ interface Page {
   label: string;
   summary: string | null;
   items: ReportCitation[];
+  division?: string;
 }
 
 /**
@@ -223,6 +225,7 @@ function pagesOf(report: ReportDetail, leadStory: ReportCitation | null): Page[]
       id: `s-${i + 1}`,
       label: s.label,
       summary: s.summary,
+      division: s.division,
       items: s.items
         .filter((c) => {
           const k = keyOf(c);
@@ -457,6 +460,16 @@ function History({ report, index }: { report: ReportDetail; index: ReportNavigat
 
 /** The issue's pages for the phone outline: the front page, each page under its number, then 快讯. */
 export function reportOutline(report: ReportDetail): OutlineEntry[] {
+  if (report.divisions?.length) {
+    const pages = pagesOf(report, null);
+    return [
+      { id: "report-start", text: "本期导读", level: 2, mark: "" },
+      ...report.divisions.flatMap(d => [
+        { id: `d-${d.key}`, text: d.label, level: 2, mark: "" },
+        ...pages.filter(p => p.division === d.key).map(p => ({ id: p.id, text: p.label, level: 3, mark: "", note: `${p.items.length} 件` })),
+      ]),
+    ];
+  }
   const pages = pagesOf(report, leadStoryOf(report));
   if (pages.length === 0 && report.flashes.length === 0) return [];
   return [
@@ -466,9 +479,52 @@ export function reportOutline(report: ReportDetail): OutlineEntry[] {
   ];
 }
 
+function DivisionPages({ report, pages }: { report: ReportDetail; pages: Page[] }) {
+  const daily = report.kind === "daily";
+  const count = (key: string) => pages.filter(p => p.division === key).reduce((n, p) => n + p.items.filter(c => c.available).length, 0);
+  const flashCount = (key: string) => report.flashes.filter(f => f.division === key && f.available).length;
+  return (
+    <>
+      <section aria-label="国内国际导读" className="border-b border-line py-7 @[880px]:py-9">
+        <Kicker>{daily ? "今日导读" : "本期导读"}</Kicker>
+        <h2 className="mt-3 text-[27px] font-bold leading-snug tracking-tight @[880px]:text-[34px]">{daily ? "国内与国际保险动态" : report.kind === "weekly" ? "一周保险进展" : "一个月的保险变化"}</h2>
+        {report.windowStart && report.windowEnd && <p className="mt-3 text-[12.5px] leading-relaxed text-ink-4">收录北京时间 {beijingDate(report.windowStart)} {beijingTime(report.windowStart)} 至 {beijingDate(report.windowEnd)} {beijingTime(report.windowEnd)} 的动态</p>}
+        {report.editorialNote && <p className="mt-3 text-[13px] leading-relaxed text-ink-3">{report.editorialNote}</p>}
+        {!daily && report.overview && <p className="mt-4 text-[16px] leading-[1.9] text-ink-2">{report.overview}</p>}
+        <nav aria-label="分版导读" className="mt-6 grid gap-4 @[760px]:grid-cols-2">
+          {report.divisions!.map(d => (
+            <a key={d.key} href={`#d-${d.key}`} className="rounded-panel border border-line p-5 transition-colors hover:border-accent">
+              <div className="flex items-baseline justify-between gap-3"><span className="text-[18px] font-bold text-ink">{d.label}</span><span className="text-[12px] text-ink-4">{count(d.key)} 件大事{flashCount(d.key) > 0 && ` · ${flashCount(d.key)} 条快讯`}</span></div>
+              <p className="mt-3 text-[14px] leading-[1.8] text-ink-2">{d.summary ?? (count(d.key) ? "按下方栏目阅读本版事件与原文。" : flashCount(d.key) ? "本版快讯收录在下方，可继续阅读原文。" : "本期暂无符合入选条件的新增事件。")}</p>
+            </a>
+          ))}
+        </nav>
+      </section>
+      {report.divisions!.map(d => {
+        const ownPages = pages.filter(p => p.division === d.key);
+        const flashes = report.flashes.filter(f => f.division === d.key);
+        return (
+          <SectionPage key={d.key} id={`d-${d.key}`} label={d.label}>
+            {ownPages.length === 0 && flashes.length === 0 && <p className="border-b border-line py-6 text-[14px] leading-relaxed text-ink-3">本期暂无符合入选条件的新增事件。</p>}
+            {ownPages.map(p => (
+              <section key={p.id} id={p.id} aria-labelledby={`${p.id}-t`} className="scroll-mt-[calc(var(--bar-h)+1.5rem)] pt-6">
+                <h3 id={`${p.id}-t`} className="border-b border-line pb-3 text-[16px] font-semibold text-accent">{p.label}</h3>
+                {p.summary && <p className="border-b border-line py-4 text-[14.5px] leading-[1.85] text-ink-2">{p.summary}</p>}
+                <Rows items={p.items}>{(c, cell) => <Story key={`${p.id}-${keyOf(c)}`} c={c} dated className={cell} />}</Rows>
+              </section>
+            ))}
+            {flashes.length > 0 && <section aria-label={`${d.label}快讯`} className="pt-6"><h3 className="text-[16px] font-semibold text-accent">快讯</h3><ul>{flashes.map(f => <li key={keyOf(f)} className="border-b border-line py-3 text-[14px] leading-relaxed">{f.available && f.itemId ? <Link to={`/items/${f.itemId}`} className="hover:text-accent">{f.title}</Link> : <span className="text-ink-4 line-through">{f.title}</span>}<span className="ml-3 text-[12px] text-ink-4">{f.available ? f.sourceName : WITHDRAWN_NOTE}</span></li>)}</ul></section>}
+          </SectionPage>
+        );
+      })}
+    </>
+  );
+}
+
 export function ReportPaper({ report, index }: { report: ReportDetail; index: ReportNavigationEntry[] }) {
   const daily = report.kind === "daily";
-  const leadStory = leadStoryOf(report);
+  const divided = !!report.divisions?.length;
+  const leadStory = divided ? null : leadStoryOf(report);
   const pages = pagesOf(report, leadStory);
   const count = pages.reduce((sum, p) => sum + p.items.length, 0) + (leadStory ? 1 : 0);
   // Only a daily comes out with nothing in it: a day the editors judged with nothing new (REPORTS.quiet).
@@ -476,7 +532,7 @@ export function ReportPaper({ report, index }: { report: ReportDetail; index: Re
   return (
     <article className="@container [overflow-wrap:anywhere]">
       <Masthead report={report} index={index} quiet={quiet} />
-      {quiet ? (
+      {divided ? <DivisionPages report={report} pages={pages} /> : quiet ? (
         report.lead && <QuietFront lead={report.lead} />
       ) : (
         <>
@@ -485,7 +541,7 @@ export function ReportPaper({ report, index }: { report: ReportDetail; index: Re
         </>
       )}
 
-      {pages.map((p, i) => (
+      {!divided && pages.map((p, i) => (
         <SectionPage key={p.id} id={p.id} no={i + 1} label={p.label}>
           {p.summary && (
             <p className="border-b border-line py-5 text-[15.5px] leading-[1.9] text-ink-2 @[560px]:text-justify">
@@ -497,7 +553,7 @@ export function ReportPaper({ report, index }: { report: ReportDetail; index: Re
         </SectionPage>
       ))}
 
-      {report.flashes.length > 0 && (
+      {!divided && report.flashes.length > 0 && (
         <SectionPage id="s-flash" no={pages.length + 1} label="快讯">
           <ul className={`${COLUMNS} @[1040px]:columns-3`}>
             {report.flashes.map((f, i) => (

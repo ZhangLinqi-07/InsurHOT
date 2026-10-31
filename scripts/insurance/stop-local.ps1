@@ -1,6 +1,12 @@
 $ErrorActionPreference = 'Stop'
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 $statePath = Join-Path $projectRoot '.data\local-services.json'
+$workflowScript = Join-Path $projectRoot 'scripts\insurance\workflow-service.mjs'
+$workflowState = Join-Path $projectRoot '.data\insurance-workflow\service.json'
+if (Test-Path -LiteralPath $workflowState) {
+  & (Join-Path $projectRoot '.data\runtime\node.exe') $workflowScript stop
+  if ($LASTEXITCODE -ne 0) { throw 'The news workflow is still finishing its current request. Stop again after it finishes.' }
+}
 $collectorPath = Join-Path $projectRoot '.data\insurance-ingestion'
 $collectorState = Join-Path $collectorPath 'service.json'
 if (Test-Path -LiteralPath $collectorState) {

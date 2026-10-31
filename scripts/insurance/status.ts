@@ -1,11 +1,13 @@
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { sql, closeDb } from "@aihot/backend/db";
 import { readIngestionPolicy } from "../../modules/insurance/backend/archive.ts";
+import { workflowStatus } from "../../modules/insurance/backend/workflow.ts";
 
 const dir = ".data/insurance-ingestion";
 mkdirSync(dir, { recursive: true });
 try {
   const policy = readIngestionPolicy();
+  const workflow = await workflowStatus();
   const catalog = JSON.parse(readFileSync("industry/source-catalog.json", "utf8"));
   const sources = await sql`SELECT id,name,kind,enabled,last_fetch_at,last_ok_at,next_fetch_at,last_error,fail_count FROM sources ORDER BY id`;
   const archive = await sql`SELECT substring(key from length('insurance.archive.')+1) AS source_id,value AS progress FROM settings WHERE key LIKE 'insurance.archive.%' ORDER BY key`;
@@ -19,7 +21,7 @@ try {
   const trialPath = `${dir}/screening-trial/results.json`;
   const trial = existsSync(trialPath) ? JSON.parse(readFileSync(trialPath, "utf8")) : null;
   const screeningTrial = trial ? { runId: trial.runId, screened: trial.screened, failed: trial.failed, labels: trial.labels,
-    finishedAt: trial.finishedAt ?? null, continuousModelsEnabled: false } : null;
+    finishedAt: trial.finishedAt ?? null, continuousModelsEnabled: workflow.policy?.enabled ?? false } : null;
   const entries = catalog.sources.map((entry: any) => {
     const exact = (entry.runtimeMapping?.collectorIds ?? []).filter((id: string) => sources.some(s => s.id === id && s.enabled));
     const related = supplemental.filter((a: any) => a.catalogIds.includes(entry.catalogId));
@@ -32,7 +34,9 @@ try {
       limitation: "Collector and archive results describe those channels only. No whole-site completeness claim." };
   });
   const report = { checkedAt: new Date().toISOString(), from: policy.from,
-    mode: trial && !trial.finishedAt ? "free-collection-with-bounded-screening-trial" : "free-collection-models-off", screeningTrial, sourceInventoryEntries: entries.length,
+    mode: workflow.policy?.enabled ? "free-collection-with-new-news-workflow"
+      : trial && !trial.finishedAt ? "free-collection-with-bounded-screening-trial" : "free-collection-models-off",
+    workflow, screeningTrial, sourceInventoryEntries: entries.length,
     configuredSources: sources.length, enabledSources: sources.filter(s => s.enabled).length,
     paginatedArchives: policy.plans.filter(p => p.pagination.kind !== "single").length,
     archiveStates: Object.fromEntries(["running", "exhausted", "limited", "failed"].map(status => [status, archive.filter(a => a.progress.status === status).length])),

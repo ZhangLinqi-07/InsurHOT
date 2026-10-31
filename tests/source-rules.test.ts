@@ -7,10 +7,11 @@ import http from "node:http";
 import { after, before, test } from "node:test";
 import { config } from "@aihot/backend/config";
 import { closeDb, sql } from "@aihot/backend/db";
-import { stopBoss } from "@aihot/backend/jobs/queue";
+import { QUEUES, stopBoss } from "@aihot/backend/jobs/queue";
 import { extractArticleBody } from "@aihot/backend/content/extract";
 import { collectSource } from "@aihot/backend/sources/collect";
 import { updateSource } from "@aihot/backend/admin/sources";
+import { loadAnalyzeInput } from "@aihot/backend/editorial/input";
 
 const T = tag();
 const LONG = `${"A card label that swallowed the summary of the article it links to, ".repeat(2)}${T}`;
@@ -134,4 +135,25 @@ test("detail HTML supplies the ordinary extracted body once, while short pages k
   assert.ok(full!.body_html?.includes(`<p>${ARTICLE_BODY}</p>`), "the saved body keeps the article paragraph");
   assert.equal(await extractArticleBody(full!.id), "skipped");
   assert.equal(pageReads.get(`/p/b-${T}`), 1, "known listings and extraction never download the same confirmed body again");
+});
+
+test("metadata-only detail reads keep dates and headlines without confirming or separately extracting page text", async () => {
+  const sourceId = `metadata-only-${T}`;
+  pages[`/metadata-list-${T}`] = () => `<ul><li><a href="${base}/metadata-article-${T}">Read more</a></li></ul>`;
+  pages[`/metadata-article-${T}`] = () => html(`<meta property="article:published_time" content="2026-10-01T08:00:00Z"><meta name="description" content="Public source excerpt">`, `<article><h1>Insurance regulatory notice ${T}</h1><p>${ARTICLE_BODY}</p></article>`);
+  const sourceConfig = { url: `${base}/metadata-list-${T}`, itemSelector: "li", linkSelector: "a", titleSelector: "a", fetchPublicContent: false,
+    detail: { maxFetches: 2, titleSelector: "h1", titleAuthoritative: true, summarySelector: 'meta[name="description"]' } };
+  await sql`INSERT INTO sources(id,name,kind,config,tier,enabled) VALUES (${sourceId},'Metadata-only source','web_list',${sql.json(sourceConfig)},'T1',true)`;
+  assert.equal((await collectSource(sourceId, { force: true })).status, "ok");
+  const [row] = await sql`SELECT id,title,published_at,excerpt,body_text,body_html,body_status FROM articles WHERE source_id=${sourceId}`;
+  assert.equal(row.title, `Insurance regulatory notice ${T}`);
+  assert.equal(row.published_at.toISOString(), "2026-10-01T08:00:00.000Z");
+  assert.equal(row.excerpt, "Public source excerpt");
+  assert.deepEqual([row.body_text, row.body_html, row.body_status], [null, null, "pending"]);
+  const reads = pageReads.get(`/metadata-article-${T}`);
+  assert.equal(await extractArticleBody(row.id), "skipped");
+  assert.equal(pageReads.get(`/metadata-article-${T}`), reads);
+  const [job] = await sql`SELECT name FROM pgboss.job WHERE data->>'articleId'=${row.id}`;
+  assert.equal(job.name, QUEUES.analyze);
+  assert.equal((await loadAnalyzeInput(row.id))?.source.fetchesBody, false);
 });

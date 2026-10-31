@@ -1360,6 +1360,309 @@
       },
       "evidence": ".data/insurance-ingestion/list-discovery.json",
       "coverage": "Articles linked from this public page, within verified editorial URL prefixes. Historical pagination remains unverified."
+    },
+    {
+      "sourceId": "supplement-0024",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "官方综合金融监管 RSS，保险相关性需后续判断"
+    },
+    {
+      "sourceId": "supplement-0302",
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "公开文章接口的 insurance 关键词检索，FRA 监管主题仍由后续相关性处理核对 已验证两页不重复且按发布时间倒序，历史回补从原固定起点继续。",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://www.dailynewsegypt.com/wp-json/wp/v2/posts?per_page=20&search=insurance&before=2026-10-30T11%3A46%3A21Z&page=1",
+          "mode": "json_api",
+          "_aihot": {
+            "initialBackfillLimit": 3,
+            "initialBackfillMonths": 24
+          },
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "externalIdPath": "id",
+          "publishedAfter": "2024-10-28T15:59:59.999Z",
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00"
+        }
+      },
+      "descending": true
+    },
+    {
+      "sourceId": "supplement-0436",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "公开财经新闻 RSS，保险相关性需后续判断"
+    },
+    {
+      "sourceId": "supplement-0444",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "公开首页中的再保险与国际商业文章，其他栏目不在此范围"
+    },
+    {
+      "sourceId": "supplement-0196",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "该公开新闻栏目及其可读文章，未声明全站或全部历史覆盖"
+    },
+    {
+      "sourceId": "supplement-0210",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "该公开新闻栏目及其可读文章，未声明全站或全部历史覆盖"
+    },
+    {
+      "sourceId": "supplement-0272",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "保险滚动栏目标题、原文链接与列表发布日期。部分正文不能读取，先按元数据接入。",
+      "bodyAccess": "metadata-only"
+    },
+    {
+      "sourceId": "supplement-0294",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "公开新闻列表与摘要，付费预览及全文范围单独保留",
+      "bodyAccess": "metadata-only"
+    },
+    {
+      "sourceId": "supplement-0420",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "该公开新闻栏目及其可读文章，未声明全站或全部历史覆盖",
+      "bodyAccess": "metadata-only"
+    },
+    {
+      "sourceId": "supplement-0427",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "该公开新闻栏目及其可读文章，未声明全站或全部历史覆盖"
+    },
+    {
+      "sourceId": "supplement-0428",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "该公开新闻栏目及其可读文章，未声明全站或全部历史覆盖"
+    },
+    {
+      "sourceId": "supplement-0032",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "官方日文 RSS 更新通告，综合金融监管，保险相关性需后续判断"
+    },
+    {
+      "sourceId": "supplement-0020",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "官网 RSS 目录声明的英文新闻稿订阅，综合央行与监管消息"
+    },
+    {
+      "sourceId": "supplement-0191",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "金融稳定理事会公开 RSS，保险主题需后续筛选"
+    },
+    {
+      "sourceId": "supplement-0074",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "官方公开条目标题、链接和日期。正文以附件或动态页面为主，附件内容仍待专门读取。",
+      "bodyAccess": "metadata-only"
+    },
+    {
+      "sourceId": "supplement-0065",
+      "pagination": {
+        "kind": "wordpress",
+        "first": 1
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "斯里兰卡保险监管机关公开 news 类型接口。通函目录仍单独核对。 已验证两页不重复且按发布时间倒序，历史回补从原固定起点继续。",
+      "listing": {
+        "kind": "json_list",
+        "config": {
+          "url": "https://ircsl.gov.lk/wp-json/wp/v2/news?per_page=20&before=2026-10-30T11%3A46%3A58Z&page=1",
+          "mode": "json_api",
+          "_aihot": {
+            "initialBackfillLimit": 3,
+            "initialBackfillMonths": 24
+          },
+          "titlePaths": [
+            "title.rendered"
+          ],
+          "urlTemplate": "{raw:link}",
+          "summaryPaths": [
+            "content.rendered"
+          ],
+          "summaryIsBody": true,
+          "externalIdPath": "id",
+          "publishedAfter": "2024-10-28T15:59:59.999Z",
+          "publishedAtPath": "date_gmt",
+          "publishedAtUtcOffset": "+00:00"
+        }
+      },
+      "descending": true
+    },
+    {
+      "sourceId": "supplement-0082",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "日本金融厅官方英文 RSS 更新通告，保留原文更新日期，保险子主题需筛选"
+    },
+    {
+      "sourceId": "supplement-0393",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "加拿大保险局首页所链接的公开新闻与声明，日期保留日精度"
+    },
+    {
+      "sourceId": "supplement-0005",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断"
+    },
+    {
+      "sourceId": "supplement-0002",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断"
+    },
+    {
+      "sourceId": "supplement-0030",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断"
+    },
+    {
+      "sourceId": "supplement-0071",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断。按原文日历日保存，暂不将未带时区的当地时分转换成精确时刻。"
+    },
+    {
+      "sourceId": "supplement-0027",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断"
+    },
+    {
+      "sourceId": "supplement-0312",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断"
+    },
+    {
+      "sourceId": "supplement-0337",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断"
+    },
+    {
+      "sourceId": "supplement-0354",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断"
+    },
+    {
+      "sourceId": "supplement-0362",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断"
+    },
+    {
+      "sourceId": "supplement-0367",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断"
+    },
+    {
+      "sourceId": "supplement-0431",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "Legal & General 官方新闻稿栏目，保留原文日历日。"
+    },
+    {
+      "sourceId": "supplement-0246",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "财新金融公开标题、发布日期和原文链接，付费全文未读取，保险主题仍需筛选",
+      "bodyAccess": "metadata-only"
+    },
+    {
+      "sourceId": "supplement-0088",
+      "pagination": {
+        "kind": "single"
+      },
+      "evidence": "docs/insurance-source-completion.md",
+      "coverage": "亚美尼亚央行现行英文新闻稿栏目，原旧站地址未替代为全站或保险专属覆盖"
     }
   ],
   "supplementalAssociations": [
@@ -1636,6 +1939,295 @@
       "sourceId": "catalog-list-0369",
       "relation": "publisher-news-channel-only",
       "scope": "Articles linked from this public page, within verified editorial URL prefixes. Historical pagination remains unverified."
+    },
+    {
+      "sourceId": "supplement-0024",
+      "catalogIds": [
+        "insurance-source-0024"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "官方综合金融监管 RSS，保险相关性需后续判断",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0302",
+      "catalogIds": [
+        "insurance-source-0302"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "公开文章接口的 insurance 关键词检索，FRA 监管主题仍由后续相关性处理核对",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0436",
+      "catalogIds": [
+        "insurance-source-0436"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "公开财经新闻 RSS，保险相关性需后续判断",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0444",
+      "catalogIds": [
+        "insurance-source-0444"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "公开首页中的再保险与国际商业文章，其他栏目不在此范围",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0196",
+      "catalogIds": [
+        "insurance-source-0196"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "该公开新闻栏目及其可读文章，未声明全站或全部历史覆盖",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0210",
+      "catalogIds": [
+        "insurance-source-0210"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "该公开新闻栏目及其可读文章，未声明全站或全部历史覆盖",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0272",
+      "catalogIds": [
+        "insurance-source-0272"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "保险滚动栏目标题、原文链接与列表发布日期。部分正文不能读取，先按元数据接入。",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0294",
+      "catalogIds": [
+        "insurance-source-0294"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "公开新闻列表与摘要，付费预览及全文范围单独保留",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0420",
+      "catalogIds": [
+        "insurance-source-0420"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "该公开新闻栏目及其可读文章，未声明全站或全部历史覆盖",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0427",
+      "catalogIds": [
+        "insurance-source-0427"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "该公开新闻栏目及其可读文章，未声明全站或全部历史覆盖",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0428",
+      "catalogIds": [
+        "insurance-source-0428"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "该公开新闻栏目及其可读文章，未声明全站或全部历史覆盖",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0032",
+      "catalogIds": [
+        "insurance-source-0032"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "官方日文 RSS 更新通告，综合金融监管，保险相关性需后续判断",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0020",
+      "catalogIds": [
+        "insurance-source-0020"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "官网 RSS 目录声明的英文新闻稿订阅，综合央行与监管消息",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0191",
+      "catalogIds": [
+        "insurance-source-0191"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "金融稳定理事会公开 RSS，保险主题需后续筛选",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0074",
+      "catalogIds": [
+        "insurance-source-0074"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "官方公开条目标题、链接和日期。正文以附件或动态页面为主，附件内容仍待专门读取。",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0065",
+      "catalogIds": [
+        "insurance-source-0065"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "斯里兰卡保险监管机关公开 news 类型接口。通函目录仍单独核对。",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0082",
+      "catalogIds": [
+        "insurance-source-0082"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "日本金融厅官方英文 RSS 更新通告，保留原文更新日期，保险子主题需筛选",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0393",
+      "catalogIds": [
+        "insurance-source-0393"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "加拿大保险局首页所链接的公开新闻与声明，日期保留日精度",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0005",
+      "catalogIds": [
+        "insurance-source-0005"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0002",
+      "catalogIds": [
+        "insurance-source-0002"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0030",
+      "catalogIds": [
+        "insurance-source-0030"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0071",
+      "catalogIds": [
+        "insurance-source-0071"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断。按原文日历日保存，暂不将未带时区的当地时分转换成精确时刻。",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0027",
+      "catalogIds": [
+        "insurance-source-0027"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0312",
+      "catalogIds": [
+        "insurance-source-0312"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0337",
+      "catalogIds": [
+        "insurance-source-0337"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0354",
+      "catalogIds": [
+        "insurance-source-0354"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0362",
+      "catalogIds": [
+        "insurance-source-0362"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0367",
+      "catalogIds": [
+        "insurance-source-0367"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "原站明确链接的公开新闻栏目，覆盖范围限于该栏目，保险相关性需后续判断",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0431",
+      "catalogIds": [
+        "insurance-source-0431"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "Legal & General 官方新闻稿栏目，保留原文日历日。",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0246",
+      "catalogIds": [
+        "insurance-source-0246"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "财新金融公开标题、发布日期和原文链接，付费全文未读取，保险主题仍需筛选",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0088",
+      "catalogIds": [
+        "insurance-source-0003",
+        "insurance-source-0088"
+      ],
+      "relation": "verified-specific-channel",
+      "scope": "亚美尼亚央行现行英文新闻稿栏目，原旧站地址未替代为全站或保险专属覆盖",
+      "evidence": "docs/insurance-source-completion.md"
+    },
+    {
+      "sourceId": "supplement-0065",
+      "catalogIds": [
+        "insurance-source-0108"
+      ],
+      "relation": "publisher-news-channel-only",
+      "scope": "同机构 news 接口已接入。原指定 circular 检索返回空列表，本次新闻接口不代表通函栏目已覆盖。",
+      "evidence": "docs/insurance-source-completion.md"
     }
   ]
 }

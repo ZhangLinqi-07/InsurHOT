@@ -6,59 +6,94 @@ export const CATEGORIES = [
     "tagColor": "indigo",
     "label": "监管",
     "feedLabel": "保险监管",
-    "section": "监管与规则",
-    "guide": "保险相关法律法规、监管政策、征求意见、执法处罚、许可及消费者保护。明确国家或地区、发布主体、法律效力与生效状态。协会研究和险企经营数据分别归研究、行业。"
+    "section": "监管",
+    "guide": "政府部门推动的公共制度及监管事项。政策制定；行政监管；医保管理；社会保障制度；执法许可；行业规范。"
   },
   {
     "key": "industry",
     "tagColor": "orange",
-    "label": "行业",
-    "feedLabel": "保险行业",
-    "section": "行业与经营",
-    "guide": "险企经营、保费与理赔统计、财报、偿付能力披露、资本变动、并购、人事、资产管理和行业协会公告。区分集团与保险法人、统计期与发布日期、原始数据与评论。"
+    "label": "企业",
+    "feedLabel": "保险企业",
+    "section": "企业",
+    "guide": "保险主体自身的经营或组织事项。经营业绩；资本股权；并购重组；组织人事；企业合作；经营网络。"
   },
   {
-    "key": "products",
+    "key": "market",
     "tagColor": "turquoise",
-    "label": "产品",
-    "feedLabel": "保险产品与市场",
-    "section": "产品与市场",
-    "guide": "保险产品、保障责任、费率定价、承保理赔、销售渠道和惠民保等市场安排的具体变化。政策文件调整产品规则归监管，业务技术系统更新归科技。"
-  },
-  {
-    "key": "reinsurance",
-    "tagColor": "violet",
-    "label": "再保与风险",
-    "feedLabel": "再保险与巨灾风险",
-    "section": "再保险与风险",
-    "guide": "再保险续约、费率与容量、分保安排、巨灾损失、ILS 和巨灾债券、气候风险及自保保险。普通灾害新闻须有明确保险损失、保障或再保险关联。"
-  },
-  {
-    "key": "insurtech",
-    "tagColor": "green",
-    "label": "科技",
-    "feedLabel": "保险科技",
-    "section": "保险科技",
-    "guide": "AI 与数字技术在保险定价、承保、理赔、反欺诈、销售及服务中的具体应用、系统发布、治理与数据安全。通用 AI 发布只有存在明确保险业务关系时才纳入。"
+    "label": "市场",
+    "feedLabel": "保险市场",
+    "section": "市场",
+    "guide": "行业总体及细分市场的变化。行业规模；供需变化；渠道结构；市场竞争；保费走势；保障覆盖。"
   },
   {
     "key": "paper",
     "tagColor": "blue",
     "label": "研究",
     "feedLabel": "保险研究",
-    "section": "研究与数据",
-    "guide": "保险、精算、风险和社会保障衔接相关论文、研究报告、模型与数据集。行业统计发布归行业，法定监管规则归监管。研究组织或协会的建议不等于现行法律。"
+    "section": "研究",
+    "guide": "形成研究结论或可复用知识的内容。学术论文；研究报告；实证分析；精算方法；风险模型；调查测评。"
   },
   {
-    "key": "opinion",
+    "key": "products",
+    "tagColor": "turquoise",
+    "label": "产品",
+    "feedLabel": "保险产品",
+    "section": "产品",
+    "guide": "保险保障内容及交易安排的变化。产品发布；保障责任；保险条款；费率定价；投保条件；配套服务。"
+  },
+  {
+    "key": "claims",
+    "tagColor": "orange",
+    "label": "理赔",
+    "feedLabel": "保险理赔",
+    "section": "理赔",
+    "guide": "保险给付及保险消费者服务事项。赔付服务；拒赔争议；保险诉讼；投诉处理；保险欺诈案件。"
+  },
+  {
+    "key": "reinsurance",
+    "tagColor": "violet",
+    "label": "再保险",
+    "feedLabel": "再保险",
+    "section": "再保险",
+    "guide": "再保险交易及风险转移安排。再保续约；分保合约；再保容量；临分；转分保；保险证券化。"
+  },
+  {
+    "key": "investment",
+    "tagColor": "green",
+    "label": "投资",
+    "feedLabel": "保险投资",
+    "section": "投资",
+    "guide": "保险资金的配置及投资业务事项。资产配置；股票持仓；债券投资；另类投资；保险资管；资产负债管理。"
+  },
+  {
+    "key": "insurtech",
+    "tagColor": "green",
+    "label": "科技",
+    "feedLabel": "保险科技",
+    "section": "科技",
+    "guide": "技术在保险业务中的应用。人工智能；智能核保；理赔自动化；业务系统；数据治理；网络安全。"
+  },
+  {
+    "key": "risk",
     "tagColor": "purple",
-    "label": "解读",
-    "feedLabel": "保险观点与实践",
-    "section": "解读与实践",
-    "guide": "以解释、判断、预测、访谈观点、业务方法或可复用实践为核心。围绕新政策或公司动作提供评论时按正文重心判断，不能把作者推测写成已发生的事件。",
-    "commentary": true
+    "label": "风险",
+    "feedLabel": "保险风险",
+    "section": "风险",
+    "guide": "保险相关的风险暴露及损失变化。巨灾损失；可保性；保障缺口；气候风险；新兴风险；风险减量。"
+  },
+  {
+    "key": "other",
+    "tagColor": "blue",
+    "label": "其他",
+    "feedLabel": "其他保险资讯",
+    "section": "其他",
+    "guide": "标题和摘要完全未命中关键词库的新闻。保留完整标题摘要，供后续补充词条后重新分类。"
   }
 ] as const satisfies ReadonlyArray<{ key: string; tagColor: string; label: string; feedLabel?: string; section: string; guide: string; commentary?: true }>;
+
+// 已发布的旧分类地址与历史报告仍可读取，新分类不再分配到该类。
+export const LEGACY_CATEGORIES = [{ key: "opinion", label: "解读", feedLabel: "保险观点与实践" }] as const;
+export const LEGACY_SECTION_LABELS: readonly string[] = ["监管与规则", "行业与经营", "产品与市场", "再保险与风险", "保险科技", "研究与数据", "解读与实践"];
 
 // 保险资讯没有可统一计数且已确认的新发布类别。
 export const RELEASE: { category: string; tag: string; unit: string } | null = null;

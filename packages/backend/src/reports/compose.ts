@@ -17,6 +17,7 @@ import { completeReceipt } from "../providers/receipts.ts";
 import { shutdownSignal } from "../jobs/queue.ts";
 import { emit } from "../modules.ts";
 import { arrangeDaily, candidates, dailyEdition, periodEntries, sectionOf, SECTION_ORDER, type Candidate, type EditionEntry } from "./edition.ts";
+import { balancedEntries, divisionBrief, divisionPlan, type DivisionPlan } from "./divisions.ts";
 
 export const REPORT_VERSION = promptVersion("report-period", "report-period-sections", "report-period-no-sections");
 
@@ -86,15 +87,20 @@ function windowPoint(at: Date): string {
  * the editors judged with nothing new in it still has its issue: no entries, and a lead that says so
  * (REPORTS.quiet).
  */
-export async function composeDaily(date: string, reason?: string): Promise<{ key: string; entries: number }> {
+export async function composeDaily(date: string, reason?: string, options?: { basis: "publication"; editorialNote: string }): Promise<{ key: string; entries: number }> {
+  if (options && !reason) throw new Error("publication-based compilation requires an explicit editorial reason");
   const previous = await savedReport("daily", date);
   if (previous && reason === undefined) return { key: date, entries: previous.entries };
   const end = beijingAt(date, EDITION_TIMES.daily);
   const start = new Date(end.getTime() - 86400000);
-  const edition = await dailyEdition(date, start, end);
+  const edition = await dailyEdition(date, start, end, options?.basis);
   // Nothing judged in the window is a failure upstream, not a quiet day: the run fails and is caught up later.
   if (edition.entries.length === 0 && edition.stats.judgedReports === 0) throw new Error(`daily ${date}: nothing judged in its window`);
-  const issue = arrangeDaily(edition.entries);
+  const plan = await divisionPlan(edition.entries.map(e => e.entry.itemId));
+  const division = (e: EditionEntry) => plan?.assignments.get(e.entry.itemId) ?? "";
+  const issue = arrangeDaily(edition.entries, plan ? division : undefined);
+  const sections = reportGroups(issue.main, plan, e => e.entry.itemId, e => e.category);
+  const decorate = (e: EditionEntry) => ({ ...e.entry, ...(plan ? { division: division(e) } : {}) });
   const [lead, ...rest] = issue.main;
   const content = {
     date,
@@ -103,17 +109,31 @@ export async function composeDaily(date: string, reason?: string): Promise<{ key
       : { title: REPORTS.quiet.title, leadParagraph: REPORTS.quiet.paragraph.replace("{start}", windowPoint(start)).replace("{end}", windowPoint(end)) },
     leadItemId: lead?.entry.itemId ?? null,
     highlights: rest.slice(0, 3).map((e) => e.entry.itemId),
-    sections: SECTION_ORDER
-      .map((label) => ({ label, items: issue.main.filter((e) => sectionOf(e.category) === label).map((e) => e.entry) }))
-      .filter((s) => s.items.length > 0),
-    flashes: issue.flashes.map((e) => e.entry),
+    sections: sections.map(s => ({ label: s.label, ...(s.division ? { division: s.division } : {}), items: s.items.map(decorate) })),
+    flashes: issue.flashes.map(decorate),
+    ...(plan ? { divisions: reportDivisions(plan, issue.main.map(decorate), issue.flashes.map(decorate)) } : {}),
+    ...(options ? { editorialNote: options.editorialNote } : {}),
     metrics: dailyMetrics(issue.main),
     windowStart: start.toISOString(),
     windowEnd: end.toISOString(),
-    generator: { version: REPORT_VERSION, ...edition.stats, ...issue.stats },
+    generator: { version: REPORT_VERSION, ...(options ? { basis: options.basis } : {}), ...edition.stats, ...issue.stats },
   };
   await saveReport("daily", date, start, end, content, reason, null, []);
   return { key: date, entries: issue.main.length };
+}
+
+function reportGroups<T>(entries: T[], plan: DivisionPlan | null, id: (e: T) => string, category: (e: T) => string | null) {
+  return (plan ? plan.divisions : [{ key: "", label: "" }]).flatMap(d => SECTION_ORDER.map(label => ({
+    label, division: d.key, promptLabel: d.key ? `${d.label} · ${label}` : label,
+    items: entries.filter(e => (!plan || plan.assignments.get(id(e)) === d.key) && sectionOf(category(e)) === label),
+  }))).filter(s => s.items.length > 0);
+}
+
+function reportDivisions(plan: DivisionPlan, items: Array<{ itemId: string; title: string; summary: string }>, flashes: Array<{ itemId: string }> = []) {
+  return plan.divisions.filter(d => d.keepEmpty || [...items, ...flashes].some(e => plan.assignments.get(e.itemId) === d.key)).map(d => {
+    const members = items.filter(e => plan.assignments.get(e.itemId) === d.key);
+    return { key: d.key, label: d.label, summary: divisionBrief(members), itemIds: members.map(e => e.itemId) };
+  });
 }
 
 /** A weekly's or monthly's size: the events it carries, chosen and ordered by rule. */
@@ -132,6 +152,7 @@ const BRIEF = {
 export const PeriodSchema = z.object({
   overview: z.string().max(1500).catch(""),
   sections: z.record(z.string(), z.string().max(600)).catch({}),
+  divisions: z.record(z.string(), z.string().max(1000)).catch({}),
 });
 
 /**
@@ -139,7 +160,7 @@ export const PeriodSchema = z.object({
  * the overview and the introductions of the sections large enough for one, and decides nothing about
  * what the issue carries.
  */
-export function periodPrompt(kind: "weekly" | "monthly", startDate: string, endDateInclusive: string, groups: Array<{ label: string; items: Candidate[] }>) {
+export function periodPrompt(kind: "weekly" | "monthly", startDate: string, endDateInclusive: string, groups: Array<{ label: string; items: Candidate[] }>, plan?: DivisionPlan | null) {
   const list = groups.map((g) => [`【${g.label}】`, ...g.items.map((e) => `- ${e.title}｜${e.summary.slice(0, 140)}`)].join("\n")).join("\n");
   const introduced = groups.filter((g) => g.items.length >= INTRO_EVENTS).map((g) => g.label);
   return {
@@ -147,6 +168,7 @@ export function periodPrompt(kind: "weekly" | "monthly", startDate: string, endD
       ...BRIEF[kind],
       sections: introduced.length ? promptText("report-period-sections", { columns: introduced.map((l) => `「${l}」`).join("") }) : promptText("report-period-no-sections"),
       sectionsExample: introduced.length ? `{"${introduced[0]}": "..."}` : "{}",
+      divisionGuide: plan ? `本期分版为${plan.divisions.map(d => `${d.key}（${d.label}）`).join("、")}。divisions 按分版键分别写导读，每版不超过${BRIEF[kind].chars}字，只用该版条目支持的事实，空版留空。${kind === "weekly" ? "按本周连续进展提炼主线，说明新增动作。" : "按本月积累的变化提炼主线，保留报告期和统计口径，不从报道数量推断行业趋势。"}` : "divisions 留空对象。",
     }),
     user: `本期：${startDate} 至 ${endDateInclusive}\n${list}`,
   };
@@ -198,7 +220,9 @@ async function composePeriod(kind: "weekly" | "monthly", key: string, startDate:
   const start = beijingAt(addDays(startDate, -1), EDITION_TIMES.daily);
   const end = beijingAt(endDateInclusive, EDITION_TIMES.daily);
   const { entries, issues, hasEntries } = await periodEntries(startDate, endDateInclusive);
-  const top = entries.slice(0, PERIOD_EVENTS[kind]);
+  const plan = await divisionPlan(entries.map(e => e.itemId));
+  const chosen = new Set((plan ? balancedEntries(entries, e => plan.assignments.get(e.itemId) ?? "") : entries).slice(0, PERIOD_EVENTS[kind]));
+  const top = entries.filter(e => chosen.has(e));
   if (!top.length) {
     if (reason === undefined && !hasEntries && issues > 0) {
       // Before the site's first daily there was nothing to publish; missing later dailies are still a failure.
@@ -210,17 +234,15 @@ async function composePeriod(kind: "weekly" | "monthly", key: string, startDate:
     throw new Error(`${kind} ${key}: no daily entries in the period`);
   }
   const selected = await candidates(start, end);
-  const groups = SECTION_ORDER
-    .map((label) => ({ label, items: top.filter((e) => sectionOf(e.category) === label) }))
-    .filter((g) => g.items.length > 0);
+  const groups = reportGroups(top, plan, e => e.itemId, e => e.category);
   const corpus = [`${startDate} ${endDateInclusive}`, ...top.map((e) => `${e.title} ${e.summary}`)].join("\n");
   const model = await modelFor("report");
-  let written: z.infer<typeof PeriodSchema> = { overview: "", sections: {} };
+  let written: z.infer<typeof PeriodSchema> = { overview: "", sections: {}, divisions: {} };
   let receiptId: number | null = null;
   try {
     const res = await chatJson({
       model, purpose: `report_${kind}`, subject: `report:${kind}:${key}`, promptVersion: REPORT_VERSION,
-      ...periodPrompt(kind, startDate, endDateInclusive, groups), schema: PeriodSchema, temperature: 0.3, maxTokens: 2500,
+      ...periodPrompt(kind, startDate, endDateInclusive, groups.map(g => ({ label: g.promptLabel, items: g.items })), plan), schema: PeriodSchema, temperature: 0.3, maxTokens: 4000,
     });
     written = res.data;
     receiptId = res.receiptId;
@@ -234,7 +256,15 @@ async function composePeriod(kind: "weekly" | "monthly", key: string, startDate:
   };
   // Without a usable one the read layer says what the issue carries, naming only what is still public.
   const overview = usable(written.overview, OVERVIEW_CHARS[kind]);
-  const intro = (g: { label: string; items: Candidate[] }) => g.items.length >= INTRO_EVENTS ? usable(written.sections[g.label], INTRO_CHARS) : null;
+  const intro = (g: { promptLabel: string; items: Candidate[] }) => {
+    const text = fitted(written.sections[g.promptLabel] ?? "", INTRO_CHARS);
+    return g.items.length >= INTRO_EVENTS && text && grounded(text, g.items.map(e => `${e.title} ${e.summary}`).join("\n")) ? text : null;
+  };
+  const divisions = plan ? reportDivisions(plan, top).map(d => {
+    const members = top.filter(e => plan.assignments.get(e.itemId) === d.key);
+    const text = fitted(written.divisions[d.key] ?? "", OVERVIEW_CHARS[kind]);
+    return { ...d, summary: members.length && text && grounded(text, members.map(e => `${e.title} ${e.summary}`).join("\n")) ? text : d.summary };
+  }) : undefined;
   const [lead] = top as [Candidate, ...Candidate[]];
   const content = {
     kind,
@@ -246,7 +276,8 @@ async function composePeriod(kind: "weekly" | "monthly", key: string, startDate:
     leadItemId: lead.itemId,
     highlights: top.slice(1, 4).map((e) => e.itemId),
     overview,
-    themes: groups.map((g) => ({ heading: g.label, summary: intro(g), storyRefs: g.items.map(({ category: _c, factKey: _f, ...e }) => e) })),
+    themes: groups.map((g) => ({ heading: g.label, ...(g.division ? { division: g.division } : {}), summary: intro(g), storyRefs: g.items.map(({ category: _c, factKey: _f, ...e }) => e) })),
+    ...(divisions ? { divisions } : {}),
     storyOrder: top.map((e) => e.itemId),
     metrics: { totalStories: top.length, selectedCount: selected.length, reportsCovered: issues },
     generator: { version: REPORT_VERSION, model, written: overview !== null },

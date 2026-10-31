@@ -2,7 +2,7 @@
 // publication time (none when it is unknown). Summary feeds never carry content:encoded; full feeds
 // inline bodies only for sources that explicitly allow redistribution. Titles come from the site's
 // name and categories.
-import { feedCategoryLabel, PUBLIC_API_CATEGORY_KEYS, toPublicApiCategory, type PublicApiCategoryKey } from "@aihot/contracts/taxonomy";
+import { feedCategoryLabel, isCategoryKey, PUBLIC_API_CATEGORY_KEYS, toPublicApiCategory, type PublicApiCategoryKey } from "@aihot/contracts/taxonomy";
 import { EDITION_WHEN, FEED_COPY, REPORTS, SITE, subjectAfter } from "@aihot/site";
 import { config } from "../config.ts";
 import { sql } from "../db.ts";
@@ -227,5 +227,5 @@ export async function reportFeed(kind: ReportKind, notice?: NoticeFor): Promise<
 }
 
 export function isFeedCategory(v: string): v is PublicApiCategoryKey {
-  return (PUBLIC_API_CATEGORY_KEYS as readonly string[]).includes(v);
+  return isCategoryKey(v) && toPublicApiCategory(v) === v;
 }

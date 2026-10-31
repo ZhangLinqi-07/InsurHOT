@@ -11,8 +11,9 @@ import { originalPostCopy } from "../content/posts.ts";
 import { itemUrl } from "./links.ts";
 import { pickRepresentative, REPRESENTATIVE_COLUMNS, type RepresentativeIdentity } from "./representative.ts";
 import { enqueue, QUEUES, shutdownSignal } from "../jobs/queue.ts";
-import { emit, serverModules } from "../modules.ts";
+import { classifyArticle, emit, serverModules, storedPublicationScore } from "../modules.ts";
 import { storedScreening } from "./screening.ts";
+import { sourcePreview } from "../lib/source-preview.ts";
 import {
   bodyModeOf, channelOf, displayTags, isIndexable, isPoolEligible, isSelectable, isIndependentSelectedSource, mayRedistribute, publicSourceName, type SourceFacts,
 } from "./rules.ts";
@@ -73,6 +74,8 @@ interface PublicationRow {
   summary: string | null;
   reason: string | null;
   category: string | null;
+  classification: Record<string, unknown> | null;
+  score_evidence: Record<string, unknown> | null;
   tags: string[];
   score: number | null;
   body_mode: string;
@@ -110,6 +113,10 @@ export interface V1ItemPayload {
 }
 
 export interface PublishOptions {
+  /** This run may update relevance without nominating new selected items. */
+  allowNewSelection?: boolean;
+  /** Reuse complete existing copy; otherwise show the original excerpt after a current PASS. */
+  relevanceOnly?: boolean;
   now?: Date;
   /** Historical import: the item was already public, so it is released at its discovery time. */
   releasedAt?: Date | null;
@@ -255,9 +262,14 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
     SELECT id, input_revision, relevance, category, tags, subjects, title_zh, summary_zh, reason_zh, score, selected
     FROM analyses WHERE article_id = ${articleId} ORDER BY input_revision DESC, id DESC LIMIT 1`;
   let analysis: AnalysisRow | undefined = analyses[0];
-  const screening = await storedScreening(tx, articleId);
+  const materialPublication = serverModules().some(module => module.materialPublication);
+  const screening = materialPublication ? null : await storedScreening(tx, articleId);
   // A changed screened article cannot retain an older completed judgement.
-  if (screening && analysis?.input_revision !== article.revision) analysis = undefined;
+  if ((screening || materialPublication) && analysis?.input_revision !== article.revision) analysis = undefined;
+  // Earlier relevance judgements and unfinished writing never hold collected source cards back.
+  if (materialPublication && analysis && (analysis.relevance !== "pass" || !analysis.title_zh?.trim() || !analysis.summary_zh?.trim())) analysis = undefined;
+  if (options.relevanceOnly && screening?.revision === article.revision && screening.label === "PASS" && !screening.reviewRequired
+    && analysis && (analysis.relevance !== "pass" || !analysis.title_zh?.trim() || !analysis.summary_zh?.trim())) analysis = undefined;
   const [override] = await tx<OverrideRow[]>`SELECT fields, visibility FROM editorial_overrides WHERE article_id = ${articleId}`;
   const [membership] = await tx<{ fact_id: number; story_id: number | null }[]>`
     SELECT fa.fact_id, f.story_id FROM fact_articles fa JOIN facts f ON f.id = fa.fact_id
@@ -274,8 +286,9 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
   await tx`SELECT pg_advisory_xact_lock_shared(hashtext('report_candidates'))`;
   const now = options.now ?? new Date();
   const heldForReview = screening?.revision === article.revision && screening.reviewRequired;
-  const prefiltered = !analysis && screening?.revision === article.revision && screening.label === "PASS"
-    && !heldForReview && !!article.published_at && article.published_at >= screening.from && article.published_at <= now;
+  const prefiltered = !analysis && (materialPublication || screening?.revision === article.revision && screening.label === "PASS"
+    && !heldForReview && !!article.published_at && article.published_at >= screening.from && article.published_at <= now);
+  const [preview] = await tx`SELECT title_zh,excerpt_zh FROM preview_translations WHERE article_id=${articleId} AND revision=${article.revision} AND original_title=${article.title} AND original_excerpt IS NOT DISTINCT FROM ${sourcePreview(article.excerpt,article.body_text)}`;
   const sourceExcerpt = prefiltered ? collapseWhitespace(article.excerpt || article.body_text || "") : "";
   const excerpt = sourceExcerpt ? sourceExcerpt.slice(0, 240) + (sourceExcerpt.length > 240 ? "…" : "") : null;
 
@@ -285,24 +298,29 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
   // text is the title, where an article would still be a half-finished card.
   const zhTitle = analysis?.title_zh?.trim() ? analysis.title_zh : null;
   const original = originalPostCopy(article.x_post, article.url, article.x_article);
-  const title = pickString(f.title, original?.title ?? zhTitle ?? (isChineseTitle || article.x_post || prefiltered ? collapseWhitespace(article.title) : null));
-  const summary = pickString(f.summary, prefiltered ? excerpt : original ? original.summary : analysis?.summary_zh ?? null);
-  const category = pickString(f.category, analysis?.category ?? null);
+  const title = pickString(f.title, original?.title ?? zhTitle ?? preview?.title_zh ?? (isChineseTitle || article.x_post || prefiltered ? collapseWhitespace(article.title) : null));
+  const summary = pickString(f.summary, prefiltered ? preview?.excerpt_zh ?? excerpt : original ? original.summary : analysis?.summary_zh ?? null);
+  const classification = classifyArticle({ title: title ?? collapseWhitespace(article.title), originalTitle: article.title, summary });
+  const category = pickString(f.category, classification?.category ?? analysis?.category ?? null);
   const tags = Array.isArray(f.tags) ? (f.tags as string[]) : [...new Set([...(analysis?.tags ?? []), ...(analysis?.subjects ?? []).map((s) => `entity:${s}`)])];
-  const score = f.score === null || typeof f.score === "number" ? f.score : analysis?.score ?? null;
-  const relevance = typeof f.relevance === "string" ? (f.relevance as string) : analysis?.relevance ?? (prefiltered ? "pass" : null);
+  const readingScore = await storedPublicationScore({ articleId, title: title ?? collapseWhitespace(article.title), summary, category }, tx);
+  const score = f.score === null || typeof f.score === "number" ? f.score : readingScore?.score ?? analysis?.score ?? null;
+  const screenedRelevance = options.relevanceOnly && screening?.revision === article.revision
+    ? screening.label === "PASS" ? "pass" : screening.label === "BLOCK" ? "block" : "unknown" : null;
+  const relevance = materialPublication ? "pass" : typeof f.relevance === "string" ? (f.relevance as string) : screenedRelevance ?? analysis?.relevance ?? (prefiltered ? "pass" : null);
   const judgedSelected = prefiltered ? false : typeof f.selected === "boolean" ? (f.selected as boolean) : analysis?.selected ?? null;
   // Material from an isolated source reaches no public surface at all: not even a detail page.
   const visibility = source.participation_mode === "isolated" ? "withdrawn" : (override?.visibility ?? "public");
 
   // An undated archive has a readable detail page, but its discovery is not a news timestamp.
   // Explicit imports can retain an editorial decision already published elsewhere.
-  const eligible = isPoolEligible({ participationMode: source.participation_mode, relevance, title, summary, originalPost: !!original })
-    && !heldForReview && (!article.backfill || article.published_at !== null || !!options.releasedAt);
+  const eligible = (materialPublication ? source.participation_mode === "editorial" && !!title
+    : isPoolEligible({ participationMode: source.participation_mode, relevance, title, summary, originalPost: !!original }))
+    && !heldForReview && (materialPublication || !article.backfill || article.published_at !== null || !!options.releasedAt);
   const selectionCandidate = isSelectable(eligible, judgedSelected, source.tier);
   // Scoring nominates a report; a completed identity/value decision admits it to selection.
   // A historical import already has its public decision. Preserve that confirmed state on rebuild.
-  const selected = selectionCandidate && article.grouping_status === "complete"
+  const selected = selectionCandidate && (options.allowNewSelection !== false || previous?.selected === true) && article.grouping_status === "complete"
     && (f.selected === true || article.selection_adds_value !== false);
   const reason = selected ? pickString(f.reason, original ? null : analysis?.reason_zh ?? null) : null;
   const hasXPost = !!article.x_post;
@@ -339,7 +357,7 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
     analysis_id: analysis?.id ?? null,
     source_id: source.id, first_party: source.tier === "T1",
     visibility, eligible, selected, selection_candidate: selectionCandidate, title: title ?? collapseWhitespace(article.title), original_title: originalTitle, summary, reason,
-    category, tags, score: round1(score), body_mode: bodyMode, story_id: membership?.story_id ?? null, fact_id: membership?.fact_id ?? null,
+    category, classification: classification?.evidence ?? null, tags, score: round1(score), score_evidence: readingScore?.evidence ?? null, body_mode: bodyMode, story_id: membership?.story_id ?? null, fact_id: membership?.fact_id ?? null,
     indexable, url: article.url, channel, syndicate, published_at: article.published_at, discovered_at: article.discovered_at,
     timeline_at: article.timeline_at, backfill: article.backfill, sort_at: sortAt, visible_after: visibleAfter,
   };
@@ -352,7 +370,7 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
     && (previous.story_id === null || previous.story_id === next.story_id)
     && (previous.fact_id === null || previous.fact_id === next.fact_id)
     && changedFields.every((key) => admissionFields.has(key));
-  const firstAnalysisFields = new Set<keyof typeof after>([...admissionFields, "analysis_id", "eligible", "selection_candidate", "title", "original_title", "summary", "category", "tags", "score"]);
+  const firstAnalysisFields = new Set<keyof typeof after>([...admissionFields, "analysis_id", "eligible", "selection_candidate", "title", "original_title", "summary", "category", "classification", "tags", "score", "score_evidence"]);
   const firstAnalysis = previous && !previous.eligible && !previous.summary && previous.visibility === "public" && visibility === "public" && eligible
     && (previous.story_id === null || previous.story_id === next.story_id)
     && (previous.fact_id === null || previous.fact_id === next.fact_id)
@@ -368,17 +386,17 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
 
   await tx`
     INSERT INTO publications (article_id, analysis_id, revision, visibility, eligible, selected, selection_candidate, title, original_title, summary,
-      reason, category, tags, score, source_id, channel, first_party, url, published_at, discovered_at, timeline_at, backfill,
+      reason, category, classification, tags, score, score_evidence, source_id, channel, first_party, url, published_at, discovered_at, timeline_at, backfill,
       selected_ready_at, visible_after, body_mode, syndicate, indexable, story_id, fact_id, search_text, sort_at, updated_at)
     VALUES (${articleId}, ${analysis?.id ?? null}, ${revision}, ${visibility}, ${eligible}, ${selected}, ${selectionCandidate}, ${next.title},
-      ${originalTitle}, ${summary}, ${reason}, ${category}, ${tags}, ${next.score}, ${source.id}, ${channel}, ${source.tier === "T1"},
+      ${originalTitle}, ${summary}, ${reason}, ${category}, ${next.classification ? tx.json(next.classification as never) : null}, ${tags}, ${next.score}, ${next.score_evidence ? tx.json(next.score_evidence as never) : null}, ${source.id}, ${channel}, ${source.tier === "T1"},
       ${article.url}, ${article.published_at}, ${article.discovered_at}, ${article.timeline_at}, ${article.backfill},
       ${selectedReadyAt}, ${visibleAfter}, ${bodyMode}, ${syndicate}, ${indexable}, ${next.story_id}, ${next.fact_id}, ${searchText}, ${sortAt}, now())
     ON CONFLICT (article_id) DO UPDATE SET
       analysis_id = EXCLUDED.analysis_id, revision = EXCLUDED.revision, visibility = EXCLUDED.visibility,
       eligible = EXCLUDED.eligible, selected = EXCLUDED.selected, selection_candidate = EXCLUDED.selection_candidate, title = EXCLUDED.title, original_title = EXCLUDED.original_title,
-      summary = EXCLUDED.summary, reason = EXCLUDED.reason, category = EXCLUDED.category, tags = EXCLUDED.tags,
-      score = EXCLUDED.score, source_id = EXCLUDED.source_id, channel = EXCLUDED.channel, first_party = EXCLUDED.first_party,
+      summary = EXCLUDED.summary, reason = EXCLUDED.reason, category = EXCLUDED.category, classification = EXCLUDED.classification, tags = EXCLUDED.tags,
+      score = EXCLUDED.score, score_evidence = EXCLUDED.score_evidence, source_id = EXCLUDED.source_id, channel = EXCLUDED.channel, first_party = EXCLUDED.first_party,
       url = EXCLUDED.url, published_at = EXCLUDED.published_at, discovered_at = EXCLUDED.discovered_at,
       timeline_at = EXCLUDED.timeline_at, backfill = EXCLUDED.backfill, selected_ready_at = EXCLUDED.selected_ready_at,
       visible_after = EXCLUDED.visible_after, body_mode = EXCLUDED.body_mode, syndicate = EXCLUDED.syndicate,
@@ -386,7 +404,7 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
       search_text = EXCLUDED.search_text, sort_at = EXCLUDED.sort_at, updated_at = now()
     WHERE (publications.analysis_id, publications.revision, publications.visibility, publications.eligible,
         publications.selected, publications.selection_candidate, publications.title, publications.original_title, publications.summary,
-        publications.reason, publications.category, publications.tags, publications.score,
+        publications.reason, publications.category, publications.classification, publications.tags, publications.score, publications.score_evidence,
         publications.source_id, publications.channel, publications.first_party, publications.url,
         publications.published_at, publications.discovered_at, publications.timeline_at, publications.backfill,
         publications.selected_ready_at, publications.visible_after, publications.body_mode, publications.syndicate,
@@ -394,7 +412,7 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
         publications.sort_at)
       IS DISTINCT FROM (EXCLUDED.analysis_id, EXCLUDED.revision, EXCLUDED.visibility, EXCLUDED.eligible,
         EXCLUDED.selected, EXCLUDED.selection_candidate, EXCLUDED.title, EXCLUDED.original_title, EXCLUDED.summary,
-        EXCLUDED.reason, EXCLUDED.category, EXCLUDED.tags, EXCLUDED.score,
+        EXCLUDED.reason, EXCLUDED.category, EXCLUDED.classification, EXCLUDED.tags, EXCLUDED.score, EXCLUDED.score_evidence,
         EXCLUDED.source_id, EXCLUDED.channel, EXCLUDED.first_party, EXCLUDED.url,
         EXCLUDED.published_at, EXCLUDED.discovered_at, EXCLUDED.timeline_at, EXCLUDED.backfill,
         EXCLUDED.selected_ready_at, EXCLUDED.visible_after, EXCLUDED.body_mode, EXCLUDED.syndicate,
@@ -444,6 +462,44 @@ export async function setSeoDecision(tx: Tx, articleId: string, indexed: boolean
   return publishArticleTx(tx, articleId);
 }
 
+/** Refresh only classification on stored public copy; admission, scores, facts and release dates stay frozen. */
+export async function refreshPublicationClassification(tx: Tx, articleId: string): Promise<{ changed: boolean; categoryChanged: boolean }> {
+  await tx`SELECT 1 FROM articles WHERE id=${articleId} FOR UPDATE`;
+  const [p] = await tx<PublicationRow[]>`SELECT * FROM publications WHERE article_id=${articleId} FOR UPDATE`;
+  if (!p) return { changed: false, categoryChanged: false };
+  const decision = classifyArticle({ title: p.title, originalTitle: p.original_title, summary: p.summary });
+  if (!decision) return { changed: false, categoryChanged: false };
+  const [override] = await tx<OverrideRow[]>`SELECT fields,visibility FROM editorial_overrides WHERE article_id=${articleId}`;
+  const category = pickString(override?.fields.category, decision.category);
+  const categoryChanged = p.category !== category;
+  const changed = categoryChanged || stableJson(p.classification) !== stableJson(decision.evidence);
+  if (changed) {
+    await tx`UPDATE publications SET category=${category},classification=${tx.json(decision.evidence as never)},
+      revision=revision+1,updated_at=now() WHERE article_id=${articleId}`;
+    if (categoryChanged) await syncLedger(tx, articleId, new Date());
+    await emit("articleChanged", { id: articleId, kind: "content", reason: "keyword classification refreshed" }, tx);
+  }
+  return { changed, categoryChanged };
+}
+
+/** Applies a stored score without rerunning classification, structure, admission or event grouping. */
+export async function refreshPublicationScore(tx: Tx, articleId: string): Promise<boolean> {
+  await tx`SELECT 1 FROM articles WHERE id=${articleId} FOR UPDATE`;
+  const [p] = await tx<PublicationRow[]>`SELECT * FROM publications WHERE article_id=${articleId} FOR UPDATE`;
+  if (!p) return false;
+  const result = await storedPublicationScore({ articleId, title: p.title, summary: p.summary, category: p.category }, tx);
+  if (!result) return false;
+  const [override] = await tx<OverrideRow[]>`SELECT fields,visibility FROM editorial_overrides WHERE article_id=${articleId}`;
+  const manual = override?.fields.score;
+  const score = manual === null || typeof manual === "number" ? manual : result.score;
+  if (p.score === score && stableJson(p.score_evidence) === stableJson(result.evidence)) return false;
+  await tx`UPDATE publications SET score=${score},score_evidence=${tx.json(result.evidence as never)},revision=revision+1,updated_at=now()
+    WHERE article_id=${articleId}`;
+  await syncLedger(tx, articleId, new Date());
+  await emit("articleChanged", { id: articleId, kind: "content", reason: "reading score updated" }, tx);
+  return true;
+}
+
 /**
  * Re-derives every published article of one source (after its participation, licences, tier or name
  * changed) without calling models. Runs in the worker; progress goes to the callback.
@@ -487,4 +543,23 @@ export async function republishScreenedArticles(): Promise<{ total: number; chan
   let changed = 0;
   for (const id of ids) if ((await publishArticle(id))?.changed) changed++;
   return { total: ids.size, changed };
+}
+
+/** Move existing collected material into the same projection as new arrivals. No paid work is queued. */
+export async function republishCollectedArticles(): Promise<{ total: number; changed: number }> {
+  if (!serverModules().some(module => module.materialPublication)) return { total: 0, changed: 0 };
+  let after = "", total = 0, changed = 0;
+  for (;;) {
+    const rows = await sql<{ id: string }[]>`SELECT a.id FROM articles a JOIN sources s ON s.id=a.source_id
+      WHERE s.participation_mode='editorial' AND a.id>${after} ORDER BY a.id LIMIT 500`;
+    if (!rows.length) break;
+    for (let start = 0; start < rows.length; start += 8) {
+      if (shutdownSignal.signal.aborted) throw new Error("worker is stopping; republish resumes after restart");
+      const results = await Promise.all(rows.slice(start, start + 8).map(row => publishArticle(row.id, { allowNewSelection: false })));
+      changed += results.filter(result => result?.changed).length;
+      total += results.length;
+    }
+    after = rows.at(-1)!.id;
+  }
+  return { total, changed };
 }

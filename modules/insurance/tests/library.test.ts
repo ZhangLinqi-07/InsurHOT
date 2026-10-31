@@ -3,14 +3,15 @@ import { before, after, test } from "node:test";
 import assert from "node:assert/strict";
 import { closeDb, sql } from "@aihot/backend/db";
 import { upsertMaterial } from "@aihot/backend/content/materials";
-import { publishArticle, republishScreenedArticles } from "@aihot/backend/publication/publish";
+import { publishArticle, republishScreenedArticles, republishCollectedArticles } from "@aihot/backend/publication/publish";
 import { loadPool } from "@aihot/backend/publication/pool";
 import { loadItemDetail } from "@aihot/backend/publication/detail";
+import { loadRadar } from "@aihot/backend/publication/radar";
 import { installModules } from "@aihot/backend/modules";
-import { loadCollectedLibrary, loadCollectionCoverage } from "@aihot/backend/publication/collection";
 import { stopBoss } from "@aihot/backend/jobs/queue";
-import { registerInsuranceLibrary } from "../api/library.ts";
+import { registerInsuranceRadar } from "../api/radar.ts";
 import Fastify from "fastify";
+import { classifyInsurance } from "../backend/classification.ts";
 
 const options = { from: "2024-10-28T16:00:00Z", screeningPrefix: "insurance.relevance.", archivePrefix: "insurance.archive." };
 const ids: Record<string, string> = {};
@@ -36,68 +37,6 @@ before(async () => {
   await sql`UPDATE publications SET visible_after=now()+interval '1 day' WHERE article_id=${ids.future}`;
 });
 after(async () => { await stopBoss(); await closeDb(); });
-
-test("the collection reader exposes current relevance and original excerpts without publishing unreviewed news or leaking full text", async () => {
-  const related = await loadCollectedLibrary(options);
-  assert.deepEqual(related.counts, { related: 2, pending: 1, review: 2, excluded: 1 });
-  assert.equal(related.totalCollected, 6);
-  assert.deepEqual(new Set(related.items.map(item => item.id)), new Set([ids.related, ids.processed]));
-  const original = related.items.find(item => item.id === ids.related)!;
-  assert.equal(original.excerptKind, "source");assert.equal(original.excerpt, "来源提供的简短摘要");
-  assert.equal(original.processed, false);assert.equal(original.source.name, "Insurance source");
-  const processed = related.items.find(item => item.id === ids.processed)!;
-  assert.equal(processed.title, "已加工保险新闻");assert.equal(processed.excerptKind, "editorial");
-  const review = await loadCollectedLibrary(options, { view: "review" });
-  assert.deepEqual(new Set(review.items.map(item => item.id)), new Set([ids.unknown, ids.stale]));
-  assert.equal(review.items.find(item => item.id === ids.stale)?.screeningReason, null);
-  assert.ok(!JSON.stringify(related).includes("PRIVATE-BODY-DO-NOT-EXPOSE"));
-  const [calls] = await sql`SELECT count(*)::int AS n FROM receipts`;
-  assert.equal(calls.n, 0);
-  const [publication] = await sql`SELECT count(*)::int AS n FROM publications WHERE article_id=${ids.related}`;
-  assert.equal(publication.n, 0);
-});
-
-test("collection search, source filters and numeric pages agree on the selected results", async () => {
-  const found = await loadCollectedLibrary(options, { view: "pending", q: "pending", source: "library-public", page: 999 });
-  assert.equal(found.total, 1);assert.equal(found.page, 1);assert.equal(found.items[0].id, ids.pending);
-  const wildcard = await loadCollectedLibrary(options, { q: "%" });
-  assert.equal(wildcard.total, 0);
-});
-
-test("source coverage reports channels separately from inventory entries and strips credentials from links", async () => {
-  await sql`INSERT INTO settings(key,value) VALUES ('insurance.archive.library-public','{"status":"running","error":"secret-error-not-public"}'::jsonb)`;
-  const data = await loadCollectionCoverage(options, [
-    { id: "catalog-a", name: "Regulator news", url: "https://example.org/news?api_key=secret", collectorIds: ["library-public"], needsAuthorization: false },
-    { id: "catalog-b", name: "WeChat source", url: null, collectorIds: [], needsAuthorization: true },
-    { id: "catalog-c", name: "Directory", url: "https://example.org/directory", collectorIds: [], needsAuthorization: false },
-  ]);
-  assert.equal(data.inventoryTotal, 3);assert.equal(data.connectedEntries, 1);assert.equal(data.awaitingAuthorization, 1);
-  assert.equal(data.entries[0].channels[0].history, "running");
-  assert.equal(data.entries[1].state, "awaiting-authorization");assert.equal(data.entries[2].state, "not-connected");
-  assert.ok(!JSON.stringify(data).includes("secret"));
-});
-
-test("the library HTTP endpoint rejects malformed filters and performs only reads", async () => {
-  const app = Fastify();registerInsuranceLibrary(app);
-  try {
-    const response = await app.inject("/api/site/insurance/library?view=related");
-    assert.equal(response.statusCode, 200);assert.equal(response.json().kind, "materials");
-    assert.equal(response.headers["cache-control"], "no-store");
-    assert.equal((await app.inject("/api/site/insurance/library?page=-1")).statusCode, 400);
-    assert.equal((await app.inject("/api/site/insurance/library?view=invalid")).statusCode, 400);
-    assert.equal((await app.inject("/api/site/insurance/library?q=a&q=b")).statusCode, 400);
-  } finally { await app.close(); }
-});
-
-test("a recorded preview limitation appears for review without rewriting the original model label", async () => {
-  await sql`UPDATE settings SET value=value || '{"reviewRequired":true,"reviewReason":"仅有公开预览，需核对全文"}'::jsonb WHERE key=${"insurance.relevance." + ids.excluded}`;
-  const data = await loadCollectedLibrary(options, { view: "review" });
-  const flagged = data.items.find(item => item.id === ids.excluded)!;
-  assert.equal(flagged.state, "review");assert.equal(flagged.reviewNote, "仅有公开预览，需核对全文");
-  const [saved] = await sql`SELECT value FROM settings WHERE key=${"insurance.relevance." + ids.excluded}`;
-  assert.equal(saved.value.label, "BLOCK");
-  assert.equal((await loadCollectedLibrary(options, { view: "excluded" })).total, 0);
-});
 
 test("current screenings enter the ordinary pool, search and details without analyses, scores or paid requests, and revisions revoke admission", async () => {
   installModules([{ name: "insurance", screenedPublication: options }]);
@@ -153,4 +92,111 @@ test("current screenings enter the ordinary pool, search and details without ana
     await publishArticle(publicIds[2]);
     assert.equal((await sql`SELECT eligible FROM publications WHERE article_id=${publicIds[2]}`)[0].eligible, false);
   } finally { installModules([]); }
+});
+
+test("all collected material migrates into the ordinary feed regardless of old labels, missing text or dates", async () => {
+  const publicIds: string[] = [];
+  const allIds: string[] = [];
+  const [beforeCalls] = await sql`SELECT count(*)::int AS n FROM receipts`;
+  const [beforeAnalyses] = await sql`SELECT count(*)::int AS n FROM analyses`;
+  try {
+    for (const name of [...Array.from({ length: 41 }, (_, i) => String(i)), "block", "unknown", "stale", "title-only", "undated", "old", "withdrawn", "private"]) {
+      const material = await upsertMaterial({ sourceId: name === "private" ? "library-private" : "library-public",
+        title: `中国平安上线智能核保系统 collected-migration ${name}`, url: `https://example.org/collected-migration/${name}`,
+        excerpt: name === "title-only" ? null : "Source-provided excerpt", bodyStatus: "pending", via: "import",
+        publishedAt: name === "undated" ? null : new Date(name === "old" ? "2020-02-01Z" : "2025-02-01Z") });
+      allIds.push(material.articleId);
+      if (!["withdrawn", "private"].includes(name)) publicIds.push(material.articleId);
+      if (["block", "unknown", "stale"].includes(name)) await sql`INSERT INTO analyses(article_id,input_revision,origin,relevance)
+        VALUES (${material.articleId},${name === "stale" ? 0 : 1},'rule',${name === "block" ? "block" : "unknown"})`;
+      await sql`INSERT INTO settings(key,value) VALUES (${"insurance.relevance." + material.articleId},
+        ${sql.json({ articleId: material.articleId, revision: 1, status: "screened", label: "BLOCK", reviewRequired: true })})`;
+      if (name === "withdrawn") await sql`INSERT INTO editorial_overrides(article_id,fields,visibility,reason,updated_by)
+        VALUES (${material.articleId},'{}','withdrawn','test','test')`;
+    }
+    installModules([{ name: "insurance", materialPublication: true, classifyArticle: classifyInsurance }]);
+    await republishCollectedArticles();
+    const query = { q: "collected-migration", channel: "all" as const, category: null, tag: null };
+    const first = await loadPool(query), second = await loadPool({ ...query, page: 2 });
+    assert.equal(first.total, publicIds.length);assert.equal(first.pageCount, 2);
+    assert.deepEqual(new Set([...first.items, ...second.items].map(item => item.id)), new Set(publicIds));
+    for (const item of [...first.items, ...second.items]) {
+      assert.equal(item.prefiltered, true);assert.equal(item.selected, false);assert.equal(item.score, null);
+      assert.equal(item.category, "insurtech");
+      const detail = await loadItemDetail(item.id);assert.equal(detail.kind, "found");
+    }
+    const fresh = await upsertMaterial({ sourceId: "library-public", title: "保险监管即时入库 fresh-collected", language: "en",
+      url: "https://example.org/fresh-collected", bodyStatus: "pending", publishedAt: null, via: "fetch" });
+    allIds.push(fresh.articleId);
+    assert.equal((await sql`SELECT eligible,summary FROM publications WHERE article_id=${fresh.articleId}`)[0].eligible, true);
+    await upsertMaterial({ sourceId: "library-public", title: "保险监管更新 fresh-collected", url: "https://example.org/fresh-collected",
+      excerpt: "补齐后的原文摘录", bodyStatus: "pending", via: "fetch" });
+    const [updated] = await sql`SELECT eligible,summary,title FROM publications WHERE article_id=${fresh.articleId}`;
+    assert.equal(updated.eligible, true);assert.equal(updated.summary, "补齐后的原文摘录");
+    assert.equal(updated.title, "保险监管更新 fresh-collected");
+    assert.equal((await sql`SELECT count(*)::int AS n FROM receipts`)[0].n, beforeCalls.n);
+    assert.equal((await sql`SELECT count(*)::int AS n FROM analyses`)[0].n, beforeAnalyses.n + 3);
+    assert.equal((await republishCollectedArticles()).changed, 0);
+  } finally { installModules([]); await sql`DELETE FROM articles WHERE id=ANY(${allIds}::text[])`; }
+});
+
+test("radar uses Beijing publication dates, public scope and source excerpts without exposing body or internal tags", async () => {
+  const now = new Date("2026-10-30T03:00:00Z");
+  const fixtures = [
+    ["start", "2026-09-30T16:00:00Z"], ["before", "2026-09-30T15:59:59Z"],
+    ["current", "2026-10-30T02:00:00Z"], ["future-date", "2026-10-30T03:00:01Z"],
+    ["held", "2026-10-29T00:00:00Z"], ["withdrawn", "2026-10-29T00:00:00Z"],
+    ["ineligible", "2026-10-29T00:00:00Z"], ["summary-only", "2026-10-29T00:00:00Z"], ["undated", null],
+  ];
+  const [beforeCalls] = await sql`SELECT count(*)::int AS n FROM receipts`;
+  try {
+    for (const [name, at] of fixtures) {
+      const id = "radar-boundary-" + name;
+      const published = at ? new Date(at) : null;
+      await sql`INSERT INTO articles(id,source_id,identity_key,url,title,published_at,discovered_at,timeline_at,body_text)
+        VALUES (${id},'library-public',${id},${"https://example.org/" + id},${id},${published},${now},${now},'RADAR-PRIVATE-BODY')`;
+      await sql`INSERT INTO publications(article_id,source_id,title,summary,url,channel,published_at,discovered_at,timeline_at,sort_at,
+          eligible,selected,visible_after,visibility,tags,category)
+        VALUES (${id},'library-public',${id},'Source excerpt',${"https://example.org/" + id},'news',${published},${now},${now},${now},
+          ${name !== "ineligible"},${name === "held"},${new Date("2026-10-31T00:00:00Z")},
+          ${name === "withdrawn" ? "withdrawn" : name === "summary-only" ? "summary-only" : "public"},${["保险监管", "entity:internal"]},'regulation')`;
+    }
+    const data = await loadRadar(30, now);
+    assert.equal(data.from, "2026-09-30T16:00:00.000Z");assert.equal(data.to, now.toISOString());
+    assert.deepEqual(data.items.map(item => item.id), ["radar-boundary-current", "radar-boundary-start"]);
+    assert.equal(data.total, 2);assert.equal(data.truncated, false);
+    assert.equal(data.items[0].source.name, "Insurance source");assert.equal(data.items[0].summary, "Source excerpt");
+    assert.equal(data.items[0].category, "regulation");assert.deepEqual(data.items[0].tags, ["保险监管"]);
+    assert.equal(data.items[0].prefiltered, true);
+    assert.ok(!JSON.stringify(data).includes("RADAR-PRIVATE-BODY"));
+    const longer = await loadRadar(90, now);
+    assert.ok(longer.items.some(item => item.id === "radar-boundary-before"));
+    const all = await loadRadar(null, now);
+    assert.equal(all.from, null);assert.ok(all.items.some(item => item.id === ids.processed));
+    assert.equal((await sql`SELECT count(*)::int AS n FROM receipts`)[0].n, beforeCalls.n);
+    const empty = await loadRadar(30, new Date("2010-01-01T00:00:00Z"));
+    assert.deepEqual(empty.items, []);assert.equal(empty.total, 0);assert.equal(empty.truncated, false);
+  } finally { await sql`DELETE FROM articles WHERE starts_with(id,'radar-boundary-')`; }
+});
+
+test("radar discloses bounded coverage and accepts only supported HTTP date windows", async () => {
+  const now = new Date("2026-10-30T03:00:00Z");
+  const app = Fastify();registerInsuranceRadar(app);
+  try {
+    await sql`INSERT INTO articles(id,source_id,identity_key,url,title,published_at,discovered_at,timeline_at)
+      SELECT 'radar-cap-' || n, 'library-public', 'radar-cap-' || n, 'https://example.org/radar-cap/' || n,
+        'Radar news ' || n, ${now}, ${now}, ${now} FROM generate_series(1,601) n`;
+    await sql`INSERT INTO publications(article_id,source_id,title,summary,url,channel,published_at,discovered_at,timeline_at,sort_at,eligible)
+      SELECT id,source_id,title,'Public excerpt',url,'news',published_at,discovered_at,timeline_at,timeline_at,true
+      FROM articles WHERE starts_with(id,'radar-cap-')`;
+    const data = await loadRadar(30, now);
+    assert.equal(data.items.length, 600);assert.equal(data.total, 601);assert.equal(data.truncated, true);
+    assert.equal(data.items[0].id, "radar-cap-99");
+    assert.equal((await app.inject("/api/site/insurance/radar?days=all")).statusCode, 200);
+    const response = await app.inject("/api/site/insurance/radar");
+    assert.equal(response.statusCode, 200);assert.equal(response.json().days, 90);
+    assert.equal(response.headers["cache-control"], "no-store");
+    assert.equal((await app.inject("/api/site/insurance/radar?days=7")).statusCode, 400);
+    assert.equal((await app.inject("/api/site/insurance/radar?days=30&days=90")).statusCode, 400);
+  } finally { await app.close(); await sql`DELETE FROM articles WHERE starts_with(id,'radar-cap-')`; }
 });

@@ -12,8 +12,10 @@ import { parseArgs } from "node:util";
 import { DEPLOYMENT } from "@aihot/site";
 import { REPO_ROOT } from "@aihot/backend/config";
 import { closeDb } from "@aihot/backend/db";
+import { articlePrefilterEnabled, installModules } from "@aihot/backend/modules";
+import { SERVER_MODULES } from "@aihot/site/modules/server";
 import {
-  SELECTION_PROMPT_VERSION,
+  selectionPromptVersion,
   awaitsMaterial,
   buildScoreInput,
   runSelectionPrefilter,
@@ -31,6 +33,7 @@ import { parseSelectionGoldJsonl, selectionMetrics, selectionThresholdMetrics, t
 // Without options: the site's gold set (site.ts DEPLOYMENT.selectionGold), else the whole of .data/gold.jsonl
 // (up to 200 cases), swept over a wide range of thresholds.
 const own = DEPLOYMENT.selectionGold;
+installModules(SERVER_MODULES);
 const defaults = own
   ? { gold: own.file, n: String(own.sample), split: own.split, sweep: own.sweep }
   : { gold: ".data/gold.jsonl", n: "200", split: "all", sweep: [40, 90] };
@@ -105,8 +108,10 @@ for (const model of models) {
     // Only a title: the site waits for material, without a model call.
     if (awaitsMaterial(input)) return outcome("unknown");
     try {
-      const prefilter = await runSelectionPrefilter(input, {}, (id) => receiptIds.push(id));
-      if (prefilter.label === "BLOCK") return outcome("block");
+      if (articlePrefilterEnabled()) {
+        const prefilter = await runSelectionPrefilter(input, {}, (id) => receiptIds.push(id));
+        if (prefilter.label === "BLOCK") return outcome("block");
+      }
       const threshold = tierThreshold(input.source.tier);
       if (threshold === null) return outcome("pass");
 
@@ -172,7 +177,7 @@ const outDir = path.join(REPO_ROOT, ".data/eval");
 mkdirSync(outDir, { recursive: true });
 const splitName = safeReportNamePart(values.split!);
 const file = path.join(outDir, `selection-${splitName}-${sample.length}-${Date.now()}.json`);
-const meta = { split: values.split, n: sample.length, seed: Number(values.seed), promptVersion: SELECTION_PROMPT_VERSION, createdAt: new Date().toISOString() };
+const meta = { split: values.split, n: sample.length, seed: Number(values.seed), promptVersion: selectionPromptVersion(), createdAt: new Date().toISOString() };
 writeFileSync(file, JSON.stringify({ meta, models: report }, null, 2));
 console.log(`report: ${file}`);
 if (!values["no-import"]) {

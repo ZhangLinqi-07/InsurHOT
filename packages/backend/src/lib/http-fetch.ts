@@ -204,7 +204,7 @@ function decodeBody(body: Buffer, contentType: string | null): string {
   // A media-type parameter may be a quoted string: charset="gb2312".
   const m = /charset="?([\w-]+)/i.exec(contentType ?? "");
   let charset = m?.[1]?.toLowerCase() ?? "utf-8";
-  if (!m) {
+  if (!m && !/\b(?:application\/json|[^;\s]+\+json)(?:\s*;|\s*$)/i.test(contentType ?? "")) {
     const head = body.subarray(0, 2048).toString("latin1");
     const meta = /<meta[^>]+charset=["']?([\w-]+)/i.exec(head) ?? /encoding=["']([\w-]+)["']/i.exec(head);
     if (meta) charset = meta[1]!.toLowerCase();

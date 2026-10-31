@@ -226,7 +226,14 @@ export interface GroupResult {
   rematchError?: string;
 }
 
+export class GroupingPendingError extends Error {
+  override name = "GroupingPendingError";
+}
+
 export interface GroupOptions {
+  /** Optional per-run judges; omitted hooks retain the normal website provider. */
+  batchJudge?: typeof judgeBatch;
+  mergeReviewer?: typeof confirmMerge;
   /** Discussion evidence only (hot_signal sources): attach to a story, never create one. */
   signalOnly?: boolean;
 }
@@ -255,7 +262,7 @@ export async function groupArticle(articleId: string, opts: GroupOptions = {}): 
     // committed before an optional downstream operation failed. Shutdown, budget waits and an unbilled
     // provider outage (every route rejected the request as retryable) leave work pending for the repair sweep.
     const kind = failureKind(error);
-    const waiting = shutdownSignal.signal.aborted || kind === "budget" || kind === "outage";
+    const waiting = shutdownSignal.signal.aborted || error instanceof GroupingPendingError || kind === "budget" || kind === "outage";
     await sql`UPDATE articles SET grouping_status = ${waiting ? 'pending' : 'failed'},
       grouped_at = NULL, grouping_receipt_id = ${failedReceiptId(error)}, grouping_error = ${String(error).slice(0, 2000)}
       WHERE id = ${articleId} AND revision = ${revision} AND grouping_status <> 'complete' AND ${!(error instanceof GroupingSupersededError)}`;
@@ -341,7 +348,7 @@ async function decide(articleId: string, opts: GroupOptions, revision: number, r
   let selection = NO_SELECTED_COVERAGE;
   const receipts: number[] = [];
   if (cands.length || reading.length) {
-    const judged = await judgeBatch(articleId, { ...query, sourceText: a.body_text }, cands, reading);
+    const judged = await (opts.batchJudge ?? judgeBatch)(articleId, { ...query, sourceText: a.body_text }, cands, reading);
     verdicts = judged.verdicts;
     selection = judged.selection;
     receipts.push(judged.receiptId);
@@ -403,7 +410,7 @@ async function decide(articleId: string, opts: GroupOptions, revision: number, r
           factId = pick.factId;
           break;
         }
-        const review = await confirmMerge(articleId, query, pick);
+        const review = await (opts.mergeReviewer ?? confirmMerge)(articleId, query, pick);
         receipts.push(review.receiptId);
         if (review.relation === "SAME_OCCURRENCE") {
           factId = pick.factId;

@@ -63,13 +63,13 @@ test("category corrections revise every standard report atomically without selec
     const c = saved!.content;
     assert.equal(c.leadItemId, articleId);
     if (r.kind === "daily") {
-      assert.deepEqual(c.sections, [{ label: "产品与市场", items: [entry] }]);
+      assert.deepEqual(c.sections, [{ label: "产品", items: [entry] }]);
       assert.equal(c.metrics.modelsReleased, undefined);
       assert.equal(Object.hasOwn(c.metrics, "modelsReleased"), false);
       assert.deepEqual(c.highlights, [articleId]);
       assert.equal(c.lead.title, "冻结头条");
     } else {
-      assert.deepEqual(c.themes, [{ heading: "产品与市场", summary: null, storyRefs: [entry] }]);
+      assert.deepEqual(c.themes, [{ heading: "产品", summary: null, storyRefs: [entry] }]);
       assert.deepEqual(c.storyOrder, [articleId]);
       assert.equal(c.overview, "保留总述");
     }
@@ -78,7 +78,7 @@ test("category corrections revise every standard report atomically without selec
   assert.equal((await sql`SELECT count(*)::int AS n FROM pgboss.job WHERE name=${QUEUES.digest}`)[0]!.n, digestCount);
   await overrideFields(articleId, { fields: {}, clear: ["category", "tags"], version: 1, reason: "验证撤销纠错" }, "test-category");
   const [restored] = await sql`SELECT content FROM reports WHERE kind='daily' AND key='2097-01-02'`;
-  assert.equal(restored!.content.sections[0].label, "监管与规则");
+  assert.equal(restored!.content.sections[0].label, "监管");
   assert.equal(restored!.content.metrics.modelsReleased, undefined);
   assert.equal(restored!.content.metrics.totalEvents, 1);
 });

@@ -30,6 +30,7 @@ test("a date that carries its zone keeps it", () => {
   assert.equal(iso("2026-09-26T10:00:00.000+09:00"), "2026-09-26T01:00:00.000Z");
   assert.equal(iso("Sat, 26 Sep 2026 10:00:00 GMT"), "2026-09-26T10:00:00.000Z");
   assert.equal(iso("Sat, 26 Sep 2026 10:00:00 +0200", "-07:00"), "2026-09-26T08:00:00.000Z");
+  assert.equal(iso("Fri, 30 Oct 2026 18:00:00 JST", "+08:00"), "2026-10-30T09:00:00.000Z");
 });
 
 test("no date at all is null", () => {
@@ -85,6 +86,7 @@ test("English times with explicit zones retain their zone on every host", () => 
         ["8 Mar 2026 02:30 +0200", "2026-03-08T00:30:00.000Z"],
         ["Mar 8, 2026 02:30 EST", "2026-03-08T07:30:00.000Z"],
         ["Mar 8, 2026 10:30 PM PDT", "2026-03-09T05:30:00.000Z"],
+        ["Mar 8, 2026 02:30 JST", "2026-03-07T17:30:00.000Z"],
         ["March 8th, 2026 02:30 +0200", "2026-03-08T00:30:00.000Z"],
         ["Mar 8, 2026 25:30 GMT", null],
       ]) assert.equal(iso(time!, "+08:00"), expected, `${tz}: ${time}`);

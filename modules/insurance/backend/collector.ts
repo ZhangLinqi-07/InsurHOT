@@ -7,7 +7,7 @@ import type { SourceRow } from "@aihot/backend/sources/types";
 import { assertFreeSource, readIngestionPolicy } from "./archive.ts";
 import { enrichNfra } from "./nfra.ts";
 
-/** Deliberately has no analysis, grouping or notification consumers. New material waits for review. */
+/** Collect source cards without running analysis, grouping or notification consumers. */
 export async function collectFreeDue(limit = 6) {
   const due = await sql<SourceRow[]>`SELECT id,name,kind,config,tier,participation_mode,first_party,interval_minutes,enabled,cursor,fail_count
     FROM sources WHERE enabled AND kind IN ('rss','web_list','json_list') AND next_fetch_at <= now()

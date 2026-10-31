@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Form, Link, useNavigation, useSearchParams } from "react-router";
 import { CATEGORY_KEYS, CATEGORY_LABELS, CHANNEL_LABELS, type CategoryKey, type ChannelKey } from "@aihot/contracts/taxonomy";
 import { SITE } from "@aihot/site";
+import type { MarketFilter } from "@aihot/contracts/site";
 import { IconClose, IconFilter, IconSearch } from "../../components/icons";
 import { PillTabs } from "../../components/ui/Tabs";
 import { ChoiceTick, Sheet, sheetChoice } from "../../components/ui/Sheet";
@@ -47,6 +48,19 @@ export function CategoryTabs({ base, category, channel = "all", layoutId, classN
   return <PillTabs items={filterOptions(base, params, "全部").map(o => ({ ...o, prefetchOnPress: true }))} active={filterKey(category, channel)} layoutId={layoutId} label="筛选" className={className} />;
 }
 
+/** Source location stays independent of the category and channel filters. */
+export function MarketTabs({ base, market = "all", className = "" }: { base: "/" | "/all"; market?: MarketFilter; className?: string }) {
+  const [params] = useSearchParams();
+  return <div className={className}><PillTabs
+    items={([{ key: "all", label: "全部" }, { key: "domestic", label: "国内" }, { key: "foreign", label: "国外" }] as const)
+      .map(option => ({ ...option, to: hrefWith(base, params, { market: option.key === "all" ? null : option.key }), prefetchOnPress: true }))}
+    active={market}
+    layoutId={base === "/" ? "home-market" : "all-market"}
+    size="sm"
+    label="市场范围"
+  /><p className="mt-1.5 text-[12px] leading-relaxed text-ink-4">按信源所属地区划分</p></div>;
+}
+
 /**
  * The phone bar of 精选 and 全部: the brand, the 精选 | 全部 switch (a filter in use carries over), and
  * buttons for the filter sheet and search.
@@ -60,8 +74,8 @@ export function FeedBar({ base, category, channel }: { base: "/" | "/all"; categ
     <>
       <PhoneBar
         leading={
-          <Link to="/" aria-label={`${SITE.name} 首页`} className="flex h-11 items-center pl-2.5 pr-2 text-ink">
-            <Wordmark size={17} />
+          <Link to="/" aria-label={`${SITE.name} 首页`} className="flex h-11 items-center px-0.5 text-ink">
+            <Wordmark size={15} />
           </Link>
         }
         center={
